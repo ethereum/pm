@@ -1,0 +1,99 @@
+{
+  "meeting": "FOCIL Breakout #47 - November 24, 2026",
+  "highlights": {
+    "pq_focil_overview": [
+      {
+        "timestamp": "00:09:03",
+        "highlight": "PQ FOCIL has two distinct problems: (1) PQ transactions in ILs, (2) ILs signed with PQ signatures \u2014 these are separable"
+      },
+      {
+        "timestamp": "00:10:26",
+        "highlight": "PQ signatures are 5\u20137 KB; worst case only 1 PQ tx per IL, but 16 ILs per slot = 16 PQ txs per block \u2014 deemed acceptable for early adoption"
+      },
+      {
+        "timestamp": "00:12:52",
+        "highlight": "Including STARK proofs in ILs (~300 KB each) requires major networking redesign; not feasible until after EIP-8288 + PQCL aggregation land"
+      },
+      {
+        "timestamp": "00:14:31",
+        "highlight": "Switching IL signatures from BLS to XMSS adds 2.4 KB per IL; attack surface is low (attacker can only cancel FOCIL for one slot), so not urgent"
+      }
+    ],
+    "pq_focil_design_parameters": [
+      {
+        "timestamp": "00:26:12",
+        "highlight": "IL committee size and propagation window are tunable knobs; reducing committee weakens censorship resistance but may be necessary for bandwidth"
+      },
+      {
+        "timestamp": "00:44:04",
+        "highlight": "Proposal: use n+1 slot inclusion (12-second extra propagation window) to reduce peak bandwidth for STARK-proof ILs; trades off some CR"
+      },
+      {
+        "timestamp": "00:48:53",
+        "highlight": "IL equivocation evidence gossip (propagating only IL headers) could save ~308\u00d72 KB, but adds protocol complexity; not needed before STARK-proof ILs"
+      }
+    ],
+    "eip_8288_and_pqcl_timelines": [
+      {
+        "timestamp": "00:19:43",
+        "highlight": "EIP-8288 split into 3 sub-EIPs: (1) Lean Sphinx sigs \u2014 target H-star fork; (2) mempool recursive aggregation (LeanVM) \u2014 target mid-2028; (3) lean PCS proofs \u2014 target I-star"
+      },
+      {
+        "timestamp": "00:51:02",
+        "highlight": "pq-devnet-0 running PQ Gasper now; networking expected to be the bottleneck \u2014 real numbers still needed"
+      },
+      {
+        "timestamp": "00:54:47",
+        "highlight": "Mehdi: PQ Gasper not looking great after 3 PQ sessions + devnet-0; PQDC preferred but more expensive; PQ Gasper reserved for catastrophic scenario"
+      },
+      {
+        "timestamp": "00:54:12",
+        "highlight": "PQ Gasper vs. PQDC undecided; PQDC spec does not exist yet; if PQ Gasper still questionable in ~2 months (Jan), consider switching to PQDC"
+      }
+    ],
+    "focil_dfi_discussion": [
+      {
+        "timestamp": "00:06:54",
+        "highlight": "Proposal to DFI FOCIL from Hegota and go all-in on PQ Consensus being discussed; soft consensus expected at ACDC Thursday (Nov 27); final decision targeted Dec 10"
+      },
+      {
+        "timestamp": "00:51:30",
+        "highlight": "Justin: given FOCIL's maturity and uncertainty around PQCL schedule, dropping FOCIL from Hegota unlikely to speed up PQ Consensus delivery"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "01:01:31",
+        "highlight": "Next FOCIL breakout penciled in for Dec 8 (two weeks), before the Dec 10 ACDC decision call; holiday pause possible after that"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:31:19",
+      "action": "Separate PQ Gasper work into transferable vs. non-transferable components ahead of potential pivot to PQDC",
+      "owner": "CL research / PQCL working group"
+    },
+    {
+      "timestamp": "00:17:31",
+      "action": "Review Jihoon's PQ FOCIL article and soispoke's Eth Magicians post ahead of ACDC Nov 27",
+      "owner": "All FOCIL / CL participants"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "01:01:44",
+      "decision": "Next FOCIL Breakout scheduled for December 8, 2026 (two weeks out), before the December 10 ACDC decision on FOCIL scope"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:07:06",
+      "target": "ACDC call Nov 27 \u2014 soft consensus on FOCIL/PQ direction; final decision Dec 10"
+    },
+    {
+      "timestamp": "01:01:44",
+      "target": "FOCIL Breakout #48 \u2014 December 8, 2026"
+    }
+  ]
+}

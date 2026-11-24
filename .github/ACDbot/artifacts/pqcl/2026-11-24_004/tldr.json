@@ -1,0 +1,138 @@
+{
+  "meeting": "PQ-CL Breakout #4 - November 24, 2026",
+  "highlights": {
+    "testing_progress": [
+      {
+        "timestamp": "00:07:02",
+        "highlight": "pq-devnet-0 stalled: clients generating XMSS keys at different times; some waited until last slot, requiring up to 2h for key gen under 12s constraint"
+      },
+      {
+        "timestamp": "00:08:25",
+        "highlight": "55-slot reorg caused by late attestations; Prysm rejected reorgs >32 slots; max reorg depth flag set to unlimited, chain slowly recovering"
+      },
+      {
+        "timestamp": "00:14:00",
+        "highlight": "Prysm and Grandine flagged as blockers; Ethlambda had no key-gen issues (cached quickly); Lighthouse pre-generated 256 epochs in advance"
+      }
+    ],
+    "leanvm_updates": [
+      {
+        "timestamp": "00:16:31",
+        "highlight": "LeanVM 0.17 released: FFI (not sidecar), 15% faster recursion, single binary with runtime CPU dispatch (AVX2/AVX512/GFNI), breaking change requiring coordinated update"
+      },
+      {
+        "timestamp": "00:18:48",
+        "highlight": "Trade-off available: 7.5% faster proving at cost of 15% larger proof size (~200\u2013300 KB today); consensus not to optimize STARK until setup is finalized"
+      }
+    ],
+    "staking_contract": [
+      {
+        "timestamp": "00:23:30",
+        "highlight": "Staking contract moved to sys-asm repo (PR open); XMSS verifier uses EVM bytecode via a dedicated opcode, living in a separate contract via static call"
+      },
+      {
+        "timestamp": "00:31:11",
+        "highlight": "Concern raised: validators reusing BLS mnemonic for PQ keys could be problematic if mnemonic is later destroyed; ERC should allow independent mnemonic"
+      }
+    ],
+    "erc_key_derivation": [
+      {
+        "timestamp": "00:28:21",
+        "highlight": "ERC PR open (ethereum/ERCs#2214): specifies derivation from mnemonic \u2192 seed \u2192 XMSS and VRF keys; ERC-2335 (JSON keystore format) also in progress"
+      }
+    ],
+    "aggregator_role": [
+      {
+        "timestamp": "00:37:57",
+        "highlight": "Proposal to define a separate aggregator role (opt-in, balance-weighted selection) discussed; Potuz: adds enough complexity to warrant moving to PQ-DC instead"
+      },
+      {
+        "timestamp": "00:44:30",
+        "highlight": "Decision: defer aggregator role; avoid adding it to first PQ fork if possible; revisit when quick slots or faster finality are needed"
+      }
+    ],
+    "networking": [
+      {
+        "timestamp": "00:48:06",
+        "highlight": "Kamil: Lighthouse branch implements fast-proof broadcast (Merkle-root signed chunks); simulations show 1.7 duplicate messages vs ~7 with gossipsub at 4K peers/32K validators"
+      },
+      {
+        "timestamp": "00:52:05",
+        "highlight": "Csaba: Prysm Go zcast implementation targeting end-of-day/tomorrow; compatible with Silver (vlad) implementation; single-client Kurtosis testing recommended before multi-client devnet"
+      },
+      {
+        "timestamp": "00:58:29",
+        "highlight": "Need for a shared P2P spec (message signing, chunking details) flagged; Kamil and Csaba to align on wire protocol before cross-client testing"
+      }
+    ],
+    "p2p_timing_measurements": [
+      {
+        "timestamp": "00:59:09",
+        "highlight": "Mark: initial devnet-0 timing data showed attestations arriving up to 9s; Lighthouse fixes (correct CPU target, per-attestation sending) resolved the worst of it; committee proving starts at 4.5s, within 6s window"
+      },
+      {
+        "timestamp": "01:00:50",
+        "highlight": "Proposer/aggregator prover contention identified: if proposing slot S+2 and aggregating S+1, tasks compete for prover; Potuz: just drop the aggregate in that case"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "01:05:45",
+        "highlight": "Call cadence reduced: tomorrow's call canceled; keeping Friday call; plan to reduce to 1\u20132 per week going forward"
+      },
+      {
+        "timestamp": "01:04:51",
+        "highlight": "pq-devnet-1 notes page published; next devnet will NOT include fork transition or system contract testing \u2014 focus remains on timing/aggregation"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:13:46",
+      "action": "All CL teams: fix XMSS key pre-generation/caching and add key-gen-rate logging before pq-devnet-1",
+      "owner": "Prysm, Grandine, and other CL client teams"
+    },
+    {
+      "timestamp": "00:30:38",
+      "action": "Review ERC-2214 (mnemonic \u2192 XMSS/VRF derivation) for cryptographic correctness, including mnemonic-reuse safety",
+      "owner": "Gottfried Herold"
+    },
+    {
+      "timestamp": "00:46:50",
+      "action": "Review and contribute to Csaba's networking methodology document once published (tomorrow)",
+      "owner": "Pari (and interested parties)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:37:57",
+      "decision": "Separate aggregator role deferred from first PQ fork; revisit only if needed for quick slots or faster finality"
+    },
+    {
+      "timestamp": "00:23:48",
+      "decision": "LeanVM 0.17 adopted for pq-devnet-1; all clients must update simultaneously (breaking change)"
+    },
+    {
+      "timestamp": "01:04:51",
+      "decision": "pq-devnet-1 will NOT include fork transition or system contract deployment; focus on aggregation/timing only"
+    },
+    {
+      "timestamp": "01:05:45",
+      "decision": "Tomorrow's PQ-CL call canceled; cadence reduced to 1\u20132 calls per week (next call: Friday)"
+    },
+    {
+      "timestamp": "00:55:01",
+      "decision": "Single-client devnets replaced by Kurtosis local tests; multi-client devnets only after Kurtosis interop confirmed"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:13:46",
+      "target": "pq-devnet-0 recovery \u2014 within ~1 day (November 25, 2026)"
+    },
+    {
+      "timestamp": "00:46:50",
+      "target": "Csaba networking methodology doc \u2014 end of day November 24 or morning November 25"
+    }
+  ]
+}

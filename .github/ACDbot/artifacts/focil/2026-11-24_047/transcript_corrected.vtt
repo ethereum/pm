@@ -1,0 +1,1602 @@
+WEBVTT
+
+1
+00:04:37.680 --> 00:04:41.600
+Jihoon: Hello, let's wait for a few more minutes.
+
+2
+00:06:46.270 --> 00:06:48.389
+Jihoon: Alright, I think we can kick this off.
+
+3
+00:06:49.330 --> 00:06:53.610
+Jihoon: Hello everyone, welcome to FOCIL Breakout 47.
+
+4
+00:06:54.290 --> 00:06:57.750
+Jihoon: Today, we can talk about… Pick your FOCIL.
+
+5
+00:06:58.320 --> 00:07:01.390
+Jihoon: There has been a proposal to DFI FOCIL,
+
+6
+00:07:01.500 --> 00:07:05.770
+Jihoon: Which is a headliner, and go all in to pick your consensus.
+
+7
+00:07:06.230 --> 00:07:12.980
+Jihoon: We'll be discussing this in… ACDC this Thursday, whatever we get during that call.
+
+8
+00:07:13.220 --> 00:07:23.620
+Jihoon: it could be a soft consensus, because it's expected that most of the people in the US won't be joining, and we would want to value their voices as well.
+
+9
+00:07:24.050 --> 00:07:29.810
+Jihoon: We can expect the final decision to be made on the 10th of December, so…
+
+10
+00:07:30.630 --> 00:07:35.819
+Jihoon: Still, we could use this call to discuss, Technical stuff beforehand.
+
+11
+00:07:36.630 --> 00:07:44.929
+Jihoon: Without further ado, let's get right into it. Otoma has prepared some slides, and I've prepared some articles.
+
+12
+00:07:45.320 --> 00:07:51.760
+Jihoon: Since this is a breakout call, we can keep today's discussion Technical as much as possible.
+
+13
+00:07:51.860 --> 00:07:55.990
+Jihoon: At the end of this call, it'd be nice if CordAS could share some
+
+14
+00:07:56.150 --> 00:08:07.079
+Jihoon: understanding of what picof FOCIL means, and we can discuss what we want to do with agility scoping in Thursday's call.
+
+15
+00:08:07.910 --> 00:08:09.929
+Jihoon: So, Thomas, do you want to kick us off?
+
+16
+00:08:13.170 --> 00:08:16.949
+soispoke: Yes, hi everyone, can you guys see my slides, or…
+
+17
+00:08:20.210 --> 00:08:21.510
+soispoke: Okay, great.
+
+18
+00:08:21.790 --> 00:08:32.580
+soispoke: Yeah, I wanted to, yeah, keep it quite technical, as Jihoon said. I was also sort of, like, preparing for Thursday's ACDC call.
+
+19
+00:08:33.150 --> 00:08:39.249
+soispoke: But… and I also shared my view on Eth Magicians, for those that missed it.
+
+20
+00:08:39.380 --> 00:08:41.380
+soispoke: I think most of the… what I'm gonna…
+
+21
+00:08:41.520 --> 00:08:52.529
+soispoke: talk about today is gonna be, well, first, quite brief, but also, like, I think I mentioned most of it in my post already. It's more about, like.
+
+22
+00:08:52.790 --> 00:09:03.170
+soispoke: trying to really understand what PQ FOCIL is, what it's about, and, like, to me, there are, like, basically two things when we talk about
+
+23
+00:09:03.320 --> 00:09:05.470
+soispoke: PQ FOIL, the first is, like.
+
+24
+00:09:05.940 --> 00:09:11.330
+soispoke: PQ transactions, being included in inclusion lists.
+
+25
+00:09:12.640 --> 00:09:24.299
+soispoke: well, more specifically, I guess, like, transactions with PQ signatures being included in inclusion lists. And then, you know, there are, like, there is also the side of, like, ELs being signed.
+
+26
+00:09:24.300 --> 00:09:36.259
+soispoke: With PQ signatures. And so those two things can be completely separated in many ways, and you can have, like, a bunch of combos of what you exactly want to do.
+
+27
+00:09:36.360 --> 00:09:40.420
+soispoke: And what is useful, or, like, what is also urgent, I think.
+
+28
+00:09:40.570 --> 00:09:43.130
+soispoke: So let's get into it. The first one…
+
+29
+00:09:43.440 --> 00:09:50.279
+soispoke: yeah, it's pretty easy. I think, you know, in, like, the sort of, like.
+
+30
+00:09:50.560 --> 00:09:58.750
+soispoke: normal pre-quantum version of FOCIL, you have, like, a bunch of transactions you can include in inclusion lists.
+
+31
+00:09:59.150 --> 00:10:14.440
+soispoke: And you can pack quite a lot of them, because right now, you know, the only limit is, is 8KB. I think it would have to change anyways with frames, but let's say, let's keep it, like, let's keep the simple model in mind.
+
+32
+00:10:14.540 --> 00:10:19.450
+soispoke: You can fit a ton of transactions within each IL today.
+
+33
+00:10:19.910 --> 00:10:26.429
+soispoke: And so the first thing you can maybe think about, and maybe, probably, like, the most important thing is, like, can…
+
+34
+00:10:26.530 --> 00:10:30.869
+soispoke: you know, PQ transactions actually fit, in… in inclusion lists.
+
+35
+00:10:31.210 --> 00:10:37.750
+soispoke: And I think, for now, the answer is yes, because…
+
+36
+00:10:38.140 --> 00:10:45.599
+soispoke: well, so far, you know, PQ signatures on the EL will be on the order of…
+
+37
+00:10:45.630 --> 00:10:52.110
+soispoke: Well, I've heard, you know, from 5 to 7 kilobytes, I guess, as approximations, which is quite huge.
+
+38
+00:10:52.120 --> 00:11:08.949
+soispoke: And so worst case scenario, well, I mean, yeah, probably the actual sort of, like, lead case scenario is that we will only be able to include one PQ transaction per inclusion list, if things stay as they are today.
+
+39
+00:11:09.320 --> 00:11:13.939
+soispoke: And so some of you might think, yeah, it's not great, or not enough.
+
+40
+00:11:14.540 --> 00:11:17.680
+soispoke: But what's nice is that, you know,
+
+41
+00:11:17.840 --> 00:11:21.689
+soispoke: First, you don't really have to do anything for that to happen, like, it's…
+
+42
+00:11:22.030 --> 00:11:33.159
+soispoke: like, nothing in the mechanism to change or anything, it's just more, like, yeah, instead of, like, packing a lot of transactions, you can only, sort of, like, include one, plus maybe, like, a few other non-PQ ones.
+
+43
+00:11:33.420 --> 00:11:35.950
+soispoke: And the second thing is, like.
+
+44
+00:11:36.380 --> 00:11:52.750
+soispoke: You have 16, inclusion lists. So, yeah, best case scenario, you can include 16 different PQ transactions, per slot, which is actually not that bad, I think. Especially since in the beginning, you know, we don't expect, like.
+
+45
+00:11:52.930 --> 00:11:59.110
+soispoke: everyone to sort of, like, go ahead and use PQ signatures. It depends a lot on
+
+46
+00:11:59.220 --> 00:12:05.530
+soispoke: aggregation deal, whether we have, like, 8288 and everything, so I can talk about this as well, but, like.
+
+47
+00:12:05.580 --> 00:12:20.820
+soispoke: generally, I feel like, you know, at first, like, only a few people would want to, sort of, like, sign using PQ6, because they would be quite costly anyways, and, having the opportunity to include 16,
+
+48
+00:12:20.900 --> 00:12:28.260
+soispoke: of those per block is pretty good, I think, but also curious to hear if people think it's not enough, or…
+
+49
+00:12:28.370 --> 00:12:30.260
+soispoke: Oh, it's… it's not worth it.
+
+50
+00:12:32.970 --> 00:12:42.230
+soispoke: And then, yeah, what, like, actually changes the game, and it's, like, to actually sort of, like… needs quite a lot of the modifications and everything, because…
+
+51
+00:12:42.600 --> 00:12:52.919
+soispoke: I need to… I would have needed to size it a lot differently if we… if I wanted to actually make it fit at scale. It's when we want to include proofs,
+
+52
+00:12:53.040 --> 00:13:05.120
+soispoke: into ILs, or, like, when we basically want to include much more than 16 PQ transactions in ILS, then we need each ILT to come with its proof, and a proof is huge.
+
+53
+00:13:05.120 --> 00:13:13.700
+soispoke: like, it's 300 kilobytes, let's say. So the whole, sort of, like, networking will have to work… to change, and that,
+
+54
+00:13:13.700 --> 00:13:18.750
+soispoke: That means, like, that's a lot more work, I think. So…
+
+55
+00:13:19.240 --> 00:13:31.619
+soispoke: what I think for now is, like, if we went to pick you for Seoul, if we are talking about this, like, the very obvious call to me would be to go with, this.
+
+56
+00:13:31.700 --> 00:13:43.829
+soispoke: version, and, you know, only after we have 8288, and actually sort of, like, lean VM ready, aggregation ready on the CL, on the EL, well, then we'll basically have
+
+57
+00:13:43.940 --> 00:14:03.709
+soispoke: all the machinery we need to make, ILs include proofs, because we… like, the network will already be able to deal with proofs on both layers, and so once we are already there, then it's, like, I think adding FOCIL, PQ4FOCIL, to include, like.
+
+58
+00:14:03.710 --> 00:14:13.519
+soispoke: very, like, PQ transactions at scale, is actually very doable, but, but before then, it's, it's, it's just, like, not gonna happen.
+
+59
+00:14:13.560 --> 00:14:20.840
+soispoke: So… so yeah, we need to sort of, like, distinguish the two scenarios, and I feel like, you know, FOCIL…
+
+60
+00:14:20.980 --> 00:14:26.890
+soispoke: being able to include a few PQ transactions at first is complete… it's basically more than enough.
+
+61
+00:14:27.980 --> 00:14:30.939
+soispoke: So that's for this.
+
+62
+00:14:31.270 --> 00:14:43.070
+soispoke: Yeah, and then the second part is obviously, like, signing inclusion lists with PQ6, and so that basically means replacing BLS by XMSS.
+
+63
+00:14:43.790 --> 00:14:47.540
+soispoke: And it's actually not that bad, in terms of…
+
+64
+00:14:47.710 --> 00:14:53.790
+soispoke: you know, the sort of, like, size. Like, it adds 2.4 kilobytes to each inclusion list.
+
+65
+00:14:54.130 --> 00:15:05.189
+soispoke: Which is, you know, it's a lot and not a lot at the same time. I feel like it's very different from having to include those proofs.
+
+66
+00:15:05.520 --> 00:15:08.049
+soispoke: But I think my argument there is, like.
+
+67
+00:15:09.380 --> 00:15:18.930
+soispoke: is it worth doing, as soon as possible? I don't think it's worth rushing, or, like, it's very urgent, because I think, like, you know.
+
+68
+00:15:19.220 --> 00:15:25.649
+soispoke: the attacks, for… for FOCIL generally, like, if we had, like, quantum attackers.
+
+69
+00:15:25.860 --> 00:15:41.060
+soispoke: those will be, like, pretty impractical, and the results will be pretty disappointing for the attackers, I think. Like, you basically have to, you know, crack the keys of the 16 include errors.
+
+70
+00:15:41.130 --> 00:15:46.780
+soispoke: So you can maybe, like, equivocate, and and that will sort of, like.
+
+71
+00:15:47.300 --> 00:15:51.010
+soispoke: I'm basically canceled for FOCIL for one slot.
+
+72
+00:15:52.370 --> 00:15:58.490
+soispoke: But the costs of doing the attack and sort of, like, the results of doing that attack are, like, so…
+
+73
+00:15:58.820 --> 00:16:01.250
+soispoke: low compared to, I don't know.
+
+74
+00:16:01.480 --> 00:16:20.919
+soispoke: breaking consensus, or actually stealing funds, that I think, you know, we can totally leave that for later, and we don't need to rush towards, like, replacing the IL-6 with XMSS. At least that's my take, but, you know, maybe I haven't thought of, like.
+
+75
+00:16:21.290 --> 00:16:29.550
+soispoke: worst attacks, or things that can actually be used. For me, you know, if we bound FOCIL very, like, a lot, and we really make sure, like.
+
+76
+00:16:29.720 --> 00:16:33.490
+soispoke: Even in the worst case, you can't really, like,
+
+77
+00:16:33.610 --> 00:16:46.209
+soispoke: harm the network, or DDoS anyone, or do anything bad, like, yeah, I don't really think it's, like, it should be a priority to replace the signature, but that's my personal opinion.
+
+78
+00:16:46.620 --> 00:16:51.180
+soispoke: So, yeah, that's the general view.
+
+79
+00:16:51.290 --> 00:16:56.300
+soispoke: I think Jihoon also worked on a post with a lot more details.
+
+80
+00:16:56.620 --> 00:17:04.540
+soispoke: There is also, like, my Eth Magicians post, but I'm… I'm… let me stop there and, like, also ask if there are, like.
+
+81
+00:17:04.760 --> 00:17:07.589
+soispoke: More questions, or if people think…
+
+82
+00:17:07.900 --> 00:17:12.259
+soispoke: There are, like, other sort of, like, topics to… to discuss.
+
+83
+00:17:13.730 --> 00:17:14.720
+soispoke: Yes.
+
+84
+00:17:15.050 --> 00:17:16.010
+soispoke: Okay.
+
+85
+00:17:16.160 --> 00:17:31.880
+Mikhail Kalinin: How likely… yeah, thanks a lot for your, slides and for the presentation. I have a couple of questions, they are kind of related. How likely do you think we will see, PQ EL without 8288?
+
+86
+00:17:33.510 --> 00:17:35.220
+soispoke: Yeah.
+
+87
+00:17:35.590 --> 00:17:40.070
+soispoke: I think it's… Pretty likely, just because…
+
+88
+00:17:40.530 --> 00:17:48.610
+soispoke: We probably want a way for people to use, lean swings for transactions.
+
+89
+00:17:48.830 --> 00:17:55.800
+soispoke: For their transactions before we get, LeanVM, ready.
+
+90
+00:17:56.170 --> 00:17:59.010
+soispoke: So…
+
+91
+00:17:59.610 --> 00:18:08.439
+soispoke: I mean, for me, like, one of the biggest blockers across… I mean, not blockers, but, like, dependency, let's say, across both the EL and the CL is LeanVM.
+
+92
+00:18:08.660 --> 00:18:17.809
+soispoke: The timelines I'm hearing for it being, so, like, ready-ready, like, formally verified, and maybe multiple implementations and everything is, like, July next…
+
+93
+00:18:17.860 --> 00:18:29.259
+soispoke: year, so July 2027, and I feel like we'll, we'll need a way for people to use, Lean Sphinx, signatures before…
+
+94
+00:18:29.460 --> 00:18:46.900
+soispoke: we ship in VMM, which might be, you know, 2028 or… or later. So… so for me, yeah, it's a… it's a… it's a bit of a no-brainer that we will have, like, you know, large, like, transactions with large PQ signatures.
+
+95
+00:18:47.460 --> 00:18:54.569
+soispoke: That are, like, individual and not aggregated at all before, before we get aggregation.
+
+96
+00:18:55.880 --> 00:19:11.200
+Mikhail Kalinin: So it's like, you have in mind… what you have in mind, the time frame for, after PQ EL happens, the time frame to that EIP to actually land on the mainnet is kind of like 1 or 2 forx, right?
+
+97
+00:19:12.340 --> 00:19:14.210
+soispoke: Which one?
+
+98
+00:19:14.750 --> 00:19:33.069
+Mikhail Kalinin: I mean, like, so suppose we have a PQ, post-quantum transactions on the EL, and the EIP8288, it will, like, happen at the next fork or two forex after. Is that your expectation?
+
+99
+00:19:33.680 --> 00:19:42.760
+soispoke: Yeah, I think 8288, like… well, you know, there are, like, many versions of 8288, and I… so the… my mental model for it is, like, you have 3 parts.
+
+100
+00:19:43.040 --> 00:19:56.450
+soispoke: In 8288, with, by the way, we are, like, rewriting it and making, like, sub-IPs, because 8288 is just, like, too big to reason about. The three parts are, one, lean sphinx.
+
+101
+00:19:57.470 --> 00:20:07.229
+soispoke: And that should happen quite soon, I think. Maybe in H-star, like, possibly. I think that's the goal. The second part is,
+
+102
+00:20:07.680 --> 00:20:17.920
+soispoke: you know, mempool recursive aggregation, so that's, like, the leanVM part, and that, I think, wouldn't be ready before I start, at least.
+
+103
+00:20:18.470 --> 00:20:20.849
+soispoke: I think H-star is a good target, actually.
+
+104
+00:20:20.880 --> 00:20:35.530
+soispoke: But maybe, let's say, mid-2028 or something like this. And then there is the lean PCS part, which I've been working quite a lot on, which are, you know, those sort of, like, arbitrary proofs that can also be sort of, like, aggregated in the mempool.
+
+105
+00:20:35.530 --> 00:20:44.080
+soispoke: But they are not just, lint sigs, those can be, like, any kind of proofs, basically. And that, you know.
+
+106
+00:20:44.390 --> 00:20:55.569
+soispoke: that I expect to, you know, at best, H-star, but my expectation is more like I-star, because it's not as, urgent as the Lean Sphinx, and then aggregation part.
+
+107
+00:20:55.730 --> 00:20:57.740
+soispoke: So… yeah.
+
+108
+00:20:58.610 --> 00:21:22.879
+Mikhail Kalinin: Yeah, alright, I see, thank you for these answers. So, why I'm asking all these things is basically that I assume that if mempool switched to 8288, then there will be stark proofs instead of, like, raw signatures in it, right? And the EL will have to switch from raw signatures to a stark proof. Is that understanding correct?
+
+109
+00:21:25.450 --> 00:21:30.820
+soispoke: Yeah, if you want to include the proofs.
+
+110
+00:21:30.990 --> 00:21:40.010
+soispoke: So, you could have, yeah, you will basically have a… I think how it will go is, like.
+
+111
+00:21:40.410 --> 00:21:44.339
+soispoke: Lean Sphinx is shipped without aggregation.
+
+112
+00:21:44.460 --> 00:21:51.220
+soispoke: And during that time, FOCIL can accept, like, individual PQ transactions in its ILS, but very few.
+
+113
+00:21:51.630 --> 00:21:57.139
+soispoke: And then, 8288 with aggregation is shipped.
+
+114
+00:21:57.260 --> 00:22:16.829
+soispoke: And maybe for a while, you know, maybe that's the priority, I think it is the priority, so 8288, so that means now you can sort of, like, recursively aggregate, and you have these proofs traveling, and then you actually, you know, once you have the proof machinery in place, and the networking in place,
+
+115
+00:22:17.440 --> 00:22:23.910
+soispoke: which also should be there on the CL, then you can make FOCIL, accept proofs.
+
+116
+00:22:24.950 --> 00:22:26.610
+soispoke: Is that… does that make sense?
+
+117
+00:22:27.360 --> 00:22:42.660
+Mikhail Kalinin: Yeah, yeah, yeah, makes sense. So I'm just, like, yeah, looking at the situation where we have, like, raw signatures in an IL, and it's, like, 2 kilobytes or 1 kilobyte, depends on… yeah, it's gonna be, like, oh, sorry, it's 7 kilobytes, right?
+
+118
+00:22:42.660 --> 00:22:58.240
+Mikhail Kalinin: Yeah, it's like 7 kilobyte signatures, then we are switching to, then we are enabling this EIP on the mainnet, and each EL becomes now, like, 300 kilobytes, or something like that, or 250, I don't know.
+
+119
+00:22:58.360 --> 00:23:01.570
+Mikhail Kalinin: So… I'm just…
+
+120
+00:23:01.740 --> 00:23:02.310
+soispoke: oil.
+
+121
+00:23:02.310 --> 00:23:04.160
+Mikhail Kalinin: I wonder if there is any, yeah.
+
+122
+00:23:04.790 --> 00:23:08.669
+soispoke: Yeah, you still have the possibility of including one raw transaction
+
+123
+00:23:08.940 --> 00:23:22.740
+soispoke: on the IL, right? Like, you don't have, like, you know, until FOCIL is modified, which means after 8088 and after PQCL with aggregation, like, you can still include, like.
+
+124
+00:23:22.870 --> 00:23:27.569
+soispoke: you know, very few, PQ transactions in ILS.
+
+125
+00:23:27.790 --> 00:23:30.080
+soispoke: If… so…
+
+126
+00:23:30.420 --> 00:23:42.189
+soispoke: You don't… you don't, like… you need to include proofs when you want FOCIL to include a lot of PQ transactions. But they could still include, like, one, and that will still work, basically.
+
+127
+00:23:42.840 --> 00:24:00.219
+Mikhail Kalinin: Oh, actually, that's probably my misunderstanding, that after that EIP, there will be no raw, signed… there will be a few signed by a raw signature transaction in the mempool, so I thought that the mempool will mostly… has, like.
+
+128
+00:24:00.540 --> 00:24:07.709
+Mikhail Kalinin: transactions with the Stokes, you know, batches of transactions, or something like that. Maybe, yeah, that's my misunderstanding.
+
+129
+00:24:08.320 --> 00:24:12.199
+soispoke: Yeah, no, I agree, mostly, but I feel like,
+
+130
+00:24:12.650 --> 00:24:18.409
+soispoke: I mean, the… so, like, on the first hop, the transaction will need to be,
+
+131
+00:24:18.990 --> 00:24:28.239
+soispoke: will need to be broadcast with its signature to, like, the sort of, like, first mempool node, I guess.
+
+132
+00:24:28.610 --> 00:24:33.370
+soispoke: So… so you could have a mechanism in which,
+
+133
+00:24:33.600 --> 00:24:42.419
+soispoke: FOCIL includeers watch this, and still are able to include the signature in their ILs.
+
+134
+00:24:44.820 --> 00:24:53.689
+Mikhail Kalinin: Yeah, got it. So I'm just… yeah, so these questions are because, like, if we will have to increase the bandwidth requirement for CL, which,
+
+135
+00:24:55.060 --> 00:25:06.100
+Mikhail Kalinin: Yeah, that's gonna be, quite… probably, that's gonna be quite difficult to do, given that the CL is always… is already kind of, like, with the switching to PQ.
+
+136
+00:25:06.730 --> 00:25:11.909
+Mikhail Kalinin: It's gonna consume quite a… quite a bit of bandwidth, so…
+
+137
+00:25:12.540 --> 00:25:24.540
+Mikhail Kalinin: So my… one of the concerns that, I see for, FOCIL, for PQ FOCIL, is, like, this, transition from raw signatures to potentially starks, and,
+
+138
+00:25:26.610 --> 00:25:32.779
+Mikhail Kalinin: I somehow connected this to the 8288, because I thought that
+
+139
+00:25:32.980 --> 00:25:46.629
+Mikhail Kalinin: With that, the EIP aL will have to use Starks, but if not, it's probably not that big, problem, for, you know, for PQ FOCIL, with, like, just one transaction per aisle, or one or two.
+
+140
+00:25:47.760 --> 00:25:49.290
+Mikhail Kalinin: Yeah. Yeah, thanks a lot.
+
+141
+00:25:49.810 --> 00:25:54.810
+soispoke: Yeah, I think, you know, I agree with you. I think the sort of, like.
+
+142
+00:25:55.490 --> 00:26:12.180
+soispoke: weirdest, like, hardest case to think about is the… is definitely the one where ELs need to include proofs, because, like, all of a sudden, like, it… it does increase, like, all of, like, the size of the object, of, like, an inclusion list by a ton.
+
+143
+00:26:12.360 --> 00:26:20.340
+soispoke: One… one thing that's… important to consider, I guess, is also that by then.
+
+144
+00:26:20.730 --> 00:26:31.029
+soispoke: you know, by the time we want to even, sort of, like, tweak FOCIL so it actually includes proofs, which, again, like, might not be necessary for a while,
+
+145
+00:26:31.180 --> 00:26:33.460
+soispoke: Like, the network would be completely…
+
+146
+00:26:33.620 --> 00:26:48.530
+soispoke: basically redesigned to be able to handle these proofs. So it's hand-wavy, because I also think, like, the sort of, like, networking part for PQCL and PQEL generally is very much,
+
+147
+00:26:48.690 --> 00:26:52.299
+soispoke: not figured out, and not ready at all.
+
+148
+00:26:52.470 --> 00:26:54.729
+soispoke: But what I'm saying is, like.
+
+149
+00:26:54.860 --> 00:27:02.859
+soispoke: We are basically focusing all our energy on making proofs work on both layers, just because, like, we need it to handle, like.
+
+150
+00:27:02.900 --> 00:27:17.990
+soispoke: you know, the… either, like, the attestation on the CL, or… or the sign… the transactions on the EL. So hopefully, you know, the network will have capacity to handle a few more proofs that come, that will come from FOCIL.
+
+151
+00:27:18.110 --> 00:27:29.680
+soispoke: But I agree, it's not clear. I don't think it comes from FOCIL, like, specifically. It's more, like, the uncertainty around networking, for me at least, is huge these days, and…
+
+152
+00:27:30.530 --> 00:27:31.310
+soispoke: But yeah.
+
+153
+00:27:35.260 --> 00:27:40.959
+Mikhail Kalinin: Yeah, thank you. Yeah, and another thought, how to probably optimize and,
+
+154
+00:27:41.550 --> 00:27:47.179
+Mikhail Kalinin: try to not include signatures. I don't know if it makes sense, it's just to include…
+
+155
+00:27:47.220 --> 00:28:07.009
+Mikhail Kalinin: maybe transactions, or references to transactions, and if the EL that is building a block has observed that transaction, or stark proof or whatever from the mempool, then it includes this transaction into a block. Although, like, yeah, I think, yeah, it's not gonna work right.
+
+156
+00:28:07.010 --> 00:28:10.000
+Mikhail Kalinin: Because, like, you have to…
+
+157
+00:28:10.220 --> 00:28:12.350
+soispoke: Yeah, no, I don't think that…
+
+158
+00:28:12.350 --> 00:28:12.990
+Mikhail Kalinin: Let's see.
+
+159
+00:28:12.990 --> 00:28:22.599
+soispoke: as well, but but what you said, like, what you and NC said in the chat is also true, like, one of the nice things, I guess, with FOCIL is still that
+
+160
+00:28:22.970 --> 00:28:30.390
+soispoke: it's very bounded, like, ILs can be very bounded in terms of both size and gas,
+
+161
+00:28:30.520 --> 00:28:39.469
+soispoke: And, committee size. Like, yes, you will lose a bit of CR if you reduce the committee, that's very obvious, but…
+
+162
+00:28:39.820 --> 00:28:43.890
+soispoke: At the same time, You know, like, if it…
+
+163
+00:28:44.280 --> 00:28:50.740
+soispoke: if it makes the networking work, then we should do it. Like, if it… if… I'd rather have FOCIL,
+
+164
+00:28:50.990 --> 00:29:01.649
+soispoke: with, like, fewer committee members that know FOCIL at all, because, we've sort of, like, set our mind on having this sort of, like, 16 EL committee members, which is…
+
+165
+00:29:01.650 --> 00:29:11.289
+soispoke: Which was sort of, like, made in a very different time, where we just thought, oh, it's basically the amount of, like, one blob of bandwidth, and that's fine.
+
+166
+00:29:11.300 --> 00:29:15.440
+soispoke: But of course, like, if the bandwidth, like, increases by…
+
+167
+00:29:15.750 --> 00:29:25.780
+soispoke: like 5x, then, you know, we should definitely consider reducing the committee size and making it work as much as possible.
+
+168
+00:29:34.790 --> 00:29:38.960
+Jihoon: Thank you, Mikhail. Thank you, Toma. Any more questions or comments?
+
+169
+00:29:43.030 --> 00:29:48.870
+soispoke: I… I saw NC's comment about, postponing XMSS.
+
+170
+00:29:49.320 --> 00:29:54.979
+soispoke: I think I agree, generally with you. It's more like…
+
+171
+00:29:55.230 --> 00:30:02.960
+soispoke: I don't know, people… these days, it feels like people really want to… Rush, towards, like, a…
+
+172
+00:30:03.120 --> 00:30:13.149
+soispoke: well, either, like, a frames or, like, frames and FOCIL fork. And so, you know, if we want to start, like, trimming things down, I feel like,
+
+173
+00:30:13.280 --> 00:30:28.290
+soispoke: this might not be the end of the world to start without replacing it, but I agree, like, it's… it's delaying work for something we will do later, and it doesn't seem like a huge deal, both in terms of size and in terms of complexity, if you…
+
+174
+00:30:28.450 --> 00:30:34.400
+soispoke: if we use XMSS in a bunch of places anyways. But, you know, let's say…
+
+175
+00:30:34.900 --> 00:30:47.629
+soispoke: I mean, the signature schemes are, like, still in flux for now, like, both for Lean Sphinx and XMSS, like, the cryptographers have not, sort of, like, decided exactly which version is gonna be…
+
+176
+00:30:47.740 --> 00:30:50.119
+soispoke: The version we use, and so…
+
+177
+00:30:50.290 --> 00:31:03.400
+soispoke: if it's a blocker, or, like… basically, I don't think we should, like, sort of, like, obsess over it, and be like, oh, no, we have to sort of, like, replace it now. If it's not ready, and it will, like, block the fork or anything else, like, same. I think that that's something we could probably…
+
+178
+00:31:03.520 --> 00:31:05.339
+soispoke: Just, like, delay.
+
+179
+00:31:19.930 --> 00:31:25.900
+Jihoon: The Toma has explained a good overview of how FOCIL could transform into the PQ world.
+
+180
+00:31:26.180 --> 00:31:31.380
+Jihoon: And I'd like to explore deeper, so we can actually articulate
+
+181
+00:31:31.580 --> 00:31:36.830
+Jihoon: what that would look like, and I've shared my article in the chat.
+
+182
+00:31:36.930 --> 00:31:53.520
+Jihoon: I finished this draft right before this call, so sorry for not sharing in advance, but I wanted to, you know, kind of have an endless Q&A during this call, so perhaps people could take a look into it, and then
+
+183
+00:31:54.050 --> 00:31:57.319
+Jihoon: Ask any questions or share any concerns.
+
+184
+00:32:06.040 --> 00:32:18.230
+Jihoon: briefly tap on switching to lean XMSS Signature. It does increase IL size by 2.4 kilobytes, but, this,
+
+185
+00:32:18.550 --> 00:32:29.889
+Jihoon: Back of the… back of the napkin math, and it doesn't look like, it increases bandwidth
+
+186
+00:32:30.090 --> 00:32:32.119
+Jihoon: Kind of some sheds.
+
+187
+00:32:32.270 --> 00:32:42.699
+Jihoon: dramatically. And actually, I think even with the current P2B stack, I think switching to XMSS
+
+188
+00:32:43.360 --> 00:32:53.110
+Jihoon: Looks fine, because we are handling larger bandwidth, before it is
+
+189
+00:32:54.000 --> 00:33:00.960
+Jihoon: 6 seconds to 9 seconds into the slot, so I think switching to XMSS is fine.
+
+190
+00:33:01.110 --> 00:33:10.550
+Jihoon: But switching to a recursive proof, which would be 300 kilobytes, is… Where we need more research.
+
+191
+00:33:10.880 --> 00:33:12.190
+Jihoon: In my opinion.
+
+192
+00:33:13.280 --> 00:33:20.559
+Jihoon: But it also depends on, like Thomas said before, it also depends on, what kind of…
+
+193
+00:33:20.880 --> 00:33:32.119
+Jihoon: design we would have after 80 to 88 lands on the protocol, and it also entails more research to be done on the IL side, so… yeah.
+
+194
+00:33:59.130 --> 00:34:03.030
+soispoke: Yeah, do… do people have,
+
+195
+00:34:04.030 --> 00:34:11.550
+soispoke: But, like, have people thought about, PQ4Soul and, sort of, like, Challenges that we might…
+
+196
+00:34:11.710 --> 00:34:17.469
+soispoke: get into. One thing I mentioned, but, like, I feel like it needs maybe more thoughts, is, like.
+
+197
+00:34:17.710 --> 00:34:24.410
+soispoke: what will happen if people, like, if a quantum attacker was to, sort of, like, attack FOCIL?
+
+198
+00:34:24.620 --> 00:34:32.119
+soispoke: My intuition was that it would not be that bad, but I'm wondering if people have thought about it more, and…
+
+199
+00:34:32.440 --> 00:34:37.820
+soispoke: Yeah, if it could be bad, I guess.
+
+200
+00:34:57.030 --> 00:35:00.520
+Jihoon: Yeah, that's definitely something that we can think about.
+
+201
+00:35:00.740 --> 00:35:08.540
+Jihoon: So I've been looking into this, mechanism for…
+
+202
+00:35:09.910 --> 00:35:21.600
+Jihoon: I don't know, like, a couple of weeks, and… my… read is that… FOCILs… remains…
+
+203
+00:35:21.810 --> 00:35:25.479
+Jihoon: effective, even after we transform it to PQ.
+
+204
+00:35:25.710 --> 00:35:32.589
+Jihoon: Of course, it depends on, like, which stage we are in during this peak transition.
+
+205
+00:35:33.090 --> 00:35:40.519
+Jihoon: One thing we also… we really need to, find a good solution is definitely P2P.
+
+206
+00:35:40.790 --> 00:35:45.219
+Jihoon: But it just also depends on, like, what kind of PQ Consensus.
+
+207
+00:35:45.330 --> 00:35:49.740
+Jihoon: We were gonna ship in the end, because…
+
+208
+00:35:50.580 --> 00:35:58.820
+Jihoon: with PQDC, there's more breathing room to broadcast ILS for its…
+
+209
+00:35:59.300 --> 00:36:07.809
+Jihoon: propagation window, which would be, like, 2 to 3 seconds, because we can spread the bandwidth consumption over time.
+
+210
+00:36:08.420 --> 00:36:18.100
+Jihoon: Thanks to the decoupling of Available chain in the finality gadget, but this is also being researched, so… Yeah.
+
+211
+00:36:18.520 --> 00:36:28.999
+Jihoon: at the moment, it is hard to tell, like, this is, how PQ FOCIL will work in the future. So there are multiple, possible designs.
+
+212
+00:36:29.160 --> 00:36:31.779
+Jihoon: But it seems like…
+
+213
+00:36:35.630 --> 00:36:48.499
+Jihoon: I don't know, I might be biased, but it looks, like, doable to me, because it changes this and that, but it can be built on top of what we want to ship in CL and EL.
+
+214
+00:36:49.210 --> 00:36:49.970
+Jihoon: Yeah.
+
+215
+00:36:52.120 --> 00:37:08.250
+soispoke: Yeah, I think I agree. I think, yeah, as I mentioned, I think it's… like, the plan will, for the sort of, like, short term, will be very clear, which will just be, like, I don't know, you have all transactions, that are not aggregated on the EL, and FOCIL can pick it up as is.
+
+216
+00:37:08.790 --> 00:37:19.070
+soispoke: On the longer term, like, there are, like, a lot of uncertainties, but most of the uncertainties seem to be just, like, general uncertainties of exactly what we want to do.
+
+217
+00:37:21.170 --> 00:37:36.109
+soispoke: And, it's still worth, like, really trying to figure out, like, what would it look like in each scenario, and I think you've worked on something like a doc like this, and I think it's very valuable.
+
+218
+00:37:36.420 --> 00:37:47.039
+soispoke: But, I mean, you… yeah, figuring out exactly what FOCIL looks like, post 8288 and post-PQCL is… is impossible, today.
+
+219
+00:37:48.840 --> 00:37:55.749
+soispoke: I think one thing I would want to maybe talk about as well, if people… unless people have, like, questions about,
+
+220
+00:37:56.110 --> 00:38:01.729
+soispoke: Those considerations is… It does feel like one of the blocker…
+
+221
+00:38:02.060 --> 00:38:13.210
+soispoke: Or, like, think, like, in a way to ship FOCIL, or a concern, I guess, for people is that it would massively delay frames.
+
+222
+00:38:14.130 --> 00:38:24.790
+soispoke: I'm wondering if people have thoughts about this, how they think about it, I feel like…
+
+223
+00:38:24.920 --> 00:38:31.570
+soispoke: Yeah, I'm trying to think of, like, the different versions of FOCIL we could ship,
+
+224
+00:38:32.230 --> 00:38:38.300
+soispoke: like, is it PQ4? Is it Four FOCILent Frames? Is it, like, even…
+
+225
+00:38:38.570 --> 00:38:45.100
+soispoke: less than 4 FOCILomon frames and, like, FOL for, like, regular transactions, even though I'm not sure it makes sense.
+
+226
+00:38:46.910 --> 00:39:01.019
+soispoke: But I think one of the biggest unresolved uncertainty people have is, like, how much of a delay would that be on frames? There will be a delay, that's… I don't think it's, like, worth, sort of, like, trying to…
+
+227
+00:39:01.110 --> 00:39:11.419
+soispoke: Who pretend it won't, delay it, because just like the interaction, you know, the more things you have, like, the more… the longer it takes to test everything.
+
+228
+00:39:11.620 --> 00:39:16.459
+soispoke: But, in my mind, it would, you know, it would not be a huge delay.
+
+229
+00:39:16.840 --> 00:39:22.770
+soispoke: And importantly, we'll not necessarily, like, delay the fork after,
+
+230
+00:39:23.390 --> 00:39:42.450
+soispoke: Meaning, like, I don't know how much of an impact it will actually have on, like, the sort of, like, PQ highstar fork, just because I feel like the PQCL part, depending on what we do, is quite far away. Like, if we want to do it right, and we are not, sort of, like, in a full emergency mode, and we ship, like.
+
+231
+00:39:42.560 --> 00:40:00.119
+soispoke: PQGasper, without aggregation, and sort of, like, cap the Validator set, or do this sort of, like, super long slots, or, like, all these very ugly things. I do feel like it will take quite a bit of time to ship either PQ-Gasper or PQDC, and so…
+
+232
+00:40:00.280 --> 00:40:06.600
+soispoke: Yeah, I'm just wondering if people have thoughts, or… and if they do, how they think about it.
+
+233
+00:40:40.360 --> 00:40:41.390
+Jihoon: Yeah, we have.
+
+234
+00:40:42.040 --> 00:40:50.799
+Jihoon: a few EL depths here, so if you're familiar with the interaction between FOCIL and brains, and have thought about how much delay you're gonna…
+
+235
+00:40:51.190 --> 00:40:55.989
+Jihoon: impose, maybe… Is it good to share for all of us?
+
+236
+00:41:04.060 --> 00:41:05.110
+Iván | ethrex: Mmm.
+
+237
+00:41:05.460 --> 00:41:06.060
+Marc: Oh.
+
+238
+00:41:06.760 --> 00:41:07.350
+Iván | ethrex: Sorry, go ahead.
+
+239
+00:41:07.350 --> 00:41:08.000
+Jihoon: Okay, then.
+
+240
+00:41:09.460 --> 00:41:17.119
+Marc: Yeah, I was just gonna say, yeah, I like the idea of breaking it up, so… I mean, it seems like we might do this with 8288 anyway.
+
+241
+00:41:17.330 --> 00:41:22.249
+Marc: But, yeah, that certainly, like, simplifies things, because I think the…
+
+242
+00:41:22.540 --> 00:41:27.779
+Marc: Interaction between FOCIL and aggregation will probably be the… the hardest part to fix.
+
+243
+00:41:28.250 --> 00:41:31.729
+Marc: But in terms of, like, the whole…
+
+244
+00:41:31.930 --> 00:41:35.950
+Marc: PQ prioritization, I guess it just depends on, sort of, like.
+
+245
+00:41:36.140 --> 00:41:45.690
+Marc: more and more, like, the CL's bandwidth to ship Fossil in general, but I don't really know about that, but… yeah, so from my opinion, like, I would support it, but…
+
+246
+00:41:49.940 --> 00:41:55.700
+Jihoon: I actually read your, a draft PR, the EIP draft PR,
+
+247
+00:41:55.840 --> 00:42:13.630
+Jihoon: In the EIP, you mentioned an idea to, you know, choose a subset of transactions from the recursive proofs and dependencies that you already have by, you know, periodically aggregating. If we go with this route.
+
+248
+00:42:14.900 --> 00:42:20.960
+Jihoon: how… Difficult would it… Be… to implement that.
+
+249
+00:42:21.620 --> 00:42:25.840
+Jihoon: Once we have 80 to 88 implementation.
+
+250
+00:42:30.430 --> 00:42:35.260
+Marc: Are you talking about that just, like, in general, or in relation to FOCIL?
+
+251
+00:42:35.930 --> 00:42:43.790
+Jihoon: In relation to FOCIL. Like, just assuming that we have 80-88 implementation, and if you wanna
+
+252
+00:42:43.930 --> 00:42:51.370
+Jihoon: put FOCIL support on top of it, then I'm curious how complex it would be.
+
+253
+00:42:53.450 --> 00:43:04.279
+Marc: I mean, I was thinking more in terms of the complexity of, like, having these, you know, large proof objects inside the inclusion list, but I mean, as you guys were saying, like.
+
+254
+00:43:04.740 --> 00:43:07.170
+Marc: Potentially, by then, we might have solved that.
+
+255
+00:43:09.130 --> 00:43:13.979
+Marc: in terms of making that side of it work with Fossil, like, I don't see that being, like, a big…
+
+256
+00:43:14.400 --> 00:43:21.189
+Marc: problem there. I mean, I think if I know what you're talking about with that PR, I'm just talking about, like.
+
+257
+00:43:21.460 --> 00:43:31.089
+Marc: if there's, like, low-value transactions and stuff in the mempool, like, not necessarily including them, like, within the aggregation, which I think is something…
+
+258
+00:43:31.820 --> 00:43:35.550
+Marc: Like, independent of… Fossil, potentially.
+
+259
+00:43:39.080 --> 00:43:43.339
+Jihoon: I see, so… A stark proof of 300 kilobytes.
+
+260
+00:43:43.520 --> 00:43:48.939
+Jihoon: And having 16 of them would be a bigger problem, I think. Yeah.
+
+261
+00:43:56.750 --> 00:44:03.799
+Jihoon: one idea… Is… not sure if it's a good idea, but we can make it, you know, like.
+
+262
+00:44:04.390 --> 00:44:10.330
+Jihoon: constraint for n plus 1, like, instead of the right next one, we can…
+
+263
+00:44:10.560 --> 00:44:16.359
+Jihoon: So that we can prop- have a 12 seconds more propagation window.
+
+264
+00:44:16.540 --> 00:44:23.620
+Jihoon: But, yeah, it is kind of sacrificing one of the values that we want to,
+
+265
+00:44:24.110 --> 00:44:28.979
+Jihoon: a design, 78054, so… yeah.
+
+266
+00:44:29.160 --> 00:44:32.140
+Jihoon: Because…
+
+267
+00:44:32.580 --> 00:44:48.730
+Jihoon: with PQGasper, people are talking about… people already decided to go with delayed aggregates in pollution, so that we can have up to 18 seconds for propagation, but it won't be 18 seconds, because you need to aggregate at the end, so it…
+
+268
+00:44:49.710 --> 00:44:59.329
+Jihoon: So yeah, the idea is basically that maybe we can just propagate it for 12 more seconds, than the bandwidth
+
+269
+00:44:59.440 --> 00:45:02.660
+Jihoon: actually look like it comes down to…
+
+270
+00:45:03.300 --> 00:45:10.690
+Jihoon: Digestible size, but yeah, this also should be benchmarked, and maybe there's a better idea than this.
+
+271
+00:45:13.560 --> 00:45:19.199
+soispoke: I think it's a good parameter to be able to play with, for sure. Like, again…
+
+272
+00:45:19.330 --> 00:45:30.199
+soispoke: It is in the realm of, like, yes, we might want to decrease the committee size, we might want to just, like, take more time to propagate these objects if we need to.
+
+273
+00:45:30.530 --> 00:45:33.409
+soispoke: Especially, you know, if we end up, like, going to…
+
+274
+00:45:33.700 --> 00:45:38.979
+soispoke: two shorter slots at some point, or something like this. It's, it's, it's something we…
+
+275
+00:45:39.110 --> 00:45:44.899
+soispoke: they would be even, let's say, more fine, because people being including VF FOCIL,
+
+276
+00:45:45.100 --> 00:45:52.249
+soispoke: We'll actually, like, not wait… not wait that long for their transactions to be forced, included, which, which is nice.
+
+277
+00:45:52.490 --> 00:45:57.969
+soispoke: So I think we want to start from, like, the ideal scenario.
+
+278
+00:45:58.500 --> 00:46:07.450
+soispoke: Which is, you know, next slide inclusion, quite a lot of inclusion, committee members, and…
+
+279
+00:46:07.890 --> 00:46:11.950
+soispoke: And based on, like, what the network supports, And…
+
+280
+00:46:12.240 --> 00:46:15.670
+soispoke: I think, ultimately, it's even philosophical, it's like…
+
+281
+00:46:16.210 --> 00:46:21.329
+soispoke: Based on, like, what people think the network should dedicate to making sure
+
+282
+00:46:21.470 --> 00:46:25.769
+soispoke: It's, censorship resistant? You know, is it, like…
+
+283
+00:46:26.070 --> 00:46:38.770
+soispoke: 10% of the capacity, is it 5%? Is it 1%? Like, that's something people can just, like, decide. Generally, I feel like it's a pretty easy number to wrap… like, easy concept to wrap your mind around.
+
+284
+00:46:40.040 --> 00:46:54.159
+soispoke: And based on this, in this very different world where we do have larger objects that are, like, going through the network generally, which is on both layers, or, like, on the three layers, actually, because on the data layer as well,
+
+285
+00:46:54.390 --> 00:47:02.160
+soispoke: Then we can start, modifying parameters and… and making sure, basically, like, the… the inclusion lists are not…
+
+286
+00:47:02.340 --> 00:47:10.630
+soispoke: a burden on the network more than it should be, and I think we'll need to do that for size, for bandwidth, for sure, because it's…
+
+287
+00:47:11.120 --> 00:47:17.020
+soispoke: Anyhow, on the EL at least, like, it feels like it's gonna become the scarcest resource.
+
+288
+00:47:17.380 --> 00:47:33.499
+soispoke: But we'll also need it, for gas, right? Like, we… we can't just, like, allow this sort of, like, arbitrary, large, verify, frames to… to cause a ton of computational work for… for builders or for…
+
+289
+00:47:33.620 --> 00:47:37.469
+soispoke: For our testers, so we'll need to do that too.
+
+290
+00:47:37.850 --> 00:47:47.519
+soispoke: And I think it's fine. I think it's okay. What I care the most about, I guess, is, like, the network to be able to support, you know.
+
+291
+00:47:47.950 --> 00:47:53.770
+soispoke: Transactions that might not be included. In the happy path?
+
+292
+00:47:55.480 --> 00:48:00.109
+soispoke: And, and FOCIL is basically made for this, but,
+
+293
+00:48:00.330 --> 00:48:03.619
+soispoke: But it should be also adapted to it. It's not,
+
+294
+00:48:04.030 --> 00:48:13.920
+soispoke: You know, it's not actually sort of, like, hurting the work, or causing people to increase their hardware requirements, or bandwidth requirements, or anything like that.
+
+295
+00:48:20.900 --> 00:48:21.999
+Jihoon: Yeah, it's a good point.
+
+296
+00:48:23.440 --> 00:48:28.270
+Jihoon: Does anyone have a chance to look into the article, or just thought about this?
+
+297
+00:48:28.670 --> 00:48:35.160
+Jihoon: Pick your FOCILH more, and… Get any questions, or…
+
+298
+00:48:36.340 --> 00:48:37.410
+Jihoon: Comments?
+
+299
+00:48:47.920 --> 00:48:53.489
+Jihoon: another point we can think about with this ILT with, stark proof.
+
+300
+00:48:53.700 --> 00:48:58.760
+Jihoon: Bupe equivocation, because it is already
+
+301
+00:48:59.020 --> 00:49:08.630
+Jihoon: quite heavy to digest. It's 16 aisles with snark proofs, and if people start to equivocate, then, yeah.
+
+302
+00:49:08.750 --> 00:49:12.860
+Jihoon: Isn't that great? One idea would be…
+
+303
+00:49:13.280 --> 00:49:20.999
+Jihoon: propagating IL equivocation evidence so that we can drop,
+
+304
+00:49:21.360 --> 00:49:27.249
+Jihoon: The transaction bytes and proof bytes, which will give us… which will save us
+
+305
+00:49:27.420 --> 00:49:35.979
+Jihoon: 308 times 2 kilobytes, so that we can just propagate, inclinationList header.
+
+306
+00:49:36.560 --> 00:49:45.819
+Jihoon: This is not… I don't think this is necessary to be introduced before we go to IL with stork proof, because the gain is…
+
+307
+00:49:46.590 --> 00:49:53.250
+Jihoon: I don't think the game outweighed the complexity of the protocol by introducing this new gossip subtopic.
+
+308
+00:49:53.570 --> 00:50:01.759
+Jihoon: But yeah, so this kind of optimization can be also considered, when we design this IL with the stock proofs.
+
+309
+00:50:07.080 --> 00:50:12.670
+soispoke: Yeah. Yeah, I agree. I mean, I think the whole game…
+
+310
+00:50:13.070 --> 00:50:18.620
+soispoke: after… after PQ, EL and EL are shipped, it's gonna be…
+
+311
+00:50:19.130 --> 00:50:21.999
+soispoke: You know, to find mechanisms that sort of, like,
+
+312
+00:50:22.480 --> 00:50:25.169
+soispoke: Allow us to either, like, propagate
+
+313
+00:50:25.470 --> 00:50:33.980
+soispoke: just headers and smaller objects, or sort of, like, make sure we can't flood… flood the network with, like, additional ILs.
+
+314
+00:50:34.590 --> 00:50:39.200
+soispoke: So that makes sense. But, yeah, it's still quite, quite far out, I think.
+
+315
+00:50:39.440 --> 00:50:40.899
+soispoke: We are talking, like…
+
+316
+00:50:41.530 --> 00:50:55.240
+soispoke: like, in two years, I think, if we want it to be shipped after, so… so it's, it's, it's… it's gonna be a bit of work. One other thing, like, I'm curious about if… is that…
+
+317
+00:50:55.900 --> 00:51:02.559
+soispoke: Yeah, what timelines do people have in mind for PQCL? Because I think it changes a lot of things. Like, if,
+
+318
+00:51:02.680 --> 00:51:06.080
+soispoke: You know, if people are very confident,
+
+319
+00:51:06.190 --> 00:51:08.340
+soispoke: It can be shipped, like, in…
+
+320
+00:51:08.600 --> 00:51:12.749
+soispoke: in, like, a few months, let's not say a few months, but, like.
+
+321
+00:51:13.610 --> 00:51:23.110
+soispoke: at least, I don't know, by the end of the year. It's different from people saying it could be shipped mid-A-2028.
+
+322
+00:51:23.370 --> 00:51:31.800
+soispoke: And I think that plays a big role for how we think of things, so… I don't know if people have thought about it that much, but,
+
+323
+00:51:32.090 --> 00:51:34.750
+soispoke: I think so it's one of the big, big questions I have.
+
+324
+00:51:37.770 --> 00:51:39.850
+Jihoon: Yeah, it's a good question.
+
+325
+00:51:41.620 --> 00:51:43.540
+Jihoon: I know some people in the room.
+
+326
+00:51:43.720 --> 00:51:50.920
+Jihoon: I've been working on PQ Consensus, so if you have any rough ideas, it'd be nice if you could share it.
+
+327
+00:51:55.490 --> 00:52:05.660
+Justin Florentine: So, I'm not a CL dev, but I've been keeping an eye on things, and, you know, right now, it's kind of a toss-up between PQ Gasper and PQDC, and I don't even think that…
+
+328
+00:52:05.800 --> 00:52:12.399
+Justin Florentine: Right. Thank you, Etan. That's exactly kind of where I'm at. So, I think there's a long way to go on…
+
+329
+00:52:12.980 --> 00:52:20.609
+Justin Florentine: what the CL, is going to do, and if I line that up, the schedule, it's kind of hard for me to see, like.
+
+330
+00:52:21.240 --> 00:52:31.920
+Justin Florentine: the time we get by dropping FOCIL from Hegota, speeding any of that up, considering how far along FOCIL already is right now, so…
+
+331
+00:52:32.400 --> 00:52:38.819
+Justin Florentine: Yeah. It seems like a long shot to me, but a CLDF could probably shed more light on it.
+
+332
+00:52:49.800 --> 00:52:50.750
+Jihoon: That's a good point.
+
+333
+00:52:51.290 --> 00:52:52.559
+Jihoon: Yeah, go ahead.
+
+334
+00:52:52.890 --> 00:53:00.460
+soispoke: So, no, that's also what I had in mind. I think the two big questions for me are PQ Gasper versus PQDC, and…
+
+335
+00:53:01.890 --> 00:53:07.680
+soispoke: and… I don't know, it feels like it's not even exactly decided, if…
+
+336
+00:53:08.370 --> 00:53:12.180
+soispoke: aggregation should be part of it or not, like LeanVM, I mean.
+
+337
+00:53:13.260 --> 00:53:19.630
+soispoke: For me, it's a bit of a no-brainer, just because, like, without LeanVM, we'll, like, just…
+
+338
+00:53:20.150 --> 00:53:25.520
+soispoke: be quite terrible for a lot of things. Like, I feel that, like, the trade-offs we will need to make
+
+339
+00:53:25.660 --> 00:53:36.709
+soispoke: to deal with PQCL without aggregation are just, like, kind of crazy, but, but I've heard, like, people really sort of, like, strongly advocate for it, so I'm not sure.
+
+340
+00:53:37.720 --> 00:53:50.380
+Jihoon: Yeah. There's also, some open questions regarding LeanVM, like, we might be able to optimize it for PQGESPR, but we also want to be open
+
+341
+00:53:50.550 --> 00:54:03.550
+Jihoon: So that it is… it is… be flexible for future P2P changes, where if we want to ship PQ Gasper first and then move to PQDC, then we want our zN be,
+
+342
+00:54:03.620 --> 00:54:14.200
+Jihoon: compatible with that, decision, whatever that be. So, yeah, there are also some open questions regarding LeanVM, which we should also factor in. Mikhail?
+
+343
+00:54:16.550 --> 00:54:22.039
+Mikhail Kalinin: Wanted to, to add, on the PQDC or PQ Gaspar, like.
+
+344
+00:54:23.240 --> 00:54:41.549
+Mikhail Kalinin: So, my personal view on that is we're currently trying PQ Gasper, and I'm pretty sure that PQ Gasper is feasible, but with likely some compromises that, personally, myself, would not be comfortable with.
+
+345
+00:54:41.550 --> 00:54:44.669
+Mikhail Kalinin: Those compromises, like, we could increase the,
+
+346
+00:54:44.940 --> 00:54:54.950
+Mikhail Kalinin: duration of a slot, yeah, and, you know, to give a… to reduce the bandwidth requirements. So we could increase the bandwidth requirements, like.
+
+347
+00:54:55.220 --> 00:55:06.729
+Mikhail Kalinin: And, yeah, that, that could also solve, you know, bandwidth's network, network problem. Also, we can switch to a more, fancier,
+
+348
+00:55:07.910 --> 00:55:10.820
+Mikhail Kalinin: pops up protocols, like, that will…
+
+349
+00:55:10.930 --> 00:55:25.829
+Mikhail Kalinin: allow us to save the bandwidths and all these kind of things. So, PQ Gasper is, yeah, it's a question. It's like, currently it's more like trying to do it and see how many compromises, we will have to make.
+
+350
+00:55:26.090 --> 00:55:39.390
+Mikhail Kalinin: To deliver PQ Gasper, and if there are too many, and if we see that there are too many, we would switch to PQDC. At least this is just my view on that, so…
+
+351
+00:55:39.710 --> 00:55:41.969
+Mikhail Kalinin: Yeah, that's how I see it.
+
+352
+00:55:44.140 --> 00:55:55.649
+Mikhail Kalinin: So we actually don't know what, where PQ Gaspar efforts will be at, you know, is it, like, a dead end yet or not? I mean, like, yet we don't know that.
+
+353
+00:55:58.910 --> 00:56:03.950
+Jihoon: Great, thanks for sharing. Do we have any rough timeline?
+
+354
+00:56:04.190 --> 00:56:06.239
+Jihoon: That, by when we can…
+
+355
+00:56:06.390 --> 00:56:11.869
+Jihoon: tell whether PQ Gasper is the one that we should, put our effort to.
+
+356
+00:56:23.000 --> 00:56:28.109
+Mikhail Kalinin: I… I don't know. I… I can't speak on that. Yeah, I mean, like.
+
+357
+00:56:28.780 --> 00:56:31.330
+Mikhail Kalinin: Yeah. I don't know how many time it will take.
+
+358
+00:56:32.450 --> 00:56:33.170
+Jihoon: I see.
+
+359
+00:56:33.330 --> 00:56:34.190
+Jihoon: Thank you.
+
+360
+00:56:35.380 --> 00:56:44.939
+Mikhail Kalinin: Oh, I mean, like, if it's not gonna… if we think that it's still, like, questionable in 3 months, probably, or maybe in 2 months, like in January.
+
+361
+00:56:45.530 --> 00:56:48.710
+Mikhail Kalinin: then probably we should consider switching to PQDC.
+
+362
+00:56:50.110 --> 00:56:57.419
+Mikhail Kalinin: Yeah, but it depends on, like, where we see the evidence that we cannot move with PQ Gasper.
+
+363
+00:56:58.140 --> 00:56:59.540
+Mikhail Kalinin: Without doing some…
+
+364
+00:56:59.880 --> 00:57:09.549
+Mikhail Kalinin: some of the uncomfortable stuff. Like, actually, by the way, the P2P stack, switching to more advanced PubSub protocols would also help,
+
+365
+00:57:09.680 --> 00:57:12.839
+Mikhail Kalinin: The decouple… for the decoupled Consensus case as well.
+
+366
+00:57:14.760 --> 00:57:17.680
+Mikhail Kalinin: But for PQ Gasper, it might be a requirement.
+
+367
+00:57:20.850 --> 00:57:22.120
+soispoke: Okay, that makes sense.
+
+368
+00:57:22.240 --> 00:57:28.710
+soispoke: I think another follow-up, it's not necessary for you, but I think… I'm also…
+
+369
+00:57:29.180 --> 00:57:47.470
+soispoke: curious to see what people… like, what people think about how much of PQ Gasper could actually be recycled, or, like, for PQDC, or, like, useful for PQDC. I feel like that's something that's been coming back as well, and I don't have, like, a great view of
+
+370
+00:57:47.830 --> 00:57:53.489
+soispoke: Of exactly how many components will be, sort of, like, shared or common.
+
+371
+00:57:55.430 --> 00:57:56.550
+soispoke: So yeah, I don't know.
+
+372
+00:58:07.310 --> 00:58:10.989
+Jihoon: Yeah, I think that's, also a good question.
+
+373
+00:58:11.440 --> 00:58:18.620
+Jihoon: So… We can expect Many of the… work, and…
+
+374
+00:58:18.830 --> 00:58:29.609
+Jihoon: effort that we are putting into PQ Gasper will be transferable to PQDC, but it might not be 100% transferable. And…
+
+375
+00:58:31.270 --> 00:58:35.179
+Jihoon: because we want to be peak resistant.
+
+376
+00:58:35.420 --> 00:58:42.509
+Jihoon: As soon as possible, without sacrificing too much, and making too much compromises that we're not comfortable with.
+
+377
+00:58:43.700 --> 00:58:50.690
+Jihoon: I think it is important to separate two efforts.
+
+378
+00:58:50.830 --> 00:58:55.840
+Jihoon: which are… transferable and not transferable.
+
+379
+00:58:55.950 --> 00:59:01.519
+Jihoon: maybe running this PQ DevNet and, running some benchmarks.
+
+380
+00:59:02.200 --> 00:59:19.210
+Jihoon: I believe they are very valuable and would be helpful, but some hacks that we are trying to make on top of PQ-Gasper, just to make PQ-Gasper work might not be transferable to PQDC, but I might be wrong. I'm happy to be proven wrong, but that's my intuition.
+
+381
+00:59:29.320 --> 00:59:32.480
+Jihoon: And on top of that, I think…
+
+382
+00:59:33.050 --> 00:59:46.510
+Jihoon: we can figure out what kind of work are not transferable. I think we really need to timebox that kind of effort so that we can just end up deciding to move on to PQDC after spending, like, 6 months.
+
+383
+00:59:47.200 --> 00:59:54.229
+Jihoon: But, yeah, it is also maybe part of this governance process, so… How's it gonna be?
+
+384
+00:59:54.570 --> 00:59:58.550
+Jihoon: via ACDC, Coming, I guess.
+
+385
+01:00:03.770 --> 01:00:06.309
+soispoke: Yeah, okay, cool, thanks a lot.
+
+386
+01:00:10.680 --> 01:00:14.230
+Jihoon: We have… Roughly 2 minutes left.
+
+387
+01:00:14.960 --> 01:00:19.770
+Jihoon: Does anyone have any… have any questions? Like, just finally, it's just random questions.
+
+388
+01:00:31.640 --> 01:00:41.489
+Jihoon: So… It's not likely that we were gonna make a final decision on this Thursday's call.
+
+389
+01:00:41.870 --> 01:00:44.269
+Jihoon: Then…
+
+390
+01:00:44.670 --> 01:00:58.759
+Jihoon: do we want to have… when do we want to have this FOCIL breakout? Do we want to have this in two weeks, or do we want to have it in one week, so that we can discuss this Beacon FOCIL more, if it's helpful?
+
+391
+01:01:29.950 --> 01:01:30.770
+Jihoon: F.
+
+392
+01:01:31.560 --> 01:01:44.600
+Jihoon: So, if we have this breakout in two weeks, it will gonna be, the 8th of December, which is also before, ACDC, so…
+
+393
+01:01:44.890 --> 01:01:52.749
+Jihoon: I would suggest to have this breakout in two weeks, and… Yeah, I guess…
+
+394
+01:01:54.310 --> 01:01:59.560
+Jihoon: So we paused ACD calls for 3 weeks,
+
+395
+01:01:59.720 --> 01:02:03.740
+Jihoon: Early this year, so… I'm sorry,
+
+396
+01:02:04.620 --> 01:02:15.119
+Jihoon: in 2025, so I also expect to see ACDC pause for a couple of weeks at the end of this year, so maybe we can also pause for Breakout
+
+397
+01:02:15.360 --> 01:02:30.869
+Jihoon: Of course, it depends on what we decide on, ACDC. Maybe we don't need to run faster Breakout anymore, but we'll see about that. So, yeah, let's just pencil in that we're gonna have Breakout, in two weeks.
+
+398
+01:02:33.480 --> 01:02:40.900
+Jihoon: Yeah, speaking of which, we just hit 1 hour, does anyone have any last comment?
+
+399
+01:02:50.100 --> 01:03:05.869
+Jihoon: Otherwise, we can wrap up this call. Thanks for joining, and if you have any questions or concerns, please do share it in Discord so that we can discuss it public. Yeah, see you in two weeks. Thank you, everyone.
+
+400
+01:03:08.690 --> 01:03:09.420
+Marc: But…
+

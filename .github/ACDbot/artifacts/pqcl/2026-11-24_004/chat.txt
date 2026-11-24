@@ -1,0 +1,387 @@
+00:03:35	Francesco Risitano (Tau):	gm
+00:03:40	Jun Song:	gm
+00:04:06	Mega | ethlambda:	hello
+00:04:17	Shaaibu Suleiman:	hello hello
+00:04:18	Yann Vonlanthen:	Gm gm
+00:04:22	Potuz:	GM you nerds
+00:04:37	Mikhail Kalinin:	Reacted to "GM you nerds" with 😂
+00:04:49	Kevaundray Wedderburn:	Reacted to "GM you nerds" with 😂
+00:05:16	Gottfried Herold:	Hi,
+
+is Kev's HackMD for the workstreams broken for you (with regards to comments placements)? Or is it just me?
+00:06:19	Francesco Risitano (Tau):	Reacted to "GM you nerds" with 😂
+00:06:23	Greg K:	Reacted to "GM you nerds" with 😂
+00:06:25	Barnabas:	3h later ...
+00:06:30	Greg K:	Reacted to "3h later ..." with 🤣
+00:06:32	Mega | ethlambda:	Reacted to "3h later ..." with 🤣
+00:06:33	Potuz:	Reacted to "3h later ..." with 🤣
+00:06:33	soispoke:	A réagi à "3h later ..." avec 🤣
+00:06:34	Jun Song:	Reacted to "3h later ..." with 🤣
+00:06:34	Ignacio:	Reacted to "3h later ..." with 🤣
+00:06:56	Toni Wahrstätter:	Reacted to "3h later ..." with 🤣
+00:07:01	Yann Vonlanthen:	Reacted to "GM you nerds" with 😂
+00:07:17	Kevaundray Wedderburn:	Reacted to "3h later ..." with 🤣
+00:07:22	Toni Wahrstätter:	Is the current devnet pq gasper?
+00:07:29	Kevaundray Wedderburn:	Replying to "Is the current devne..."
+
+yeah
+00:07:29	Jun Song:	Replying to "Is the current devne..."
+
+yes
+00:07:30	Ladislaus:	Reacted to "Is the current devnet pq gasper?" with 👍
+00:07:50	Toni Wahrstätter:	Replying to "Is the current devne..." 
+
+ With full committees voting?
+00:08:10	Toni Wahrstätter:	Replying to "Is the current devne..." 
+
+ Or more slots per epoch... or longer slots?
+00:08:47	cayman:	lodestar has a bug in our range sync that prevents syncing thru 0 block ranges -- working on it
+00:09:16	Jun Song:	Replying to "Is the current devne..."
+
+https://dora.pq-devnet-0.ethpandaops.io/ 
+
+Same params
+00:09:51	Toni Wahrstätter:	Replying to "Is the current devne..." 
+
+ Ah i see, 10k validators is the trick 😁
+00:10:33	Barnabas:	only 625 keys per machine
+00:10:37	Barnabas:	its not unreasonable
+00:11:38	Potuz:	LOL
+00:11:40	Toni Wahrstätter:	The fact that we have a max reorg depth on ELs is a bug we should fix
+00:12:26	Kevaundray Wedderburn:	I think its reorg depth, not reorg speed
+00:12:54	Toni Wahrstätter:	Speed is another issue that we have to improve though (but independent)
+00:13:37	Csaba:	Replying to "Speed is another iss..."
+
+A few PRs already lined up on that
+00:13:55	Csaba:	Replying to "Speed is another iss..."
+
+We just need to merge them production quality, which takes time
+00:14:05	Toni Wahrstätter:	Replying to "Speed is another iss..." 
+
+ Awesome!
+00:14:09	Toni Wahrstätter:	Reacted to "A few PRs already lined up on that" with 🚢
+00:14:14	Manu:	1 day seems reasonable - prysm
+00:14:39	Csaba:	Replying to "I think its reorg de..."
+
+For the depth, I only vaguely remember why it was set up as it was. Have to look into it
+00:15:11	cayman:	1 day is reasonable - lodestar
+00:15:12	Barnabas:	anyone from nimbus around?
+00:15:20	Mega | ethlambda:	Yes. Sounds reasonable
+00:15:29	Dustin:	I'm around, but I'm not doing this actively
+00:15:29	Oisin Kyne:	Replying to "Speed is another iss..."
+
+Just want to flag that distributed validators will be very slow generating keys as we have to hash in MPC, so we need to run it as an async process ahead of time (the two layer keys helps insofar as we can do the root pubkey once, and then generate child keys more frequently. Rough math is that we need 3mb/s continuously to dedicate to mpc hashing. Upping the max eth per key would help a lot for us here
+00:15:38	Barnabas:	struggling clients ^
+00:15:50	hangleang:	yes, reasonable
+00:15:52	Barnabas:	Replying to "I'm around, but I'm ..."
+
+can we get agnish on the call ?
+00:15:57	Manu:	Brb in 2 min
+00:16:03	Barnabas:	grandine also struggling
+00:16:23	Dustin:	Replying to "I'm around, but I'..."
+
+maybe
+00:16:33	hangleang:	Replying to "grandine also stru..."
+
+will check it today after the call
+00:17:46	Kevaundray Wedderburn:	Its a NUC 14 pro for reference
+00:18:16	Potuz:	I would not make the STARK more complicated
+00:18:21	Barnabas:	Btw its sounds like we are going to be compute limited a lot sooner than when we gonna become bandwidth limited (at least speaking from solo staker POV).
+00:18:31	Kevaundray Wedderburn:	Replying to "I would not make the..."
+
+Yeah agree (if possible)
+00:18:42	Barnabas:	So it already sounds like we going to need to go to DC if aggregations are this heavy
+00:18:43	Mikhail Kalinin:	Replying to "Btw its sounds like ..."
+
+how so?
+00:19:17	Toni Wahrstätter:	How big are proofs today?
+00:19:20	Kamil Salakhiev:	How much larger proofs, how much faster proving we can get? @Tom Wambsgans
+00:19:25	Barnabas:	Replying to "Btw its sounds like ..."
+
+VC key generation = very CPU intensive
+proof generation = very CPU intensive
+00:20:39	Mikhail Kalinin:	Replying to "Btw its sounds like ..."
+
+VC is one time. proof is what matters for a slot schedule and comparing to bandwidth it doesn't seem like with this recent improvements cpu is more of a bottleneck than the bandwidth
+00:20:43	Tom Wambsgans:	https://leanvm.org/
+00:21:58	Kevaundray Wedderburn:	This is what Eitan asked for, so similar to blst portable
+00:22:51	Csaba:	Replying to "Btw its sounds like ..."
+
+I think at one point we need a discussion about our principles on  minimum resource requirements and being permissionless and distributed too. I see measurements running on quite beefy HW.
+00:22:51	Potuz:	Just make sure to make it at init and not on calling the aggregate function
+00:23:25	Mega | ethlambda:	We bump to leanvm 0.17 then?
+00:23:48	Ignacio:	https://github.com/ethereum/sys-asm/pull/60
+00:24:53	Toni Wahrstätter:	The xmss verifier would be a precompile?
+00:25:02	Kevaundray Wedderburn:	Replying to "The xmss verifier wo..."
+
+evm bytecode
+00:25:32	Barnabas:	Replying to "We bump to leanvm 0...."
+
+for the next devnet i would say
+00:25:41	cayman:	Reacted to "for the next devnet ..." with 👍
+00:25:43	Francesco Risitano (Tau):	Regarding the ability to bind leanVM at runtime (and mitigate requirement for a new client build) maybe you can use dlopen and dlsym (never used it before but I had explored this for execution proofs):
+https://man7.org/linux/man-pages/man3/dlopen.3.html 
+https://man7.org/linux/man-pages/man3/dlsym.3.html
+00:25:51	Toni Wahrstätter:	Why would we do it in a different contract than the prereg contract?
+00:26:06	Tom Wambsgans:	good point, will fix
+00:26:28	Potuz:	Replying to "Just make sure to ma..."
+
+You can probably copy from my hashtree library this
+00:26:46	Kevaundray Wedderburn:	Replying to "Regarding the abilit..."
+
+I think some clients were against anything that is not statically compiled into the binary
+00:27:34	Francesco Risitano (Tau):	Reacted to "I think some clients were against anything that is not statically compiled into the binary" with 👍
+00:27:39	Mega | ethlambda:	Reacted to "for the next devnet i would say" with 👍
+00:27:44	Ignacio:	Toni, if you're interested in the thread about this https://discord.com/channels/595666850260713488/1570771708137312327/1574574004474347570
+00:27:50	Toni Wahrstätter:	Reacted to "Toni, if you're interested in the thread about this https://discord.com/channels/595666850260713488/1570771708137312327/1574574004474347570" with 🙏
+00:28:16	terence:	MicDAO
+00:28:20	Kevaundray Wedderburn:	You’re muted Manu
+00:28:36	Manu:	https://github.com/ethereum/ERCs/pull/2214
+00:29:11	Francesco Risitano (Tau):	I think that makes sense for production but it may incur overhead for dev cycles. 
+
+On the flip side if you want to ship bug fixes etc efficiently it could be nice.
+00:30:04	Barnabas:	do we expect that anyone else is going to use this same derivation path?
+00:30:43	Gottfried Herold:	I have issue with my mic
+00:30:57	Kevaundray Wedderburn:	ERC 2335
+00:31:01	Gottfried Herold:	Thanks!
+00:31:09	Toni Wahrstätter:	Replying to "I have issue with my..." 
+
+ One of us
+00:33:11	Kevaundray Wedderburn:	I think validators should be able to
+00:34:22	Mikhail Kalinin:	Reacted to "I think at one point we need a discussion about our principles on  minimum resource requirements and being permissionless and distributed too. I see measurements running on quite beefy HW." with 👍
+00:34:37	terence:	Nothing from my end
+00:34:43	Barnabas:	Replying to "I have issue with my..."
+
+micdao
+00:34:50	Potuz:	I’d like to know if the staggered aggregation was implemented
+00:34:58	Barnabas:	kev really trying to speedrun this 😂
+00:35:00	Gottfried Herold:	Using a different mnemonic one is fine, but I think we should account for people reusing the old one (and make sure this does not screw them)
+00:35:06	Potuz:	Reacted to "kev really trying to speedrun this 😂" with 😂
+00:35:17	Fredrik:	Reacted to "kev really trying to speedrun this 😂" with 🚀
+00:35:22	Toni Wahrstätter:	Reacted to "kev really trying to speedrun this 😂" with 🚢
+00:35:27	Kamil Salakhiev:	Reacted to "kev really trying to speedrun this 😂" with 🚢
+00:35:28	Kevaundray Wedderburn:	Reacted to "Screenshot2026_11_24_153258.jpg" with 😂
+00:35:42	Gottfried Herold:	Reacted to "kev really trying to speedrun this 😂" with 🚢
+00:35:49	vlad:	we impled this @silver
+00:35:49	terence:	Not in prysm, im on consensus commit 4595f0fc9
+00:35:55	Barnabas:	Replying to "Using a different mn..."
+
+yeah I think we should just not say that same mnemonic is mandatory
+00:36:01	Barnabas:	Replying to "Using a different mn..."
+
+so both should work fine
+00:36:27	Potuz:	https://github.com/ethereum/consensus-specs/commit/4595f0fc9be7e3611f0187a2ff5fee00e120f751
+00:36:47	Barnabas:	future ACD calls: 
+“we implemented everything” - under we means claude
+00:36:47	terence:	ethpandaops devnet doc lists staggered aggregators as not in pq-devnet-0
+00:36:53	Manu:	Replying to "Using a different mn..."
+
+👍
+00:37:02	Kevaundray Wedderburn:	Reacted to "future ACD calls: 
+“we implemented everything” - under we means claude" with 😂
+00:37:04	Barnabas:	staggered aggregation should be in a follow up network imo
+00:37:11	Barnabas:	we have plenty of chaos now
+00:37:21	Enrico Del Fante:	So 0.17 is for future pq-devnet-1 ?
+00:37:22	Potuz:	It should make less chaos
+00:37:25	Barnabas:	Reacted to "So 0.17 is for future pq-devnet-1 ?" with 👍
+00:37:39	Barnabas:	Replying to "So 0.17 is for futur..."
+
+baking a new notes page
+00:37:59	Barnabas:	Replying to "So 0.17 is for futur..."
+
+https://notes.ethereum.org/@ethpandaops/pq-devnet-1
+00:38:09	Enrico Del Fante:	Reacted to "https://notes.ethereum.org/@ethpandaops/pq-devnet-1" with 🙏
+00:39:14	Barnabas:	if balance over 50ETH you are an aggregator
+00:39:53	vlad:	staggered release: https://github.com/gattaca-com/pq-silver/commit/b32180007371b4cde166fd3c91de09a57117a0b9
+
+timing is in ticker.rs
+00:39:54	Barnabas:	no extra rewards, just penalties
+00:40:51	Potuz:	Replying to "no extra rewards, ju..."
+
+That’s the same path
+00:40:57	Yann Vonlanthen:	Why is it not a DoS vector?
+00:41:08	Potuz:	Replying to "Why is it not a DoS ..."
+
+You still select randomly
+00:41:12	Barnabas:	Replying to "Why is it not a DoS ..."
+
+you won’t know who is the next one
+00:41:15	Yann Vonlanthen:	Replying to "Why is it not a DoS ..."
+
+Ah I see!
+00:41:15	Potuz:	Replying to "Why is it not a DoS ..."
+
+Just from a restricted set
+00:42:21	Potuz:	For the record I think this is going to be needed eventually when we want to go to quick slots or similar
+00:42:26	Potuz:	But if we can avoid it now I would
+00:43:00	Yann Vonlanthen:	For this separate aggregate duty: How about we allow the proposers (builders) of slots [N-k, N] to share their aggregates for slot N ?
+00:43:23	Potuz:	Aggregation is for attestations not votes
+00:43:31	Francesco D'Amato:	It doesn’t necessarily need aggregation for head votes
+00:44:04	Mikhail Kalinin:	Replying to "It doesn’t necessari..."
+
+i would say it's not needed as we won't add full votes to a block
+00:44:06	Francesco D'Amato:	It’s ok to not put them in the block, right now the Lean spec works that way
+00:44:24	terence:	Replying to "It doesn’t necessari..."
+
+Ya. Just use references
+00:45:45	Gottfried Herold:	What about the aggregation for 8288? What part of the infracstructure can be re-use?
+00:45:48	Barnabas:	I just don’t see how we could do finalization aggregations without the aggregator role
+00:45:52	Barnabas:	even if its not in the hot path?
+00:46:15	Potuz:	We can just use all attesters as the “aggregator role"
+00:47:51	Barnabas:	Replying to "We can just use all ..."
+
+how many secs would we have to calculate this? Would this be a recursive aggregation? Would we have 16->1?
+00:49:43	Francesco D'Amato:	Replying to "We can just use all ..."
+
+It doesn’t really matter how long, we can take however long it takes, it just adds some fixed amount of time to finality time
+00:50:45	Barnabas:	can we use this branch with devnet 0 too?
+00:50:56	Barnabas:	are you gossipping waggle and gossipsub?
+00:51:42	ethDreamer (Mark):	Sorry I only just joined
+00:52:13	ethDreamer (Mark):	Do we know why regular attestations are so slow?
+00:52:14	Kevaundray Wedderburn:	Link?
+00:52:51	Kamil Salakhiev:	fast proof broadcast protocol I used for LH branch https://notes.ethereum.org/@kamilsa/rk_I4TMJme 
+
+LH branch itself https://github.com/kamilsa/lighthouse/tree/leanvm-proof-broadcast
+00:54:30	grapebaba:	Hi, I'm transcribing this call with my Tactiq AI Extension. https://tactiq.io/r/transcribing
+00:55:01	Barnabas:	I think single client devnets make no sense
+00:55:13	Barnabas:	Single client devnets can just take place on kurtosis
+00:55:25	Barnabas:	once we have interop confirmed on kt then we should do a devnet
+00:55:27	vlad:	will have silver compatible with prysm / seacast sooon
+00:55:57	Eitan:	Replying to "Do we know why reg..."
+
+signing is the bottleneck
+00:56:10	Eitan:	Replying to "Do we know why reg..."
+
+on 8 core machines its pretty slow
+00:56:48	Csaba:	Replying to "Do we know why regul..."
+
+Isn’t that a problem? What are our minimum HW reqs there?
+00:56:55	Barnabas:	can we not make all these p2p changes backwards compatible too where we keep gossiping on gossipsub ?
+00:57:01	Barnabas:	so we could roll out on devnet 0 already?
+00:57:45	Potuz:	Replying to "I think single clien..."
+
+This statement doesn’t make sense, if the point is to see how seacast performs, single client is better than multiple clients
+00:57:56	Barnabas:	can we not do a specification for p2p?
+00:58:00	Csaba:	Replying to "can we not make all ..."
+
+It is not about backwards compatibility. It is recognising the cost and hidden traps of restrarting from scatch
+00:58:04	Kevaundray Wedderburn:	Replying to "I think single clien..."
+
+That was my thinking, but thought I was missing something
+00:58:29	Potuz:	I like the spec that just doesn’t make p2p changes unless absolutely necessary in the next fork 😝
+00:58:30	Barnabas:	Replying to "I think single clien..."
+
+benchmarking this can also happen on kurtosis tho
+00:58:45	Barnabas:	Replying to "I think single clien..."
+
+as the bandwidth usage is going to be obvious on kurtosis already within the containers
+00:58:48	Potuz:	Replying to "I think single clien..."
+
+Not for P2P, you need separated nodes
+00:58:50	vlad:	Reacted to "I like the spec th..." with 👍
+00:59:01	Barnabas:	Replying to "I think single clien..."
+
+yeah for latency, but I don’t think we are there yet?
+00:59:08	Kevaundray Wedderburn:	Reacted to "I like the spec that just doesn’t make p2p changes unless absolutely necessary in the next fork 😝" with 😂
+00:59:16	Potuz:	Replying to "I think single clien..."
+
+It seems we are
+00:59:21	Csaba:	It is easy to say I start from scratch and this avoid all the difficult questions. But in reality you don’t, you just have amnesia
+00:59:26	Kamil Salakhiev:	We absolutely necessary need p2p changes🙂
+00:59:39	Barnabas:	LH was messing up
+00:59:40	Barnabas:	😂
+00:59:41	vlad:	signing was slow
+00:59:51	Barnabas:	Eitan then did = make lh fast then it was fixed
+00:59:58	Csaba:	Replying to "can we not make all ..."
+
+If I understood your question right. Maybe I misunderstood
+01:01:27	Mikhail Kalinin:	Replying to "I like the spec that..."
+
+P2P changes as a prerequisite for PQ-Gasper sounds appealing to consider PQ-DC instead
+01:01:31	Csaba:	Replying to "I think single clien..."
+
+We need kurtosis tests, single client, with the basics covered, so we avoid debugging them in large and expensive setups
+01:02:52	Barnabas:	can you rerun the numbers?
+01:02:53	Csaba:	Replying to "I think single clien..."
+
+We could sync on kurtosis configs, as I said.
+01:03:01	Csaba:	Replying to "can we not do a spec..."
+
+haha
+01:03:09	cayman:	dropping off, lodestar standup
+01:03:24	Csaba:	Replying to "can we not do a spec..."
+
+Can we not do a distributed system, just a blockchain on 1 node?
+01:03:33	Francesco D'Amato:	So it’s one hour now?
+01:03:44	Barnabas:	Replying to "So it’s one hour now..."
+
+kev has a date
+01:03:54	Potuz:	Replying to "So it’s one hour now..."
+
+I think Kev didn’t want to take 90’
+01:03:55	Manu:	Reacted to "kev has a date" with 😃
+01:03:59	Mikhail Kalinin:	Reacted to "kev has a date" with ❤️
+01:04:00	Barnabas:	Replying to "So it’s one hour now..."
+
+its 120’
+01:04:13	terence:	Replying to "So it’s one hour now..."
+
+Should we reduce it to 1 hour from now on
+01:04:20	Francesco D'Amato:	Reacted to "Should we reduce it to 1 hour from now on" with 👍
+01:04:20	Manu:	Reacted to "Should we reduce it to 1 hour from now on" with 👍
+01:04:20	Greg K:	Great time boxing Kev!
+01:04:25	Potuz:	Replying to "So it’s one hour now..."
+
+Fwiw I thought it would be only 3 breakouts…
+01:04:41	Kamil Salakhiev:	Reacted to "Great time boxing Kev!" with 👍
+01:04:43	Mikhail Kalinin:	do we need 3 calls a week?
+01:04:53	Potuz:	Replying to "So it’s one hour now..."
+
+Can we move this to ACDT? And then save an extra hour?
+01:05:11	Potuz:	Kev’s date is already knocking the door
+01:05:16	Kevaundray Wedderburn:	Reacted to "Kev’s date is already knocking the door" with 😂
+01:05:18	Ignacio:	Reacted to "Kev’s date is alr..." with 😂
+01:05:23	Ladislaus:	Reacted to "Kev’s date is already knocking the door" with 😂
+01:05:26	Toni Wahrstätter:	Reacted to "Kev’s date is already knocking the door" with 😂
+01:05:26	Mega | ethlambda:	Reacted to "Kev’s date is already knocking the door" with 😂
+01:05:34	Mikhail Kalinin:	Replying to "So it’s one hour now..."
+
+btw, you started that lol
+01:05:41	Barnabas:	Reacted to "Kev’s date is already knocking the door" with 😂
+01:05:43	Barnabas:	Replying to "Kev’s date is alread..."
+
+def.
+01:06:07	Kamil Salakhiev:	lets discuss how many calls we need on the next call
+01:06:09	Barnabas:	Replying to "Kev’s date is alread..."
+
+kev is checking if he has a date tomorrow too
+01:06:12	Mega | ethlambda:	Reacted to "lets discuss how many calls we need on the next call" with 😂
+01:06:12	terence:	Lol you guys have too much time for calls
+01:06:14	Toni Wahrstätter:	Most topics should slowly move into acdt
+01:06:14	Potuz:	Reacted to "lets discuss how many calls we need on the next call" with 😂
+01:06:15	Barnabas:	Reacted to "lets discuss how many calls we need on the next call" with 😂
+01:06:15	Satyajit:	Reacted to "lets discuss how m..." with 😂
+01:06:19	Anton:	Reacted to "lets discuss how many calls we need on the next call" with 😂
+01:06:22	Manu:	Reacted to "lets discuss how many calls we need on the next call" with 😂
+01:06:24	Potuz:	Reacted to "Most topics should slowly move into acdt" with 👍
+01:06:31	hangleang:	i think just 1 or 2 a week is enough
+01:06:34	Potuz:	Yeah I’d even remove the 1 a week
+01:06:37	Potuz:	And move to ACDT
+01:06:45	ethDreamer (Mark):	Reacted to "lets discuss how many calls we need on the next call" with 😂
+01:07:09	Potuz:	Reacted to "kev is checking if he has a date tomorrow too" with 😂
+01:08:17	Francesco D'Amato:	+1
+01:08:21	Kevaundray Wedderburn:	My date is knocking on the door
+01:08:21	Luca | Vero:	Reacted to "+1" with 👍
+01:08:25	Ladislaus:	Reacted to "My date is knocking on the door" with 😂
+01:08:25	Mikhail Kalinin:	Reacted to "My date is knocking on the door" with 😂
+01:08:26	Ignacio:	Reacted to "My date is knockin..." with 😂
+01:08:26	vlad:	Reacted to "+1" with 👍
+01:08:27	Barnabas:	Reacted to "My date is knocking on the door" with 😂
+01:08:30	ethDreamer (Mark):	Reacted to "My date is knocking on the door" with 😂
+01:08:30	Eitan:	Reacted to "My date is knockin..." with 😂
+01:08:31	Mega | ethlambda:	Reacted to "My date is knocking on the door" with 😂
+01:08:33	Enrico Del Fante:	Reacted to "My date is knocking on the door" with 😂
+01:08:36	Gottfried Herold:	Reacted to "My date is knocking on the door" with 😂
+01:08:43	Potuz:	Reacted to "My date is knocking on the door" with 😂
+01:08:54	Kamil Salakhiev:	Reacted to "My date is knocking on the door" with 😂
+01:08:57	Sameer Agarwal:	Reacted to "My date is knocking on the door" with 😂
