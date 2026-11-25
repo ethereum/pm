@@ -1,0 +1,325 @@
+00:14:54	Iván | ethrex:	This is the pq-el channel https://discord.com/channels/595666850260713488/1569690395095470130
+00:15:04	Iván | ethrex:	Daisugi thread https://discord.com/channels/595666850260713488/1572742161932484798
+00:15:59	Iván | ethrex:	There are also these channels:
+pq-networking https://discord.com/channels/595666850260713488/1569690422010191873
+pq-cl https://discord.com/channels/595666850260713488/1569690373633216644 
+pq-general https://discord.com/channels/595666850260713488/1398301046085914745
+00:17:39	Stefan Starflinger:	hey
+00:17:43	Iván | ethrex:	Reacted to "hey" with 💪
+00:17:47	Mario Vega:	Reacted to "hey" with 💪
+00:18:08	Wilson Tran:	hi can you send the discord link again, please? I just got disconnected
+00:19:02	Mega | ethlambda:	Replying to "hi can you send the ..."
+
+This is the pq-el channel https://discord.com/channels/595666850260713488/1569690395095470130
+Daisugi thread https://discord.com/channels/595666850260713488/1572742161932484798
+There are also these channels:
+pq-networking https://discord.com/channels/595666850260713488/1569690422010191873
+pq-cl https://discord.com/channels/595666850260713488/1569690373633216644 
+pq-general https://discord.com/channels/595666850260713488/1398301046085914745
+00:19:06	Iván | ethrex:	Reacted to "This is the pq-el channel https://discord.com/channels/595666850260713488/1569690395095470130
+Daisugi thread https://discord.com/channels/595666850260713488/1572742161932484798
+There are also these channels:
+pq-networking https://discord.com/channels/595666850260713488/1569690422010191873
+pq-cl https://discord.com/channels/595666850260713488/1569690373633216644 
+pq-general https://discord.com/channels/595666850260713488/1398301046085914745" with 🙏
+00:19:13	Wilson Tran:	Reacted to "This is the pq-el ..." with 🙏
+00:23:08	soispoke:	can you speak more about the builder aggregation path? feels like a huge departure from the protocol guarantees we have today
+00:27:01	Iván | ethrex:	Yes
+00:28:27	soispoke:	I think we all agree aggregation is the endgame, it's more: how soon can we ship it and is it safer to ship the first version of what PQ EL looks like without aggregation (accepting that we can include a lot less PQ txns per block)
+00:29:05	Nico:	We don't expect 100% PQ
+00:29:08	Iván | ethrex:	With ~8kb leanSPHINCS frame txs we can only fit ~115 txs vs ~2.8k secp256k1 frame txs
+00:29:09	Mario Vega:	Reacted to "We don't expect 100% PQ" with 👍
+00:29:12	soispoke:	A réagi à "We don't expect 10..." avec 👍
+00:29:29	Nico:	It will be 5-10% at the beginning
+00:29:35	Guru:	Reacted to "I think we all agree..." with ➕
+00:29:40	Marc:	Reacted to "We don't expect 100% PQ" with 👍
+00:29:52	Iván | ethrex:	Replying to "With ~8kb leanSPHINC..."
+
+This was a measurement we did in an implementation of https://github.com/ethereum/EIPs/pull/12672
+00:29:55	Justin Florentine:	Replying to "We don't expect 100%..."
+
+we're gonna charge a lot more for these, right? should discourage unnecessary adoption
+00:30:08	Mario Vega:	Reacted to "we're gonna charge a lot more for these, right? should discourage unnecessary adoption" with 👍
+00:30:48	Justin Florentine:	anyone got an explainer on how leanSPHINCS differs from SPHINCS-
+00:30:56	Iván | ethrex:	Reacted to "anyone got an explainer on how leanSPHINCS differs from SPHINCS-" with 🙏
+00:32:03	Nico:	It doesn't..
+00:32:20	Nico:	It's now exactly the same thing as we decided to go with Keccak
+00:32:37	Matteo Vicari:	Replying to "It doesn't.."
+
+Why ?
+00:32:47	soispoke:	even in the testnet it obviously affects performance throughput, node resources etc...
+00:33:08	Nico:	leanSPHINCs is basically the SPHINCS- variant that we decide to canonize
+00:33:19	Iván | ethrex:	Reacted to "leanSPHINCs is basically the SPHINCS- variant that we decide to canonize" with 👍
+00:33:21	Mario Vega:	Ideally, the moment we turn aggregation on it should be completely transparent to the user
+00:33:23	Justin Florentine:	Reacted to "leanSPHINCs is basically the SPHINCS- variant that we decide to canonize" with 🙏
+00:33:45	soispoke:	Répondre à "even in the testne..."
+
+ideally we don't continuously change the base primitive we rely on
+00:34:02	Justin Florentine:	Replying to "even in the testnet ..."
+
+i'm struggling with how we'll know that
+00:34:27	soispoke:	how we'll know which scheme to go for?
+00:35:02	Antonio Sanso:	Replying to "even in the testnet ..."
+
+sphincs
+00:35:10	Tom Wambsgans:	currently leanVM aggregates 700 leanSphincs (sphincs.art default params) per second on M4 Max
+00:35:26	Antonio Sanso:	Replying to "even in the testnet ..."
+
+Change parameters doesn’t mean to change the base primitive
+00:35:29	Justin Florentine:	Replying to "even in the testnet ..."
+
+how we'll know that aggregation is possible, and viable on mainnet, and economic with enough confidence that we know there are no changes needed to the underlying primitive
+00:35:45	Iván | ethrex:	Correct me if I’m wrong, but the risk on using a SPHINCS variant optimized for non-aggregation and then use another one that is optimized for aggregation is that users will need to migrate twice, right?
+00:36:02	lightclient:	we definitely don’t want 2 variants
+00:36:07	Iván | ethrex:	Reacted to "we definitely don’t want 2 variants" with ➕
+00:36:09	Tom Wambsgans:	Reacted to "we definitely don’t want 2 variants" with 👍
+00:36:10	Iván | ethrex:	Reacted to "we definitely don’t want 2 variants" with 👍
+00:36:13	Iván | ethrex:	Replying to "we definitely don’t ..."
+
+I agree
+00:36:15	Guru:	Reacted to "we definitely don’t ..." with ➕
+00:36:17	Mario Vega:	Reacted to "Correct me if I’m wrong, but the risk on using a SPHINCS variant optimized for non-aggregation and then use another one that is optimized for aggregation is that users will need to migrate twice, right?" with 👍
+00:36:20	Justin Florentine:	Replying to "even in the testnet ..."
+
+i'm kind of ok with shipping twice in case aggregation is incompatible with non-aggregation
+00:36:23	Iván | ethrex:	Replying to "we definitely don’t ..."
+
+This isn’t under discussion right?
+00:36:25	Mario Vega:	Reacted to "we definitely don’t want 2 variants" with ➕
+00:36:33	soispoke:	Répondre à "even in the testne..."
+
+@Antonio Sanso right I meant which version of SPHINCS
+
+@Justin Florentine right exactly, I was saying we should fix the scheme asap so we can rely on it as this fixed primitive
+00:36:40	soispoke:	A réagi à "we definitely don..." avec ➕
+00:36:45	Alessandro Baiocchi:	We have this tool to mess around with the parameters
+https://research.projecteleven.com/tools/sphincs-parameter
+00:36:54	Antonio Sanso:	Replying to "even in the testnet ..."
+
+sphincs.art
+00:36:59	lightclient:	Replying to "we definitely don’t want 2 variants"
+
+i don’t think it
+00:37:12	Iván | ethrex:	Reacted to "i don’t think it" with 👍
+00:37:20	Iván | ethrex:	Thanks, wasn’t sure about that
+00:37:49	Pablo | Lambda:	Reacted to "we definitely don’t want 2 variants" with ➕
+00:37:51	Pablo | Lambda:	Reacted to "we definitely don’t want 2 variants" with 👍
+00:37:54	soispoke:	Répondre à "even in the testne..."
+
+there are a lot of versions on sphincs.art
+00:38:08	Antonio Sanso:	Replying to "even in the testnet ..."
+
+The default
+00:38:36	soispoke:	Répondre à "even in the testne..."
+
+ah ok then let's freeze it haha what's the blocker
+00:39:27	lightclient:	Reacted to "Thanks, wasn’t sure about that" with 👍
+00:39:37	Iván | ethrex:	Replying to "even in the testnet ..."
+
+@Justin Florentine AFAIK aggregation is possible, I think the question is when we would have leanVM production ready to rely on aggregation
+00:39:48	Matteo Vicari:	Reacted to "we definitely don’t want 2 variants" with 👍
+00:39:50	Iván | ethrex:	Replying to "even in the testnet ..."
+
+So we can put it in the protocol
+00:39:59	Kevaundray Wedderburn:	gm
+00:40:04	lightclient:	Reacted to "gm" with 😂
+00:40:06	soispoke:	A réagi à "gm" avec 😂
+00:40:09	Mega | ethlambda:	Reacted to "gm" with 😂
+00:40:13	Pablo | Lambda:	Reacted to "gm" with 😂
+00:40:19	Mario Vega:	Reacted to "gm" with 😂
+00:40:55	Tom Wambsgans:	Reacted to "gm" with 😂
+00:41:09	soispoke:	I agree we don't want to be stuck in the loop of "freezing stuff for devnets" while changing the parameters for later
+00:41:20	Iván | ethrex:	Reacted to "gm" with 😂
+00:41:28	Iván | ethrex:	Replying to "gm"
+
+Beautiful morning, right?
+00:41:35	Nico:	Reacted to "I agree we don't want to be stuck in the loop of "freezing stuff for devnets" while changing the parameters for later" with 👍
+00:41:35	Kevaundray Wedderburn:	Reacted to "Beautiful morning, right?" with 😁
+00:41:39	Nico:	Reacted to "we definitely don’t want 2 variants" with ➕
+00:41:52	lightclient:	if we had 2 or 4kb sig size what is the implication for aggregation?
+00:42:28	Iván | ethrex:	Good question, would it be slower or impossible at all?
+00:43:29	lightclient:	Replying to "if we had 2 or 4kb sig size what is the implication for aggregation?"
+
+like i expect aggregation will keep getting faster
+00:43:45	Mario Vega:	Reacted to "if we had 2 or 4kb sig size what is the implication for aggregation?" with 👍
+00:43:55	lightclient:	Replying to "if we had 2 or 4kb sig size what is the implication for aggregation?"
+
+so we should probably choose a size that is nice today and an aggregation speed that is a little painful today and we keep improving
+00:44:11	Stefan Starflinger:	Reacted to "gm" with 😂
+00:44:39	soispoke:	i mean if it's just data colleciton for the sake of having plots/baselines let's do it
+00:44:46	Nico:	If I can add one more deadline. I need an audit on top of a verifier that I do with Safe that is going to secure billions. I don't want to play around for months
+00:45:59	Antonio Sanso:	https://sphincs.art/  , defaullt parameters this is what has been decided
+00:50:02	lightclient:	how much better is aggregation now that sigs are 8kb vs when it was 4kb?
+00:50:25	Marc:	Reacted to "how much better is aggregation now that sigs are 8kb vs when it was 4kb?" with ➕
+00:50:27	Iván | ethrex:	Reacted to "how much better is aggregation now that sigs are 8kb vs when it was 4kb?" with ➕
+00:50:37	soispoke:	A réagi à "how much better is..." avec ➕
+00:50:41	Mario Vega:	Reacted to "how much better is aggregation now that sigs are 8kb vs when it was 4kb?" with ➕
+00:51:23	lightclient:	Reacted to "how much better is aggregation now that sigs are 8kb vs when it was 4kb?" with ➕
+00:51:30	Toni Wahrstätter:	We price every byte, so blocksize/networking shouldn't be the problem
+00:51:40	lightclient:	Reacted to "We price every byte, so blocksize/networking shouldn't be the problem" with 👍
+00:51:59	Stefan Starflinger:	Reacted to "We price every byte, so blocksize/networking shouldn't be the problem" with 👍
+00:52:01	soispoke:	A réagi à "We price every byt..." avec 👍
+00:52:06	Kevaundray Wedderburn:	Replying to "We price every byte,..."
+
+Yeah it would mainly just be throughput
+00:52:14	soispoke:	A réagi à "Yeah it would main..." avec 👍
+00:52:20	jochem-brouwer:	For tx cost on EL side, we have https://eips.ethereum.org/EIPS/eip-2780 which makes the tx cost 15k at least (from current at least 21k).
+For bigger signatures we can build this in the intrinsic gas cost of txs. This would align with data size EIPs where we make block usage (either execution/network/data) .
+So for this we would include sig size in tx base cost
+00:52:47	soispoke:	block size is fixed, you just have less txns per block
+00:53:07	Iván | ethrex:	I see the same Antonio sees, we’d have less txs in the blocks
+00:53:11	jochem-brouwer:	Antwoord verzenden naar "For tx cost on EL ..."
+
+ah wait this is now already part of the txcost
+00:53:27	Stefan Starflinger:	are we testing any new networking code otherwise i also don’t see the point?
+00:54:37	soispoke:	Répondre à "I see the same Ant..."
+
+well either we assume block size is fixed and you get less txns, or you want the same amount of txns and then you have to increase the block size :)
+00:54:43	lightclient:	Replying to "are we testing any new networking code otherwise i also don’t see the point?"
+
+we need to work on it
+00:55:04	Iván | ethrex:	In some experiments I managed to fit ~100 frame-leanSPHINCS txs in Glamsterdam blocks vs ~2,5k with frame-secp256k1
+00:55:08	lightclient:	Replying to "are we testing any new networking code otherwise i also don’t see the point?"
+
+and people are fwiw
+00:55:16	Toni Wahrstätter:	Replying to "I see the same Anton..." 
+
+ Same amount of tx will need more gas
+00:55:42	Stefan Starflinger:	Reacted to "Same amount of tx will need more gas" with 👍
+00:55:46	soispoke:	it's more how useful a testnet is basically, the more certainty around components in the testnet (the closer it would be to mainnet the better) but it's a spectrum not black and white
+00:55:58	Toni Wahrstätter:	Replying to "I see the same Anton..." 
+
+ With 8288, my hope would be we could slowly start scaling with async aggregation becoming bette over time
+00:56:06	Iván | ethrex:	Reacted to "well either we assume block size is fixed and you get less txns, or you want the same amount of txns and then you have to increase the block size :)" with 👍
+00:56:38	soispoke:	A réagi à "Same amount of tx ..." avec 👍
+00:56:55	Ryan McPeck:	My understanding is it is close to 0% chance of shipping aggregation in h*
+00:57:07	lightclient:	Reacted to "My understanding is it is close to 0% chance of shipping aggregation in h*" with 😂
+00:57:56	Stefan Starflinger:	I did a rough clanke...
+[Full message cannot be displayed here]
+00:57:57	Mario Vega:	To jump in the specs question, I would also like to have specs on this, it just makes the process of a devnet much more predictable and easier to coordinate
+00:58:26	Louis:	Reacted to "To jump in the specs question, I would also like to have specs on this, it just makes the process of a devnet much more predictable and easier to coordinate" with 👍
+00:58:27	Louis:	Reacted to "To jump in the specs question, I would also like to have specs on this, it just makes the process of a devnet much more predictable and easier to coordinate" with ❤️
+00:58:28	lightclient:	i don’t know why this wouldn’t be bogota devnet 3?
+00:58:35	Stefan Starflinger:	Reacted to "To jump in the specs question, I would also like to have specs on this, it just makes the process of a devnet much more predictable and easier to coordinate" with 👍
+00:58:36	Iván | ethrex:	Replying to "i don’t know why thi..."
+
+Probably will be
+00:58:48	Guru:	Replying to "i don’t know why thi..."
+
+It will be
+00:58:49	Stefan Starflinger:	Replying to "i don’t know why this wouldn’t be bogota devnet 3?"
+
+yeah makes sense
+00:58:52	Justin Florentine:	Replying to "i don’t know why thi..."
+
+yes pls literally was asking this in discord
+00:58:56	Iván | ethrex:	Replying to "i don’t know why thi..."
+
+Or some later bogota devnet, we still need to reactivate selfdestruct
+00:58:59	Stefan Starflinger:	Replying to "i don’t know why this wouldn’t be bogota devnet 3?"
+
+or pq-el-devnet-0 :D
+00:59:52	Iván | ethrex:	Replying to "i don’t know why thi..."
+
+@Stefan Starflinger you can check out pq-el-devnet-0 on ethrex ;)
+01:00:47	Stefan Starflinger:	Reacted to "or pq-el-devnet-0 :D" with 💪
+01:00:56	Stefan Starflinger:	Replying to "i don’t know why this wouldn’t be bogota devnet 3?"
+
+frontran me
+01:01:00	Iván | ethrex:	Reacted to "frontran me" with 😅
+01:01:13	jochem-brouwer:	Heeft gereageerd op "frontran me" met 🤣
+01:01:27	Guru:	The way I see this, we had two decisions to make
+Aggregation vs no-aggregation - Looks like we just decided to not do aggregation for the next devnet
+PROOF frame vs Sig list - This is something that the EL devs need to decide on next
+01:02:14	Stefan Starflinger:	Replying to "The way I see this, we had two decisions to make
+Aggregation vs no-aggregation - Looks like we just decided to not do aggregation for the next devnet
+PROOF frame vs Sig list - This is something that the EL devs need to decide on"
+
+1. which aggregation, builder or mempool?
+01:02:42	Nico:	This is confirmed by most hardware manufacturer 🙄. Pruning is super simple
+01:02:57	Guru:	Replying to "The way I see this, ..."
+
+We just decided to not do any, right?
+01:03:26	Kevaundray Wedderburn:	@Guru should we do bogota-devnet-3 or do we need to wait for some ACD process?
+01:03:43	lightclient:	Replying to "@Guru should we do bogota-devnet-3 or do we need to wait for some ACD process?"
+
+well we need to decide the spec
+01:03:51	Iván | ethrex:	Reacted to "well we need to decide the spec" with ➕
+01:04:11	Guru:	Replying to "@Guru should we do b..."
+
+I thinkwe can start with bogota-devnet-3 as soon as we decide the PROOF frame vs sig list question
+01:04:19	soispoke:	just asked, and the tradeoff if you decrease the sig size is slower aggregation and/or slower signing, and the lower we could get is 2x (back to something like 4kB)
+01:04:41	Guru:	Replying to "@Guru should we do b..."
+
+And some of the details around that part of the spec
+01:05:01	lightclient:	Replying to "@Guru should we do bogota-devnet-3 or do we need to wait for some ACD process?"
+
+agreed
+01:05:09	Kevaundray Wedderburn:	Replying to "@Guru should we do b..."
+
+Okay sounds good, I think its mainly just a branch naming thing at that point
+01:05:19	Guru:	Reacted to "Okay sounds good, I ..." with 👍
+01:05:20	Kevaundray Wedderburn:	Replying to "@Guru should we do b..."
+
+How/where do we plan to decide between proof and siglist?
+01:05:34	Mario Vega:	Replying to "@Guru should we do b..."
+
+I think regarding the PROOF question (correct me if I’m wrong): PROOF is new and we are not going to do aggregation in this devnet anyway, and siglist is tested, perhaps for this devnet we do siglist?
+01:05:53	Nico:	You can have the small and easy to verify
+01:06:23	Iván | ethrex:	Replying to "@Guru should we do b..."
+
+I’m working on execution spec tests for one of the alternatives, implementation is ready and working in our `pq-el-devnet-0` branches in case someone wants to start measuring things
+01:06:41	Nico:	@soispoke https://github.com/nconsigny/SPHINCs-
+01:07:06	Guru:	Replying to "@Guru should we do b..."
+
+@Mario Vega I guess if there is consensus around the PROOF frame, might be good to include that change
+01:07:18	Mario Vega:	Reacted to "@Mario Vega I guess if there is consensus around the PROOF frame, might be good to include that change" with 👍
+01:07:21	soispoke:	A réagi à "@soispoke https://..." avec 🙏
+01:07:23	Nico:	Check leansphincs-s / leansphincs-f
+01:07:54	soispoke:	I think even if it was chosen, being able to look at why the parameters were chosen is important
+01:08:06	lightclient:	but it sounded like the pruning was avoided bc they were worried about complexity / security?
+01:08:11	Guru:	Reacted to "I think even if it w..." with ➕
+01:08:14	soispoke:	Répondre à "I think even if it..."
+
+not to rehash the choice necessarily just to wrap our heads around why
+01:08:21	Nico:	Replying to "but it sounded like ..." 
+
+ I don't know who claimed that
+01:08:34	lightclient:	Replying to "but it sounded like the pruning was avoided bc they were worried about complexity / security?"
+
+that was what someone said earlier
+01:08:36	Nico:	Replying to "but it sounded like ..." 
+
+ But very interested to compare pruning with any other solution
+01:08:45	lightclient:	Replying to "but it sounded like the pruning was avoided bc they were worried about complexity / security?"
+
+does pruning affect aggregation?
+01:08:49	Nico:	Replying to "but it sounded like ..." 
+
+ No
+01:08:59	Nico:	Replying to "but it sounded like ..." 
+
+ The SIG Is identical
+01:09:06	Nico:	Replying to "but it sounded like ..." 
+
+ It's a signer only change
+01:09:24	Nico:	Replying to "but it sounded like ..." 
+
+ It's a problem for hardware wallets that are constrained (not for us)
+01:09:37	Nico:	Reacted to "I think even if it was chosen, being able to look at why the parameters were chosen is important" with ➕
+01:09:56	Nico:	Replying to "I think even if it w..." 
+
+ Yep let me share a bunch of articles
+01:11:08	Maria Silva:	I don’t understand why deciding to not do aggregation on H* would change the decision on the  sig parameters. The end goal is still to do aggregation, right? So, in that case, we should still optimize for that world.
+01:11:36	Iván | ethrex:	Reacted to "I don’t understand why deciding to not do aggregation on H* would change the decision on the  sig parameters. The end goal is still to do aggregation, right? So, in that case, we should still optimize for that world." with ➕
+01:11:55	Iván | ethrex:	Replying to "I don’t understand w..."
+
+I agree
+01:12:28	Iván | ethrex:	If aggregation is the goal then we should optimize parameters for that goal, even if we do not do aggregation in Hegota
+01:12:42	Marc:	Reacted to "I don’t understand why deciding to not do aggregation on H* would change the decision on the  sig parameters. The end goal is still to do aggregation, right? So, in that case, we should still optimize for that world." with ➕
+01:12:56	Kevaundray Wedderburn:	Replying to "I don’t understand w..."
+
+Generally agree, I think we could optimise for aggregation or we could do something that is not that optimal for aggregation with the assumption that aggregation will get faster
+01:13:05	Barnabas:	Replying to "I don’t understand w..."
+
+without agg we can’t do shit

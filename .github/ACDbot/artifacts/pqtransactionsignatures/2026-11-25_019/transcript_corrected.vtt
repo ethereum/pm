@@ -1,0 +1,2154 @@
+WEBVTT
+
+1
+00:12:05.020 --> 00:12:06.060
+Antonio Sanso: Hey, everyone.
+
+2
+00:12:09.080 --> 00:12:10.680
+Antonio Sanso: Stefano, Wilson.
+
+3
+00:12:10.800 --> 00:12:11.750
+Antonio Sanso: I just…
+
+4
+00:12:12.440 --> 00:12:14.390
+Stefano: Hey, Antonio, how are you?
+
+5
+00:12:14.770 --> 00:12:15.700
+Antonio Sanso: They're good.
+
+6
+00:12:16.970 --> 00:12:20.760
+Antonio Sanso: Best Stefan, I've seen your… you published, finally, your,
+
+7
+00:12:21.340 --> 00:12:27.080
+Antonio Sanso: Your world. It's a lot different than the one you presented here already.
+
+8
+00:12:27.490 --> 00:12:33.640
+Stefano: There's a… yeah, it is very different. There's a lot more things, and there's full benchmarks.
+
+9
+00:12:34.510 --> 00:12:37.900
+Stefano: Like, it's a few hundred, like, what is it, 200 pages or something?
+
+10
+00:12:38.200 --> 00:12:39.889
+Antonio Sanso: And spirit is the same, too.
+
+11
+00:12:40.340 --> 00:12:52.589
+Stefano: Yeah, yeah, the spirit is the same, it just… we just completed… like, we patched the things, we optimized it, we moved to Flock, right? That's the thing we didn't have last time we spoke. Flock is massively better than what we had.
+
+12
+00:12:52.700 --> 00:12:54.260
+Stefano: Made a huge difference.
+
+13
+00:12:54.560 --> 00:12:56.639
+Antonio Sanso: And do you have as well an implementation?
+
+14
+00:12:57.170 --> 00:13:04.120
+Stefano: Yeah, yeah, everything is there. The only one that's not yet released is the Ledger app one, because I want to do a bit more cleanup, but maybe end of the week.
+
+15
+00:13:05.580 --> 00:13:11.949
+Antonio Sanso: Okay, maybe once you have everything done, it might make sense for you to present again, if you want.
+
+16
+00:13:11.950 --> 00:13:16.120
+Stefano: Yeah, yeah, yeah, happily. A couple of weeks' time? Like, next, next session, if you want.
+
+17
+00:13:16.120 --> 00:13:18.930
+Antonio Sanso: Let's see how things evolve.
+
+18
+00:13:19.110 --> 00:13:20.179
+Antonio Sanso: I… I don't know.
+
+19
+00:13:20.180 --> 00:13:23.339
+Stefano: There's a lot of interesting things, no, to do these days.
+
+20
+00:13:23.520 --> 00:13:28.730
+Antonio Sanso: Yeah, I will tell in a second. Also here, the format of the call might change a bit.
+
+21
+00:13:28.890 --> 00:13:34.190
+Antonio Sanso: Because, we moved to Discord, by the way. There's a lot of conversation in Discord.
+
+22
+00:13:34.930 --> 00:13:39.069
+Stefano: I didn't. I'm sorry, I didn't catch that. Yeah, okay.
+
+23
+00:13:39.070 --> 00:13:47.830
+Antonio Sanso: Ivan, can you please, because I am not too familiar with Discord, can you please, like, pass some invite on the Discord channel in the Telegram?
+
+24
+00:13:48.080 --> 00:13:50.170
+Antonio Sanso: You're more familiar than me with Discord.
+
+25
+00:13:51.340 --> 00:13:52.030
+Iván | ethrex: Yes, sure.
+
+26
+00:13:52.510 --> 00:13:53.339
+Antonio Sanso: Thanks, Ivan.
+
+27
+00:14:00.180 --> 00:14:06.179
+Antonio Sanso: So we cannot move… we cannot move, there, and the conversation now is, the core dev are…
+
+28
+00:14:06.320 --> 00:14:15.639
+Antonio Sanso: There as well, so it's much more, convoluted than lovely, so it's a good… it's a good thing we moved there, because things are… are becoming a bit,
+
+29
+00:14:16.510 --> 00:14:17.980
+Antonio Sanso: A bit levelly.
+
+30
+00:14:19.730 --> 00:14:22.259
+Stefano: practical. They're becoming practical.
+
+31
+00:14:22.260 --> 00:14:24.749
+Antonio Sanso: Yeah, yeah, so we have to ship.
+
+32
+00:14:24.750 --> 00:14:25.080
+Stefano: Yeah.
+
+33
+00:14:25.080 --> 00:14:26.090
+Antonio Sanso: I would, yeah.
+
+34
+00:14:26.320 --> 00:14:30.519
+Stefano: Yeah, exactly. I mean, it's the normal… it's kind of the right time.
+
+35
+00:14:31.920 --> 00:14:33.670
+Antonio Sanso: That's pretty cool.
+
+36
+00:14:36.410 --> 00:14:41.249
+Stefano: you know, ship before anybody comes out with a factoring MP, maybe.
+
+37
+00:14:41.600 --> 00:14:44.589
+Stefano: Let's, let's… Just in case.
+
+38
+00:14:45.070 --> 00:14:45.880
+Stefano: You know.
+
+39
+00:14:46.110 --> 00:14:47.150
+Antonio Sanso: Yeah, let's see.
+
+40
+00:14:50.490 --> 00:14:56.560
+Stefano: I'm not saying they will, I'm saying it is… there is a non-zero possibility.
+
+41
+00:14:56.700 --> 00:14:59.069
+Stefano: I don't actually believe that they will, but…
+
+42
+00:14:59.540 --> 00:15:02.199
+Gottfried Herold: I mean, factoring wouldn't hurt us, I guess?
+
+43
+00:15:03.170 --> 00:15:05.149
+Stefano: I don't know, I have proof of…
+
+44
+00:15:05.670 --> 00:15:11.499
+Stefano: I don't know. A proof of factoring P might just extend to ACDSA.
+
+45
+00:15:12.190 --> 00:15:14.830
+Gottfried Herold: I'm not sure, it's very different. I mean…
+
+46
+00:15:14.830 --> 00:15:15.390
+Stefano: Huh?
+
+47
+00:15:16.630 --> 00:15:27.329
+Gottfried Herold: I mean, yeah, I mean, for the… for BLS, maybe, because you can sort of… may be able to speed up, find a CLD log, and then you can attack BLS, but yeah, I don't know.
+
+48
+00:15:28.670 --> 00:15:33.369
+Stefano: I guess it depends on what it looks like, right? If it is…
+
+49
+00:15:33.790 --> 00:15:38.469
+Stefano: Similar to some kind of, like, decantalized thing, then maybe yes.
+
+50
+00:15:38.630 --> 00:15:45.839
+Stefano: If it's a completely different shape that has something specific to factoring and doesn't actually apply to
+
+51
+00:15:46.460 --> 00:15:48.620
+Stefano: This street logged, and yeah, maybe no.
+
+52
+00:15:48.730 --> 00:15:49.500
+Stefano: But…
+
+53
+00:15:49.500 --> 00:15:55.520
+Antonio Sanso: Anyway, we are gonna start in, one minute. As usual, wait 2 minutes more.
+
+54
+00:15:55.720 --> 00:15:57.220
+Antonio Sanso: Doacon?
+
+55
+00:15:57.520 --> 00:15:58.730
+Antonio Sanso: Latecomers.
+
+56
+00:16:03.170 --> 00:16:05.970
+Iván | ethrex: Yeah, I just sent in the channel. Oh, yeah.
+
+57
+00:16:05.970 --> 00:16:10.779
+Antonio Sanso: Thank you, yeah. I could be as well in Discord, in Telegram, just in case.
+
+58
+00:16:22.430 --> 00:16:24.060
+Antonio Sanso: A few more seconds, and we start.
+
+59
+00:16:39.160 --> 00:16:47.440
+Antonio Sanso: Alright, let's do it. Welcome to PQTS number 19. We're actually almost hitting the 20.
+
+60
+00:16:47.730 --> 00:16:49.840
+Antonio Sanso: Occurrences of this series.
+
+61
+00:16:51.380 --> 00:17:06.869
+Antonio Sanso: Quick thing, thanks, Ivan. Ivan shared some, link in the… in the chat. The majority of the conversation now moved to Discord. It's a great thing. We… the core devs, are now way more engaged.
+
+62
+00:17:07.170 --> 00:17:09.389
+Antonio Sanso: So we're kind of near…
+
+63
+00:17:09.700 --> 00:17:20.989
+Antonio Sanso: Or more near to, like, towards shipping. I mean, it's still far, but still, we are going towards the right direction, so I hope that this conversation becomes much more practical.
+
+64
+00:17:21.630 --> 00:17:23.790
+Antonio Sanso: One other thing that happened as well.
+
+65
+00:17:23.900 --> 00:17:40.959
+Antonio Sanso: in the last week. I'm not sure if Philip is here, but Philip from Panda.org migrated the DAS Hugi to, let's say, a more professionalized environment, more nodes, and we have more transaction.
+
+66
+00:17:41.110 --> 00:17:43.040
+Antonio Sanso: So thanks, Philip.
+
+67
+00:17:43.230 --> 00:17:49.140
+Antonio Sanso: Thanks as well to Project 11 guys for helping out with the transition and Nethermind.
+
+68
+00:17:50.140 --> 00:17:57.239
+Antonio Sanso: How are we gonna do today? Basically, I don't have slides as usual, because,
+
+69
+00:17:57.480 --> 00:18:02.190
+Antonio Sanso: probably in the future as well. We're gonna do way less presentation and more decision-making.
+
+70
+00:18:02.490 --> 00:18:07.800
+Antonio Sanso: I have a question for any of you that has been following in Discord.
+
+71
+00:18:08.010 --> 00:18:22.629
+Antonio Sanso: I… if I'm not wrong, we're still running the old parameter, not the Sphinx.art. I don't know if Matteo or Ivan can confirm what this or any… anyone from Nethermind
+
+72
+00:18:31.320 --> 00:18:35.060
+Antonio Sanso: Do you know Ivan or Matteo, if we're still running the old parameters?
+
+73
+00:18:36.100 --> 00:18:38.179
+Iván | ethrex: I'm not the best person, you know.
+
+74
+00:18:40.220 --> 00:18:43.910
+Antonio Sanso: I think we… is anyone from Nethermind, Stefano?
+
+75
+00:18:45.000 --> 00:18:49.029
+Marc: Yeah, I think we're running on a slightly older parameter set.
+
+76
+00:18:49.450 --> 00:18:49.820
+Antonio Sanso: But,
+
+77
+00:18:49.820 --> 00:18:55.829
+Marc: the latest Nethermind branch is… is updated to the latest, Sphinx dial parameters.
+
+78
+00:18:55.960 --> 00:18:58.819
+Marc: So when we restart and, like.
+
+79
+00:18:59.060 --> 00:19:02.879
+Marc: Push to the, BrightH branch, then we can update it.
+
+80
+00:19:05.120 --> 00:19:16.720
+Antonio Sanso: Alright, so we need a restart. So another thing that was discussed in the Discord was that we might actually do a bit… going a bit backward, for…
+
+81
+00:19:17.290 --> 00:19:23.960
+Antonio Sanso: For… not forever, of course, like, to start with, let me explain. At the moment, Daisugi…
+
+82
+00:19:24.240 --> 00:19:34.069
+Antonio Sanso: used to run a kind of form of aggregation. So the block builder was aggregating 20 signatures per second, I would say.
+
+83
+00:19:34.240 --> 00:19:37.350
+Antonio Sanso: And, we're running a version of 8288.
+
+84
+00:19:37.830 --> 00:19:49.159
+Antonio Sanso: what Kev proposed, I'm not sure Kev is here, was to actually go on a three-stage approach, where we start and benchmark rough signatures.
+
+85
+00:19:49.470 --> 00:19:57.960
+Antonio Sanso: First, so no aggregation, and then going back again to block builder aggregation, and eventually to mempool aggregation.
+
+86
+00:19:58.560 --> 00:20:03.850
+Antonio Sanso: I know that Nico had some comment on that,
+
+87
+00:20:04.130 --> 00:20:07.939
+Antonio Sanso: Nico, you want to say something about the parameters again, or…
+
+88
+00:20:13.520 --> 00:20:18.980
+Antonio Sanso: Apparently not. But is anyone… Sorry, I was… Sorry, Nico, yeah.
+
+89
+00:20:18.980 --> 00:20:21.469
+Nico: Sorry. Yeah, I had a hard time to unmute.
+
+90
+00:20:21.470 --> 00:20:22.320
+Antonio Sanso: No worries, no worries.
+
+91
+00:20:22.320 --> 00:20:29.529
+Nico: have… No, yeah, I just wanted to say that I posted a small message in the Discord,
+
+92
+00:20:29.530 --> 00:20:29.880
+Antonio Sanso: It's just…
+
+93
+00:20:29.880 --> 00:20:35.710
+Nico: to say, When we… when it comes to aggregation, we could also
+
+94
+00:20:36.510 --> 00:20:39.610
+Nico: We could also design, better…
+
+95
+00:20:40.070 --> 00:20:48.849
+Nico: better scheme. We took… we took the most conservative approach, optimizing for nothing, and with a very high lifetime.
+
+96
+00:20:49.220 --> 00:20:55.049
+Nico: Or, like, I would say, slightly optimizing for NPC friendliness and big,
+
+97
+00:20:55.340 --> 00:21:00.040
+Nico: A big number of, force, rather than tall horses.
+
+98
+00:21:00.690 --> 00:21:09.350
+Nico: Which is a trade-off that is more invasive-friendly, but that is less, permutation-friendly, and so less aggregation-friendly overall.
+
+99
+00:21:09.400 --> 00:21:21.690
+Nico: So my point was more, we didn't really optimize for any of the scenarios we were looking at. In the last call, we just said this is the most conservative option, and it can only get better from there.
+
+100
+00:21:22.120 --> 00:21:30.340
+Nico: Which is a fair stance, but yeah, now it would be interesting to go into the, can we get better phase of the…
+
+101
+00:21:31.080 --> 00:21:32.340
+Nico: Of the developments.
+
+102
+00:21:32.940 --> 00:21:41.949
+Antonio Sanso: Right. Thanks a lot. Thanks for summarizing this. To me, in my opinion, we are in kind of, in a kind of weird scenario now, let me tell you why.
+
+103
+00:21:42.080 --> 00:21:50.720
+Antonio Sanso: when we choose Sphinx Art, we were not optimizing for signature size. You are as well, you were saying we were not optimizing for,
+
+104
+00:21:51.080 --> 00:22:04.310
+Antonio Sanso: For aggregation. But for sure, like, the… the number of hash used for verification were pretty lower than normal. Let's say. We're a bit… a bit optimizing. Emil, I think, is in the call as well.
+
+105
+00:22:04.310 --> 00:22:04.700
+Nico: God.
+
+106
+00:22:04.700 --> 00:22:14.539
+Antonio Sanso: We're a bit optimizing for a number of fashion using for the verification, and this translates a bit to being aggregation friendly, no?
+
+107
+00:22:14.730 --> 00:22:17.600
+Antonio Sanso: So we paid, we paid a bit of size price.
+
+108
+00:22:17.940 --> 00:22:19.839
+Antonio Sanso: Dull words.
+
+109
+00:22:20.210 --> 00:22:27.010
+Nico: I think we can be, like, 20% or 15… at least 15% lower on hashes.
+
+110
+00:22:27.270 --> 00:22:30.240
+Nico: Without sacrificing any lifetime.
+
+111
+00:22:30.820 --> 00:22:31.970
+Nico: Just my points.
+
+112
+00:22:32.210 --> 00:22:42.729
+Antonio Sanso: Yeah, yeah, we know about optimizations that are a bit more fancy. What I've been trying to say is, like, that we could have way smaller size
+
+113
+00:22:43.190 --> 00:22:58.339
+Antonio Sanso: if we didn't care too much about the number of hashes used for verification. Instead, like, since we were optimizing for aggregation, so having number of hashes used for verification being low, we paid on signature size.
+
+114
+00:22:58.340 --> 00:23:08.560
+Antonio Sanso: But now, we've been proposing to actually not doing aggregation. So we… if this is the case, I wonder if sphinct art is really the right set of parameters.
+
+115
+00:23:12.110 --> 00:23:16.690
+Nico: Yep, I agree. I agree with this. Also, we learned last week
+
+116
+00:23:16.880 --> 00:23:26.919
+Nico: that if we want to have safe working with their current infrastructure, we need the signature size to be smaller than 5 kilobytes, because the
+
+117
+00:23:27.900 --> 00:23:34.780
+Nico: Safe Transaction Service has a signature limit, so it's not, like, a hard stop, like, they could change the…
+
+118
+00:23:36.030 --> 00:23:39.349
+Nico: Yeah, yeah, it's the backend. They could change the backend, but it's…
+
+119
+00:23:39.760 --> 00:23:43.439
+Nico: quite a significant change, but they could do it eventually.
+
+120
+00:23:44.700 --> 00:23:50.499
+Nico: But yeah, now, yeah, everything seems to indicate that there is no reason to…
+
+121
+00:23:51.050 --> 00:23:56.710
+Nico: Not optimized for aggregation and signature sites, so… Maybe we should consider.
+
+122
+00:23:56.990 --> 00:24:08.129
+Antonio Sanso: Yeah, back to you, so I spoke, quickly. I see as well, let client hear… Matt, do you want to say… do you want to say something about…
+
+123
+00:24:08.300 --> 00:24:13.590
+Antonio Sanso: Recap what… what is your… thinking, that you were saying in Discord, or…
+
+124
+00:24:14.140 --> 00:24:19.079
+Antonio Sanso: Are we fine with the strategy of using this proof frame, or is…
+
+125
+00:24:23.590 --> 00:24:29.530
+lightclient: Yeah, man, I'd say, like, First, we should figure out what…
+
+126
+00:24:30.050 --> 00:24:33.710
+lightclient: Like, what system are we trying to design for in terms of…
+
+127
+00:24:35.280 --> 00:24:39.610
+lightclient: you know, the parameters for lean sphinx, or whatever we choose.
+
+128
+00:24:39.880 --> 00:24:44.880
+lightclient: And I think, like, aggregation is something that we want to support at some point in the future.
+
+129
+00:24:45.500 --> 00:24:49.640
+lightclient: But… I don't think that this will happen in Hegota.
+
+130
+00:24:50.090 --> 00:24:54.339
+lightclient: And so I feel… Like, we need to be ready to…
+
+131
+00:24:54.560 --> 00:24:58.279
+lightclient: Support a non-trivial number of signatures on the chain without aggregation.
+
+132
+00:24:59.070 --> 00:25:08.620
+lightclient: I don't really know what, like, the implications for choosing these parameters are. I was, like, surprised when I saw that we were at 4 kilo… you know, we were at 4 kilobytes when we were in Mumbai, and then I looked…
+
+133
+00:25:08.760 --> 00:25:10.880
+lightclient: Yesterday, and now we're at 8 kilobytes.
+
+134
+00:25:11.300 --> 00:25:12.979
+lightclient: I don't know exactly, like, what
+
+135
+00:25:13.810 --> 00:25:17.750
+lightclient: Parameters changed to cause this, or, like, what trade-offs we were making.
+
+136
+00:25:18.100 --> 00:25:18.830
+Antonio Sanso: Right.
+
+137
+00:25:19.070 --> 00:25:19.800
+Antonio Sanso: So…
+
+138
+00:25:19.800 --> 00:25:21.559
+lightclient: But, like, from my perspective, like.
+
+139
+00:25:22.340 --> 00:25:24.899
+lightclient: The number of transactions that we're dealing with.
+
+140
+00:25:25.130 --> 00:25:28.350
+lightclient: In an execution layer block for the foreseeable future.
+
+141
+00:25:28.590 --> 00:25:33.080
+lightclient: We have the networking ability to support them without the aggregation.
+
+142
+00:25:33.870 --> 00:25:40.850
+lightclient: We have to have the aggregation on the consensus layer for… you know, the XMSS,
+
+143
+00:25:41.130 --> 00:25:44.029
+lightclient: And we'll have lots of work happening
+
+144
+00:25:44.430 --> 00:25:46.960
+lightclient: To make the aggregation work there.
+
+145
+00:25:47.790 --> 00:25:50.210
+lightclient: But for the execution layer, I think that we can be…
+
+146
+00:25:50.780 --> 00:25:52.700
+lightclient: You know, we can be a bit…
+
+147
+00:25:52.920 --> 00:25:56.630
+lightclient: More relaxed about forcing the aggregation.
+
+148
+00:25:56.750 --> 00:25:59.939
+lightclient: Because there's, like, a lot of implications of that.
+
+149
+00:26:01.620 --> 00:26:08.810
+Antonio Sanso: Matt, the things that I don't understand in the strategy is that… so, at the moment, the signature size is 64 byte.
+
+150
+00:26:09.400 --> 00:26:11.809
+Antonio Sanso: Even if with the 4 kilobyte.
+
+151
+00:26:12.400 --> 00:26:19.710
+Antonio Sanso: I mean, opening parentheses. It's bigger mainly for… For a couple of reasons.
+
+152
+00:26:19.850 --> 00:26:26.279
+Antonio Sanso: And one is we increase the lifetime of the signature from 2 to 24 to 2 to 30.
+
+153
+00:26:27.120 --> 00:26:38.559
+Antonio Sanso: But, I mean, 4 kilobytes, 8 kilobytes, whatever. Still, like, the current signature is 64 bytes, and we're going to, like, let's say 4 kilobyte signal size, or 7 kilobytes.
+
+154
+00:26:39.030 --> 00:26:41.810
+Antonio Sanso: When we are putting the signature in the block.
+
+155
+00:26:42.470 --> 00:26:49.050
+Antonio Sanso: aren't we… I understand that the P2P and the networking may handle such big signatures.
+
+156
+00:26:49.350 --> 00:26:59.529
+Antonio Sanso: To be seen. But what about the block size? I mean, the block size is fixed. Aren't we limiting ourselves on the number of transactions we are putting in the block by a lot?
+
+157
+00:27:02.490 --> 00:27:05.940
+lightclient: I mean, we can increase these limits. Like, we are…
+
+158
+00:27:06.760 --> 00:27:12.470
+lightclient: We put these limits in to be, like, extremely… Cautious.
+
+159
+00:27:13.270 --> 00:27:15.930
+lightclient: But I think if we combine some
+
+160
+00:27:16.100 --> 00:27:22.569
+lightclient: Techniques for better, more efficient gossip of the block and of the transactions.
+
+161
+00:27:22.700 --> 00:27:33.750
+lightclient: then we gain headway in how big the block can be, and I think that we also just realize that this is an extraordinary circumstance where we might have to
+
+162
+00:27:33.930 --> 00:27:38.499
+lightclient: Just increase the requirements that we expect people to have in terms of bandwidth.
+
+163
+00:27:38.680 --> 00:27:44.930
+lightclient: So I think, like, if you combine those two things, like, we're talking about blocks of the size on the order of, like, 2 to 4 megabytes.
+
+164
+00:27:45.450 --> 00:27:49.040
+lightclient: And these are, like, within the reasonable realm of…
+
+165
+00:27:49.140 --> 00:27:55.219
+lightclient: us to work with. If the block was, like, 30 megabytes, then yeah, you know, we would just say there's, like, not really a possibility of…
+
+166
+00:27:55.790 --> 00:27:59.600
+lightclient: Propagating that in 12 seconds, like, we really need to figure out the aggregation.
+
+167
+00:28:00.080 --> 00:28:05.710
+lightclient: But, like, most of the people who are working on the networking side of things have generally felt that
+
+168
+00:28:05.970 --> 00:28:09.060
+lightclient: The 2 to 4 range is very reasonable.
+
+169
+00:28:10.150 --> 00:28:13.560
+Antonio Sanso: What's the current size of the block, in average?
+
+170
+00:28:13.560 --> 00:28:20.250
+lightclient: I think the max size right now is 1.2 megabytes, I think. How much? 1.2 megabytes is max.
+
+171
+00:28:20.470 --> 00:28:21.030
+lightclient: Today.
+
+172
+00:28:22.460 --> 00:28:24.350
+lightclient: I think average is, like, 400.
+
+173
+00:28:25.580 --> 00:28:32.460
+Antonio Sanso: But, I mean, what I'm… What I'm missing, I mean, we're actually increasing the size of 100 times now.
+
+174
+00:28:34.490 --> 00:28:37.079
+Antonio Sanso: We, if we, you know, from 64…
+
+175
+00:28:38.160 --> 00:28:44.680
+Antonio Sanso: 64 bytes to 6.4 kilobytes is already 100 times bigger.
+
+176
+00:28:46.670 --> 00:28:48.419
+Antonio Sanso: This, this is a lot.
+
+177
+00:28:50.240 --> 00:28:56.059
+lightclient: Yeah, but if we have 500 transactions, and each of them have one 8KB signature, that's 4 megabytes.
+
+178
+00:28:57.810 --> 00:28:58.200
+Antonio Sanso: So.
+
+179
+00:28:58.200 --> 00:29:04.910
+lightclient: So… The additional date on top of that is, like, maybe, you know, another half a megabyte.
+
+180
+00:29:06.040 --> 00:29:09.689
+lightclient: And, like, there are techniques that we can use to improve
+
+181
+00:29:09.800 --> 00:29:12.889
+lightclient: the amount that we propagate. Like, 6th grade witness is a…
+
+182
+00:29:13.000 --> 00:29:16.560
+lightclient: great example of something that we don't do in Ethereum because we just never needed it.
+
+183
+00:29:17.290 --> 00:29:23.330
+lightclient: But if we, like, we're already propagating most of these transactions, like, a good percent of these transactions before the block is mined.
+
+184
+00:29:23.560 --> 00:29:31.110
+lightclient: If instead of… At repropagating the signatures, or the witnesses, After the block is…
+
+185
+00:29:31.340 --> 00:29:37.840
+lightclient: You know, produced, and we just asked the node to look in their mempool and pull those signatures out.
+
+186
+00:29:39.040 --> 00:29:42.619
+lightclient: We, you know, we've already, like, gone back to the original…
+
+187
+00:29:43.100 --> 00:29:53.199
+lightclient: You know, block size, modulo, the traffic that has to go through the mempool, which is where then, like, improvements and the gossip of the mempool come into play.
+
+188
+00:29:57.380 --> 00:30:08.630
+Antonio Sanso: No, right. I mean, if really we want to go to this… towards this path, that makes sense from a standard point of view, I will… I will change the current…
+
+189
+00:30:08.880 --> 00:30:17.350
+Antonio Sanso: the current Sphinx, I will not keep such a big signatures. I will optimize for size, to be fair.
+
+190
+00:30:18.610 --> 00:30:36.550
+Gottfried Herold: I mean, also, one thing maybe to mention is that in the Sphinx case, I mean, due to the way it works, because, kind of, a, say, full signature and everything, I mean, you could basically have something where, part of the signature is basically independent from the message.
+
+191
+00:30:36.870 --> 00:30:47.179
+Gottfried Herold: So you could basically propagate… pre-propagate it or something, if you, sort of, along this… within the design spec, within the design space of Sphinx.
+
+192
+00:30:47.520 --> 00:30:48.280
+lightclient: Interesting.
+
+193
+00:30:51.340 --> 00:30:57.939
+Matteo Vicari: A question. So, the idea is I have migration in two steps. So, the people have to migrate, to…
+
+194
+00:30:58.140 --> 00:31:07.339
+Matteo Vicari: this parameter and Sphinx, and then when we have the aggregation, they have to immigrate another time, because this is something maybe is hard to…
+
+195
+00:31:07.510 --> 00:31:10.780
+Matteo Vicari: To put in the discussion with the wallet, because they have to…
+
+196
+00:31:10.780 --> 00:31:11.990
+lightclient: Wait, wait.
+
+197
+00:31:12.630 --> 00:31:14.759
+lightclient: Why would they migrate again?
+
+198
+00:31:15.550 --> 00:31:25.239
+Matteo Vicari: Because if then we need… we have aggregation, maybe we… the signature is different, because, we optimize for the aggregation.
+
+199
+00:31:25.870 --> 00:31:35.300
+lightclient: I mean, this is… this is something I think is very important, is that I think that we need to do this one time, and we need to find what the right balance is. Because I don't think it's tenable to say.
+
+200
+00:31:35.430 --> 00:31:40.349
+lightclient: Here, switch to this PQ scheme, then again, switch to a PQ scheme that we can aggregate.
+
+201
+00:31:40.500 --> 00:31:44.060
+lightclient: Like, I'm not saying not to do aggregation at some point in the future.
+
+202
+00:31:44.530 --> 00:31:51.619
+lightclient: I'm just saying that I think that for Hegota, we should probably plan around not having the aggregation.
+
+203
+00:31:52.070 --> 00:31:54.470
+lightclient: And so maybe we should balance, like, what the s-
+
+204
+00:31:54.640 --> 00:32:03.099
+lightclient: parameters that we choose are, so we don't go, like, 100% full force towards a signature scheme that only supports aggregation efficiently.
+
+205
+00:32:04.070 --> 00:32:11.859
+lightclient: But I don't think that we should end up in a world where they have to migrate again. I think that that's, like, a failure. That's, like, an important design point that we need to solve for here.
+
+206
+00:32:12.700 --> 00:32:24.869
+Antonio Sanso: I agree with you, Matt. So, how about this? I mean, I agree with… when Kat said that in the testnet, we kind of can change parameters, kind of.
+
+207
+00:32:25.410 --> 00:32:29.770
+Antonio Sanso: regularly, or often, or… I mean, it's not a big deal in the testnet.
+
+208
+00:32:29.880 --> 00:32:35.119
+Antonio Sanso: How about we, for now, we go for the parameter we chose, so the Sphinx art.
+
+209
+00:32:35.390 --> 00:32:37.950
+Antonio Sanso: And start to benchmark a bit how things go.
+
+210
+00:32:38.280 --> 00:32:43.780
+Antonio Sanso: And, matteo is the Y for me, or for Matt?
+
+211
+00:32:45.640 --> 00:32:53.449
+Matteo Vicari: It's for Nico, because I think, the… now the Sphinx art have also really nice number also for the aggregation.
+
+212
+00:32:53.980 --> 00:33:00.439
+Matteo Vicari: is not something that we can aggregate, is, have a huge signature, yeah, I know.
+
+213
+00:33:00.860 --> 00:33:09.610
+Matteo Vicari: But the idea with the aggregation, the use signator is not really a problem. So, it's like, there is…
+
+214
+00:33:09.860 --> 00:33:15.110
+Matteo Vicari: Many things that we can do inside the signature to reduce the signature size.
+
+215
+00:33:15.650 --> 00:33:18.479
+Matteo Vicari: But are not friendly with aggregation.
+
+216
+00:33:18.960 --> 00:33:22.630
+Matteo Vicari: Just, for example, change the winter needs parameter.
+
+217
+00:33:23.200 --> 00:33:28.000
+Matteo Vicari: And the designator go down… a lot.
+
+218
+00:33:29.240 --> 00:33:35.170
+Matteo Vicari: And… but we have more verification hashes, so this is another problem that we have.
+
+219
+00:33:35.480 --> 00:33:37.179
+Matteo Vicari: So, the aggregation is lower.
+
+220
+00:33:38.020 --> 00:33:45.770
+lightclient: Can you, like, sketch out a little bit to me, like, what does it mean? Like, what's the order of magnitude we're talking about when you're saying, like, aggregation gets worse?
+
+221
+00:33:45.880 --> 00:33:54.569
+lightclient: Like, I'm trying to conceptualize what the trade-off is. Like, are we talking aggregation goes from, like, you know, 500 signatures in a second to, like, 20?
+
+222
+00:33:55.190 --> 00:34:01.800
+lightclient: how much more… like, again, I also am wondering, like, how much better is this stuff gonna get over the next 1 year, 2 years, 3 years?
+
+223
+00:34:02.060 --> 00:34:02.460
+Antonio Sanso: Right.
+
+224
+00:34:02.460 --> 00:34:14.519
+Matteo Vicari: the aggregation size, or on the Senior size. The senator, I think, now we decide the hash function, and we have a lot of the bits of it work set in stone.
+
+225
+00:34:14.800 --> 00:34:26.930
+Matteo Vicari: What are changing are just the… we can change the parameter, and maybe we can have a degradation that, run, faster.
+
+226
+00:34:27.429 --> 00:34:33.069
+Matteo Vicari: Emil, do a really good job to LeanVM for, Aggregate Fast.
+
+227
+00:34:33.540 --> 00:34:42.839
+Matteo Vicari: I don't think… and then I try to send you a tool to visualize the parameter of the Sphinx, because this is important.
+
+228
+00:34:44.920 --> 00:34:53.139
+Matteo Vicari: the problem… what I… I think, at least just my take, for aggregation, I think we can have aggregation in Hegota.
+
+229
+00:34:53.250 --> 00:35:00.880
+Matteo Vicari: But the aggregation have to be only for, lean sphinx, and not aggregate other kind of signature.
+
+230
+00:35:01.430 --> 00:35:03.099
+Matteo Vicari: Or other kind of proof.
+
+231
+00:35:03.690 --> 00:35:06.730
+Matteo Vicari: It's easy to do something like this.
+
+232
+00:35:07.040 --> 00:35:09.959
+Matteo Vicari: The Nethermind team really…
+
+233
+00:35:10.100 --> 00:35:16.430
+Matteo Vicari: do something similar. Maybe we can, they can explain a lot of its work, but…
+
+234
+00:35:16.920 --> 00:35:18.480
+Matteo Vicari: It's something that we can do.
+
+235
+00:35:19.640 --> 00:35:20.590
+Matteo Vicari: Yeah, Nico?
+
+236
+00:35:29.470 --> 00:35:31.239
+lightclient: Sure, Micah's kind of muff…
+
+237
+00:35:31.240 --> 00:35:33.490
+Antonio Sanso: Yeah, because…
+
+238
+00:35:34.320 --> 00:35:35.430
+Nico: Is that your son?
+
+239
+00:35:35.940 --> 00:35:37.580
+Antonio Sanso: Nico, we don't hear you.
+
+240
+00:35:44.070 --> 00:35:48.500
+Antonio Sanso: Nico, are you trying to be speaking to speak, or… I don't know, it's not hearable.
+
+241
+00:35:51.630 --> 00:36:06.409
+Antonio Sanso: All right, let me tell you something in the meantime, until Nico manages to get back his mind. You know, I actually have a little advantage here now. We can really go for sphinx art parameters that are big, and try no aggregation.
+
+242
+00:36:06.700 --> 00:36:08.690
+Antonio Sanso: And the good things here is that
+
+243
+00:36:08.840 --> 00:36:14.660
+Antonio Sanso: It's hard to get worse than that in size. So if we can support this size.
+
+244
+00:36:14.960 --> 00:36:17.249
+Antonio Sanso: We can… we can only get better than that.
+
+245
+00:36:17.880 --> 00:36:21.480
+Antonio Sanso: So, I will, I will, I will recommend after…
+
+246
+00:36:21.820 --> 00:36:33.869
+Antonio Sanso: the call, the guys of the Nethermind team to, like, pink PK to have a restart with the new parameters, with the Sphinx art, and we can start benchmark.
+
+247
+00:36:34.180 --> 00:36:39.269
+Antonio Sanso: So… How about that?
+
+248
+00:36:43.150 --> 00:36:43.840
+Nico: Excellent.
+
+249
+00:36:48.450 --> 00:36:53.080
+Antonio Sanso: Nico, you're… you still have their hand. Do you want to say something?
+
+250
+00:36:54.370 --> 00:36:56.019
+Nico: Eastern, you'll be here.
+
+251
+00:36:57.360 --> 00:36:57.870
+Antonio Sanso: Noah.
+
+252
+00:36:57.870 --> 00:36:59.210
+Nico: Okay, can you hear me now?
+
+253
+00:36:59.210 --> 00:37:01.010
+Antonio Sanso: Yeah, yeah, yeah, no good.
+
+254
+00:37:01.510 --> 00:37:14.799
+Nico: Okay, sorry. Yeah, I just wanted to say, at this point, we've been… we've been at it for months, we know exactly the difference trade-off of the parameters, so I… I don't really see an upside to go with the…
+
+255
+00:37:15.120 --> 00:37:22.069
+Nico: Worst, parameters, especially… especially if we say that we want to target aggregation, we should just…
+
+256
+00:37:22.460 --> 00:37:32.949
+Nico: take, the forces that are the most permutation-friendly, and stop taking parameters that are optimizing for, like, threshold signatures or MPC, and just…
+
+257
+00:37:33.050 --> 00:37:35.809
+Nico: Go ahead with parameters that are more realistic.
+
+258
+00:37:35.810 --> 00:37:42.379
+Antonio Sanso: We did… when we choose things hard, we didn't really optimize for trashing. That was not the main…
+
+259
+00:37:42.380 --> 00:37:56.109
+Nico: I'm not gonna argue this, I can give you the parameters, they're, like, 20% lower, and just the exact same signature size and signature lifetime. It's just the force size, if you take more force, or if you take longer force.
+
+260
+00:37:56.110 --> 00:38:07.300
+Nico: you have better optimization for permutation. This is a 15% that I'm not gonna dig into all the different parameters that you can trade to get even more, but this is about
+
+261
+00:38:07.830 --> 00:38:19.949
+Nico: 30, 40% that you can get without changing everything, anything, sorry, in the signature lifetime or everything. And then the question is, like, do we want to keep,
+
+262
+00:38:20.050 --> 00:38:25.960
+Nico: going at the biggest parameter sets when we are months away from, like, the DevNet that we wanna…
+
+263
+00:38:26.080 --> 00:38:31.020
+Nico: Launch, or is it time to go to something that is a little bit more production-realistic?
+
+264
+00:38:31.530 --> 00:38:32.640
+Nico: That's, that's.
+
+265
+00:38:32.640 --> 00:38:36.670
+Matteo Vicari: Your idea is have bigger forts and reduce age.
+
+266
+00:38:38.670 --> 00:38:46.889
+Nico: Yes. Speaker Force Reduce A is one of the… yeah, it's one of the… of the… of the trade-offs that we…
+
+267
+00:38:46.890 --> 00:38:56.630
+Matteo Vicari: You are sure, because if you reduce H, and you have bigger forts, the Senior goes up, not down, and the senator size.
+
+268
+00:38:57.940 --> 00:39:08.860
+Nico: Yeah, but then you have less forces, so you have less force instance per… less force… less tree inside the force instance, but longer ones. Yep, you got it.
+
+269
+00:39:10.070 --> 00:39:13.530
+Matteo Vicari: Yeah, but the problem with this approach, the senior size goes up
+
+270
+00:39:13.680 --> 00:39:22.590
+Matteo Vicari: And I think now we are trying to say, okay, find a balanced way to not have, senior size really huge.
+
+271
+00:39:23.590 --> 00:39:30.999
+Nico: Yeah, I can send you the parameters. I'm not gonna do the math by head, but I do have them, and we have been over it, like, dozens of times.
+
+272
+00:39:31.510 --> 00:39:38.769
+Antonio Sanso: Okay, Nico, I'm not against it, just let me say something. Like, we spent at least a couple calls agreeing on the sphincter perimeter.
+
+273
+00:39:39.510 --> 00:39:42.650
+Antonio Sanso: Let's… let's actually at least get
+
+274
+00:39:43.310 --> 00:39:50.810
+Antonio Sanso: you know, we're ready to actually… I mean, there is the… we have the LeanVM ready, we have some of the client… the world ready.
+
+275
+00:39:51.180 --> 00:40:06.880
+Antonio Sanso: We are the testnet. We're not in production. Let's ship this for the testnet, and let's spend a bit of extra time to… in the meantime, to get… to agree on a new set of parameters.
+
+276
+00:40:07.450 --> 00:40:11.910
+Antonio Sanso: And changing this in the testnet is pretty cool.
+
+277
+00:40:11.910 --> 00:40:22.189
+Nico: But I'm just starting to think that maybe some core devs that are gonna do, like, the production work should kind of have some project management overview of this.
+
+278
+00:40:22.390 --> 00:40:27.010
+Nico: and maybe take this over, because I do feel like if we keep
+
+279
+00:40:27.140 --> 00:40:37.559
+Nico: If we keep delaying things at some point, you know, we will hand this to the core dev, and they will say, oh, it's too late, we're, like, 4 months away, and now we cannot do all of this.
+
+280
+00:40:37.840 --> 00:40:47.040
+Nico: So yeah, I would love to have this, time, but I would love to be in a situation where I know that the core devs are okay with the move that we're making here.
+
+281
+00:40:47.950 --> 00:41:07.489
+Antonio Sanso: I mean, changing parameters, I mean, just the smallest things we need to do. I mean, it's not a big deal, right? I mean, the switch is going from ACDSA to Sphinx, but the variant of Sphinx to use is a relatively easy change. For core dev, especially in the time of AI, it's literally, like, a few minutes.
+
+282
+00:41:09.550 --> 00:41:21.359
+Stefano: Sorry, if I may make a comment on this. The parameters change, I think, is fine. That's not really a big deal, but if you have to design around a certain size.
+
+283
+00:41:21.780 --> 00:41:32.870
+Stefano: those are constraints that might actually change parts of the design that are not as easy to switch. I think that at least I see that as one of the possible issues with picking something to work with.
+
+284
+00:41:33.490 --> 00:41:50.870
+Antonio Sanso: I agree with that. I agree with that, but again, like, the outcome so far seem to be, like, let's go for no aggregation, and let's do some benchmark. Anyway, let me see if there are people to raise their hand. I've seen So I Spoke first, and then Ivan.
+
+285
+00:41:51.090 --> 00:41:53.130
+Antonio Sanso: Sir Spoko, you still want to say something?
+
+286
+00:41:53.270 --> 00:41:59.860
+soispoke: Yeah, I guess I said it in the chat, but I feel like one thing we don't want to do is, like, to…
+
+287
+00:42:00.230 --> 00:42:14.930
+soispoke: be stuck in this loop of, like, no, no, we freeze it for now, so we can just, like, have DevNets, and it's easy to change parameters on DevNets, but, like, the fact is, like, if you change the signature scheme, and it's, like, much bigger, or.
+
+288
+00:42:14.930 --> 00:42:21.000
+Antonio Sanso: It's not… sorry, it's not really changing signature scheme, it's just, like, changing parameter.
+
+289
+00:42:21.000 --> 00:42:26.889
+soispoke: For sure. If it makes… if it makes it much bigger, or, like, if it makes it, like…
+
+290
+00:42:27.200 --> 00:42:45.159
+soispoke: harder to aggregate, or easier to… like, the sort of, like, the benchmarks on DevNets are, like, meaningless. So, like, I don't want us to be stuck in this loop of, like, no, no, we freeze it for now, but of course we'll change it later, because we keep discussing which parameters are the best, and now we have DevNets that are basically worth
+
+291
+00:42:45.220 --> 00:42:59.619
+soispoke: like, very little, just because, like, we actually have no idea to tell what the performance and the throughput of the network is, and what the node resources are, so it's a bit of a fallacy of…
+
+292
+00:42:59.960 --> 00:43:09.899
+Antonio Sanso: Yeah, we need to start somewhere, though, you know, like, I appreciate that a lot of you are new here, but, you know, we're gonna spend, like, months to arrive at this point, and…
+
+293
+00:43:09.900 --> 00:43:29.409
+Antonio Sanso: I think, like, last month, we had a special call to get some parameters, and we chose them. Now we are… everything is ready to, like, in the code and in the wallet, in the LeanVM, to try to give it a try to that. Let's do it. I mean, I don't see a big issue to do that.
+
+294
+00:43:30.000 --> 00:43:33.370
+Antonio Sanso: I… you know, this is the first… I mean…
+
+295
+00:43:33.790 --> 00:43:43.269
+Antonio Sanso: we can… I agree that changing everyday parameters is… is not ideal, but I don't see a problem changing a couple of times, to be fair.
+
+296
+00:43:43.640 --> 00:43:52.850
+soispoke: Changing a couple of times still means, like, the dev nets before, like, and the metrics you get out of them are, like, worthless. So, like, every time you change the parameters…
+
+297
+00:43:52.850 --> 00:43:55.499
+Antonio Sanso: I disagree. Dentas are always useful.
+
+298
+00:43:56.240 --> 00:44:00.530
+soispoke: No, no, this is not data based on, like, the thing you actually want to use.
+
+299
+00:44:01.720 --> 00:44:14.539
+Antonio Sanso: Yeah, but I mean, at the moment, we don't have any data. And we have stuff that we decided to use and give it a try. I don't see why, after all this effort we did, to don't give it a try. I really don't see any…
+
+300
+00:44:14.890 --> 00:44:17.909
+Antonio Sanso: Any disadvantage of giving to these parameters a try?
+
+301
+00:44:18.200 --> 00:44:28.529
+Antonio Sanso: At least, like, if we change parameters once, and say, okay, the previous parameter gave this data, and this parameter gave this, and we have a comparison. I mean…
+
+302
+00:44:28.830 --> 00:44:40.750
+Antonio Sanso: at the moment, we don't even have a single plot, a single dot in our plot. I mean, I don't see a big issue to have… to start somewhere.
+
+303
+00:44:41.500 --> 00:44:42.720
+Antonio Sanso: Ivan.
+
+304
+00:44:44.320 --> 00:44:54.109
+Iván | ethrex: Yes, thank you. I just wanted to say, I don't want to speak in behalf of all the EL clients, but if you ask me today, what would you do to
+
+305
+00:44:54.360 --> 00:45:07.530
+Iván | ethrex: to start developing this. I know the parameters will change, and this is… I expect this is not work that we EL clients, non-cryptograph people, would… should do.
+
+306
+00:45:07.700 --> 00:45:14.050
+Iván | ethrex: But as Aniel, if you tell me what do you need to start, it's, okay, give me which is the current
+
+307
+00:45:14.260 --> 00:45:23.520
+Iván | ethrex: Sphinx variant that you want to test. We still, in the EL, we need to agree on the design of how we will implement this, but
+
+308
+00:45:23.820 --> 00:45:35.919
+Iván | ethrex: there are a couple of drafts that can be implemented, and you can start testing these questions and try to answer these questions that everyone is asking.
+
+309
+00:45:36.080 --> 00:45:40.669
+Iván | ethrex: Even taking account… into account all the variants of the…
+
+310
+00:45:40.850 --> 00:45:44.790
+Iván | ethrex: design in the EL that could support these links transactions.
+
+311
+00:45:45.620 --> 00:45:56.150
+Iván | ethrex: every variant will have the same issues, which is the block size, how big are the signatures, how much will this cost. So, regarding the design.
+
+312
+00:45:56.370 --> 00:46:02.760
+Iván | ethrex: If we have a concrete sphinx variant to start with, And then you can continue.
+
+313
+00:46:02.760 --> 00:46:12.760
+Antonio Sanso: Yeah, I put, Ivan put in the chat. I mean, you open Sphinx Arts, the full parameters are the one we decided to use. This was, like, decided last month.
+
+314
+00:46:13.370 --> 00:46:19.339
+Antonio Sanso: And this is what is in LeanVM, and this is what in Nethermind client.
+
+315
+00:46:19.790 --> 00:46:22.869
+Iván | ethrex: Great, great, so the remnants can start with this.
+
+316
+00:46:23.270 --> 00:46:25.280
+Antonio Sanso: Yes, that's my point, I mean…
+
+317
+00:46:25.420 --> 00:46:31.959
+Antonio Sanso: I will give it a try, I will give it a try to this, and we will have the first comparison, and…
+
+318
+00:46:32.080 --> 00:46:46.479
+Antonio Sanso: In the meantime, Nico, I will take your proposal to, like, come with some parameters, and we can compare. And the thing is, the only things I ask you, though, to don't go and use any fancy…
+
+319
+00:46:46.570 --> 00:46:58.770
+Antonio Sanso: optimization that came from any experimental things. For now, I would like to stay being not experimental, like, no things that came from zynq.gov. Does that make sense?
+
+320
+00:46:59.340 --> 00:47:14.049
+Nico: I totally agree on that. I totally agree. I think the exotic optimization is an entire other debate that we need to have later on, but right now, yeah, I was just mentioning just regular parameter changes.
+
+321
+00:47:15.220 --> 00:47:18.620
+Antonio Sanso: Okay. I see, Kev, do you want to say something? I've seen you join as well.
+
+322
+00:47:20.730 --> 00:47:25.600
+Kevaundray Wedderburn: Yeah, I guess, maybe correct me if I'm wrong, it seems like…
+
+323
+00:47:26.250 --> 00:47:36.339
+Kevaundray Wedderburn: the end state that we want is to figure out what signature scheme we're going to be shipping on mainnet. I think we all agree with this, right?
+
+324
+00:47:38.080 --> 00:47:47.260
+Antonio Sanso: I mean, the scheme, the scheme, I think, I mean, the scheme, I think we're all convinced that it's going to be a variant of Sphinx. I mean, what is not clear is which set of parameters, right?
+
+325
+00:47:47.680 --> 00:48:05.549
+Kevaundray Wedderburn: Yes, it is what I mean. So we all agree that the end state, or the thing we're trying to achieve, is to figure out what signature scheme we want to ship. My question would be, what are the questions that are blocking us from figuring this out? Because to me, it doesn't really matter about, like, what DevNets we ship, or…
+
+326
+00:48:05.900 --> 00:48:12.459
+Kevaundray Wedderburn: like, which parameters we're using now and what DevNets, it's like, what are the questions we need to solve to figure out
+
+327
+00:48:12.820 --> 00:48:15.229
+Kevaundray Wedderburn: To Take a particular scheme.
+
+328
+00:48:15.660 --> 00:48:24.210
+Antonio Sanso: Perfect. I see you joined late, so let me recap. So, about a month ago, more or less, we choose these default parameters.
+
+329
+00:48:24.320 --> 00:48:34.400
+Antonio Sanso: They were, like, these Sphinx art parameters with a 2 to the 30 lifetime. We had this… we chose this, having in mind, some form of aggregation.
+
+330
+00:48:34.570 --> 00:48:50.279
+Antonio Sanso: Then, last week, Panda took over the testnet, and we… we have a bigger testnet now, but we're still the old… the old perimeter preview… the previous one, so now that it's fixed.hardt.
+
+331
+00:48:50.500 --> 00:49:04.849
+Antonio Sanso: So, you brought up the idea to start, go a bit backwards, so not doing any aggregation, so try, because in Agota, we probably wouldn't have time to ship aggregation.
+
+332
+00:49:05.050 --> 00:49:22.069
+Antonio Sanso: And I agree, I mean, I'm not against it. What I proposed for the next is, since everything is ready, like, Nethermind, LeanVM, they all, developed their software to use Sphinxart parameter.
+
+333
+00:49:22.110 --> 00:49:31.269
+Antonio Sanso: Let's just ship them. So, we just need a restart of the network to include the latest Nethermind client.
+
+334
+00:49:31.890 --> 00:49:34.020
+Antonio Sanso: And then we can start to do some benchmark.
+
+335
+00:49:34.580 --> 00:49:37.990
+Antonio Sanso: So, no blockers for now, in terms of DevNet.
+
+336
+00:49:38.160 --> 00:49:41.629
+Antonio Sanso: I don't see any downside to do this for the moment.
+
+337
+00:49:41.790 --> 00:49:48.829
+Kevaundray Wedderburn: Yeah, so I guess my question was not about what we're doing now, it's more about what is the process for us to figure out
+
+338
+00:49:49.360 --> 00:49:55.130
+Kevaundray Wedderburn: Which, like, maybe, maybe say it's said differently. Let's say I have two…
+
+339
+00:49:55.750 --> 00:50:05.019
+Kevaundray Wedderburn: two parameter sets for shrinks. What is the process for me to figuring out, like, which one I choose between, like, A and B? Like, this is orthogonal.
+
+340
+00:50:05.850 --> 00:50:06.330
+Antonio Sanso: I agree.
+
+341
+00:50:06.330 --> 00:50:13.320
+Kevaundray Wedderburn: what we're doing now. Like, do we… do we even know what we're… like… because if we don't know disk, then we're just, like, doing DevNets for no reason, right?
+
+342
+00:50:13.670 --> 00:50:27.259
+Antonio Sanso: Right, so I see a bit differently things. What I see now is that, we're increasing our signature size of 10… 100 times, so going from 64 bytes to…
+
+343
+00:50:27.420 --> 00:50:31.300
+Antonio Sanso: At 7 kilobytes, so it's more than 100 times bigger.
+
+344
+00:50:31.870 --> 00:50:46.950
+Antonio Sanso: what is my question now is, can actually the networking, the peer-to-peer network, and the signature size support this at all, more than anything else? So, at the moment, this is the question
+
+345
+00:50:47.240 --> 00:50:49.920
+Antonio Sanso: That we might try to answer, to start with.
+
+346
+00:50:50.970 --> 00:50:55.019
+Antonio Sanso: To me, it's not clear that it's actually even the case.
+
+347
+00:50:55.850 --> 00:51:09.320
+Kevaundray Wedderburn: Right. I mean, this might be one of the things that we need to figure out, and then, I guess, then we can talk about having DevNets, right? But is this the only question? Like, it feels like we should figure out what is the exact process for choosing
+
+348
+00:51:09.380 --> 00:51:23.739
+Kevaundray Wedderburn: the signature scheme. I do agree that the networking component, due to the signature size getting bigger, is, like, one part of it, but there's also, like, the MPC wallet part, like, how far are we with this? And there's probably other things, so…
+
+349
+00:51:23.820 --> 00:51:30.359
+Kevaundray Wedderburn: I mainly care about the process here, for us to figure it out, so that we don't do any wasted work.
+
+350
+00:51:30.900 --> 00:51:42.000
+Antonio Sanso: Kev, before you joined, actually, I was rising… from my perspective, the major perplexity is not the networking, but it's really the block size.
+
+351
+00:51:42.210 --> 00:51:53.570
+Antonio Sanso: So, again, I might be wrong, I mean, Matt already says his opinion. He's way more experienced than me, I respect his opinion, so I take it for a good one.
+
+352
+00:51:53.570 --> 00:52:00.979
+Toni Wahrstätter: Antonio, I think the block size shouldn't matter here, because, everything is priced per byte anyway.
+
+353
+00:52:01.140 --> 00:52:07.720
+Toni Wahrstätter: So the worst-case block size, stays the same, even if the individual transactions would be bigger.
+
+354
+00:52:09.320 --> 00:52:12.079
+Antonio Sanso: So, but how does it actually work? I mean, like…
+
+355
+00:52:12.720 --> 00:52:26.179
+Antonio Sanso: you know, I mean, I really have a hard time to depict this, because without aggregation, we are putting a signature that is, like, 100 times bigger, so how come the block size doesn't grow accordingly?
+
+356
+00:52:27.060 --> 00:52:35.190
+Toni Wahrstätter: Because… because we have a fixed block gas limit, and you can only, like, you pay 64 gas per byte of data.
+
+357
+00:52:35.410 --> 00:52:42.930
+Toni Wahrstätter: So, if the signature is 100 times bigger, you have to pay 100 times 64 more, so…
+
+358
+00:52:43.190 --> 00:52:48.519
+Antonio Sanso: this I know, but I mean, we'll only limit the number of transactions that fits in the block, that's my point. I mean…
+
+359
+00:52:49.290 --> 00:52:58.209
+Toni Wahrstätter: Yeah, yeah, we're limiting throughput through that. Like, if we don't scale the gas limit while shipping larger transactions, then I guess we will limit throughput.
+
+360
+00:52:58.750 --> 00:53:08.560
+Antonio Sanso: Yeah, that's what I'm saying, like, I'm not worried about the price, I'm saying if we don't increase the block size as well, the number of transactions that feeds in the block, they're gonna be less.
+
+361
+00:53:08.880 --> 00:53:10.620
+Antonio Sanso: Isn't it?
+
+362
+00:53:11.000 --> 00:53:13.389
+lightclient: Yeah, I mean, I think we need to increase the block size some.
+
+363
+00:53:13.390 --> 00:53:14.170
+Antonio Sanso: Okay, yeah.
+
+364
+00:53:14.170 --> 00:53:17.830
+lightclient: That's where we… that's where we need to come up with, like, more networking improvements.
+
+365
+00:53:17.830 --> 00:53:18.390
+Antonio Sanso: Correct.
+
+366
+00:53:18.390 --> 00:53:20.220
+lightclient: Where we're comfortable doing it.
+
+367
+00:53:20.220 --> 00:53:21.100
+Antonio Sanso: Right.
+
+368
+00:53:21.100 --> 00:53:35.800
+Toni Wahrstätter: Like, when we say increasing the block size, like, the block size is today at 8MB. I don't think we need to increase it from there, because the average block is, like, a few hundred kilobytes today, and if in the future the average block goes to 5MB,
+
+369
+00:53:35.800 --> 00:53:41.910
+Toni Wahrstätter: 100% agree that we need better networking, because we probably couldn't handle an 8MB block today.
+
+370
+00:53:41.910 --> 00:53:46.690
+Toni Wahrstätter: So we need better networking, but the protocol, in general, should be ready.
+
+371
+00:53:46.930 --> 00:53:48.770
+lightclient: Is that with 200 million gauss?
+
+372
+00:53:49.700 --> 00:53:55.970
+Toni Wahrstätter: Now, with 200 million, you get 6MB on the EL… on the EL block.
+
+373
+00:53:56.460 --> 00:53:59.260
+lightclient: I thought the worst case today was, like, 1.2 megabytes.
+
+374
+00:54:00.360 --> 00:54:01.350
+lightclient: Is that…
+
+375
+00:54:01.620 --> 00:54:02.130
+lightclient: Okay.
+
+376
+00:54:02.130 --> 00:54:08.929
+Toni Wahrstätter: Sorry, I was actually talking about the uncompressed block size, because that's what matters for the 8MB limit.
+
+377
+00:54:09.470 --> 00:54:17.910
+Toni Wahrstätter: That is on the RLP of the block, but yeah, otherwise it's probably, like, 2 megabytes, somewhere around that, the compressed block size.
+
+378
+00:54:20.190 --> 00:54:29.370
+Antonio Sanso: All right. Kev, a quick aside. Here is where we actually might disagree on one thing. Like, I personally see the testnet a good way
+
+379
+00:54:30.340 --> 00:54:42.089
+Antonio Sanso: check and try… help us answer this question. From what I see, you disagree on the fact that the testnet is a good way to answer this question, but you see it only as a cost.
+
+380
+00:54:42.450 --> 00:54:48.469
+Antonio Sanso: So, I don't know what to say here, actually, because it looks a fundamental
+
+381
+00:54:49.230 --> 00:54:53.029
+Antonio Sanso: disagreement on what a testnet is.
+
+382
+00:54:55.010 --> 00:55:07.910
+Kevaundray Wedderburn: I don't think that was my disagreement. I think having DevNets and simulations is a good way to test, like, networking uncertainty.
+
+383
+00:55:08.030 --> 00:55:08.800
+Kevaundray Wedderburn: M…
+
+384
+00:55:09.800 --> 00:55:19.040
+Kevaundray Wedderburn: So I don't think I said that. I think mainly what I was saying was that, why don't we have, like, specs for these instead of, like, jumping to testnets?
+
+385
+00:55:19.360 --> 00:55:20.060
+Kevaundray Wedderburn: M…
+
+386
+00:55:21.460 --> 00:55:23.319
+Antonio Sanso: Respect for Wildcat.
+
+387
+00:55:23.980 --> 00:55:28.250
+Kevaundray Wedderburn: The changes that, you're putting on the testnet, like…
+
+388
+00:55:29.450 --> 00:55:36.920
+Kevaundray Wedderburn: like, usually I would have expected, like, something like an execution specs PR on top of Bogater DevNet or something like this.
+
+389
+00:55:39.270 --> 00:55:51.729
+Antonio Sanso: Right, the… so the story of this… the point, like, we had this test, right? It was not done by… by Panda, it was done, like, in-house by… by us. So, isn't… the things that you are asking, I think…
+
+390
+00:55:51.890 --> 00:56:00.250
+Antonio Sanso: The… the… the… I think the Nethermind guys are doing that, so it's an ongoing process.
+
+391
+00:56:00.360 --> 00:56:06.940
+Antonio Sanso: So… That's basically it. But the rest, I mean, what else is missing?
+
+392
+00:56:09.910 --> 00:56:21.829
+Kevaundray Wedderburn: Yeah, I was just basically saying that, it makes sense to sort of step back, figure out what we're trying to achieve. If, like, lightclind says we're not doing aggregation, then…
+
+393
+00:56:21.930 --> 00:56:33.150
+Kevaundray Wedderburn: I… or, like, there's a possibility that we don't ship aggregation in H-star, then it seems to me that we should sort of step back, write specs based on not having aggregation.
+
+394
+00:56:33.340 --> 00:56:35.319
+Kevaundray Wedderburn: Put the signature scheme on that.
+
+395
+00:56:35.540 --> 00:56:39.479
+Kevaundray Wedderburn: And then ship that into, DevNet-0.
+
+396
+00:56:39.770 --> 00:56:42.590
+Kevaundray Wedderburn: See what you get out of it, versus, like.
+
+397
+00:56:43.290 --> 00:56:47.330
+Kevaundray Wedderburn: having… sorry, having Daisugi, which has aggregation.
+
+398
+00:56:48.560 --> 00:56:56.910
+Kevaundray Wedderburn: and it doesn't seem to answer the questions… yeah, I don't know, just a… maybe I'm missing something. It doesn't seem to answer the questions if it already has aggregation on it, like…
+
+399
+00:56:58.010 --> 00:57:06.230
+Antonio Sanso: But that's not what we are doing anymore, right? Since the few days we said that we are not doing aggregation.
+
+400
+00:57:06.340 --> 00:57:21.949
+Antonio Sanso: And so we are not doing aggression. We are shipping, in any case, LeanVM, because LeanVM, you can do aggregation and not aggregation, so the verification is going to be not aggregated. So isn't this what we are already doing?
+
+401
+00:57:22.050 --> 00:57:25.950
+Antonio Sanso: like, shipping at a Sphinx Art.
+
+402
+00:57:26.070 --> 00:57:31.670
+Antonio Sanso: shipping LeanVM and not using aggregation. There's not much different than…
+
+403
+00:57:31.670 --> 00:57:46.089
+Kevaundray Wedderburn: Yeah, maybe we're talking past each other, but my, like, concrete proposal is basically we just take Bogota DevNet2, and then we have a branch on top of it, that adds… I don't know, we can use proof
+
+404
+00:57:49.340 --> 00:57:51.080
+Kevaundray Wedderburn: Like, we just need to decide.
+
+405
+00:57:51.290 --> 00:57:56.950
+Kevaundray Wedderburn: And then ship that, so there is not really… There's no Daisuki.
+
+406
+00:57:56.950 --> 00:57:58.400
+Antonio Sanso: Oh, actually.
+
+407
+00:57:58.400 --> 00:57:58.840
+Kevaundray Wedderburn: Thank you.
+
+408
+00:57:58.840 --> 00:58:09.109
+Antonio Sanso: I'm fine with that, if… because, again, there is a fundamental difference between now and when we did Daisugi, and it was like.
+
+409
+00:58:09.260 --> 00:58:13.269
+Antonio Sanso: We had… we built the Szagi because we wanted aggregation.
+
+410
+00:58:13.380 --> 00:58:31.929
+Antonio Sanso: if now we are shipping this proof frame, and we know what to do, we don't need this… I mean, we are not doing aggregation, we don't need DASUGI anymore, and we can just use Bogota 2, and not even a branch. I mean, Bogota 2 because it's the same… it's a part of frame, but this is…
+
+411
+00:58:31.930 --> 00:58:37.709
+Antonio Sanso: If Matt is fine with that, I'm more than fine with that. I mean, I'll be happy to see that, actually.
+
+412
+00:58:37.750 --> 00:58:38.570
+Antonio Sanso: Matt?
+
+413
+00:58:43.570 --> 00:58:48.219
+lightclient: Sorry, what, what concretely are you… They're proposing?
+
+414
+00:58:55.890 --> 00:59:05.030
+lightclient: Because, yeah, I mean, I've sent the message that I… this… like, I don't understand the point of these other DevNets. We're kind of getting to a place where we…
+
+415
+00:59:05.360 --> 00:59:18.990
+lightclient: believe we're gonna ship Lean Sphinx. We're finalizing the parameters. Right now, I think a lot of people are hesitant about committing to aggregation, so we know that we're gonna have Lean Sphinx, we know we're gonna have frames.
+
+416
+00:59:18.990 --> 00:59:19.919
+Antonio Sanso: That's on the.
+
+417
+00:59:19.920 --> 00:59:20.590
+lightclient: political path.
+
+418
+00:59:20.700 --> 00:59:21.599
+Antonio Sanso: Looks like it's just put.
+
+419
+00:59:21.600 --> 00:59:23.359
+lightclient: on the next Bogota DevNets.
+
+420
+00:59:23.360 --> 00:59:26.409
+Antonio Sanso: Yeah, that's what I was proposing, like, that's…
+
+421
+00:59:26.410 --> 00:59:27.309
+lightclient: I agree with this.
+
+422
+00:59:27.310 --> 00:59:35.599
+Antonio Sanso: with the new information in mind, right, that we don't need aggregation. So we are just, like, expanding, we're putting a new frame, proof.
+
+423
+00:59:35.600 --> 00:59:48.890
+Antonio Sanso: And, no aggregation. At this point, I don't… I think that we don't need the Szagi. As long as you're fine to put this experimental proof and link Sphinx into Bogota 2, I will be happy to go towards that direction, but this is on you.
+
+424
+00:59:51.080 --> 00:59:53.000
+lightclient: Wait, what's the experimental part?
+
+425
+00:59:53.590 --> 01:00:02.830
+Antonio Sanso: I mean, proof frame and adding proof frame and a version of Sphinx in Bogota 2. So I agree.
+
+426
+01:00:02.830 --> 01:00:05.190
+lightclient: Why is… why do you say it's experimental?
+
+427
+01:00:07.170 --> 01:00:19.809
+Antonio Sanso: I mean, probably it's not going to be the last… you mean the… the proof… the proof frame? I think it's a new, right? More than experiment, I meant new, new frame.
+
+428
+01:00:20.290 --> 01:00:22.330
+Antonio Sanso: Is proof a new frame, no?
+
+429
+01:00:22.740 --> 01:00:41.590
+lightclient: Proof is a new frame. I don't know, I mean, I just don't see these things as, like… like, we're past the experimental stage. Like, to me, part of the reason this is taking a bit longer than, like, just shipping a DevNet is I'm trying to… trying to get this right. And it does take a little bit of time for us to go back and forth and decide, are we gonna do the proof frame, are we gonna do the signature list, what's the frame gonna look like, what's the list? You know, all these questions, and…
+
+430
+01:00:41.710 --> 01:00:53.010
+lightclient: I know that things can still change, and they probably will as we deliver these DevNets, but, like, when we do DevNet 3, I want it to be as close to what we think Frames is going to look like on Mainnet.
+
+431
+01:00:53.200 --> 01:00:54.040
+lightclient: as possible.
+
+432
+01:00:54.460 --> 01:00:55.359
+Antonio Sanso: You know?
+
+433
+01:00:55.700 --> 01:01:10.009
+Antonio Sanso: So this is what my new proposal at the light of what I understood now. Let's… let's ship proof, frame, and a version of… the current version of Sphinx Art in Bogota 3.
+
+434
+01:01:14.280 --> 01:01:21.210
+lightclient: I think we're still deciding if we'll do proof frame or signature list, that's, like, an ongoing discussion, but I think DevNet3 should have
+
+435
+01:01:21.660 --> 01:01:27.650
+lightclient: Lean Sphinx, and then whatever the thing that holds the Lean Sphinx signature is.
+
+436
+01:01:29.550 --> 01:01:30.570
+Antonio Sanso: I like it.
+
+437
+01:01:31.150 --> 01:01:32.120
+Antonio Sanso: Right.
+
+438
+01:01:33.630 --> 01:01:34.660
+Antonio Sanso: Let's do it.
+
+439
+01:01:34.660 --> 01:01:36.659
+lightclient: But then we're still back at the question, like.
+
+440
+01:01:37.020 --> 01:01:43.820
+lightclient: I don't fully understand what the trade-off between the 4KB Lean Sphinx signature and the 8KB Lean Sphinx signature is.
+
+441
+01:01:43.820 --> 01:01:49.699
+Antonio Sanso: It was mainly the size, the, the life, the lifetime of this, of the city.
+
+442
+01:01:49.700 --> 01:01:51.529
+Matteo Vicari: It's not only the lifetime.
+
+443
+01:01:52.030 --> 01:01:54.180
+Antonio Sanso: Mainly, was mainly, was mainly, I mean…
+
+444
+01:01:54.180 --> 01:01:57.230
+Matteo Vicari: It's a little more complex.
+
+445
+01:01:57.440 --> 01:02:04.240
+Matteo Vicari: The 4 kilobyte signature is, mainly because we have only, one bigger tree.
+
+446
+01:02:04.650 --> 01:02:08.359
+Matteo Vicari: That, require the user to use to prune the tree.
+
+447
+01:02:08.540 --> 01:02:14.940
+Matteo Vicari: Approving the tree, what now we decide in the last call is something that people don't want to do.
+
+448
+01:02:15.270 --> 01:02:28.950
+Matteo Vicari: And it's risky, for many reasons, and also cut down the life of, for example, some device. Many seniors they can handle, and the time to do the kitchen.
+
+449
+01:02:29.960 --> 01:02:34.449
+Matteo Vicari: So, it is why, Emil go out with a new version.
+
+450
+01:02:34.550 --> 01:02:36.110
+Matteo Vicari: That these,
+
+451
+01:02:36.330 --> 01:02:44.669
+Matteo Vicari: things are. Another problem with the pruning, there is the lose of privacy when you sign a transaction. This is also important to understand.
+
+452
+01:02:49.890 --> 01:02:51.490
+Antonio Sanso: Alright,
+
+453
+01:02:52.170 --> 01:03:01.130
+Antonio Sanso: Let me quickly give as well the word to Nico. We can go into details, because we have only 10 minutes left. Sorry, Matteo. Nico?
+
+454
+01:03:07.370 --> 01:03:11.100
+Antonio Sanso: Nico, you still have the resent, or… Sorry, yeah.
+
+455
+01:03:11.590 --> 01:03:23.969
+Nico: Yeah, just wanted to react, like, all the discussions that I had with hardware manufacturers indicate that they're much, much more willing to do printing than any other solution. Printing is extremely simple.
+
+456
+01:03:24.790 --> 01:03:25.849
+Nico: It is…
+
+457
+01:03:26.230 --> 01:03:35.460
+Nico: very, very easy to keep some state that prevents you from losing the privacy. You can keep up to 2,000, 1,000 transactions, sorry.
+
+458
+01:03:35.640 --> 01:03:44.739
+Nico: So there were… there were two proof-of-concept applications, one for Trezor, one for Ledger. It allows to keep about a thousand signatures.
+
+459
+01:03:45.580 --> 01:03:56.239
+Nico: private, using the pruning, and yeah, it looks pretty straightforward. I am no cryptoanalyst, so I don't know if there is a formal proof of
+
+460
+01:03:56.420 --> 01:04:09.020
+Nico: Of printing, but it does seem very straightforward, at least, yeah. At least to me, it does seem very straightforward, and for the security teams of multiple hardware providers.
+
+461
+01:04:09.200 --> 01:04:16.790
+Nico: They said it was orders of magnitude simpler than any of the other solutions that they have seen.
+
+462
+01:04:17.050 --> 01:04:25.010
+Nico: And that they would go with something simple, because they don't want to innovate and take risk, which is normal when you're a hardware manufacturer.
+
+463
+01:04:25.120 --> 01:04:31.120
+Nico: So, yeah, I just want to say I disagree that pruning is risky, and that it loses privacy.
+
+464
+01:04:31.240 --> 01:04:38.169
+Nico: And from conversations with various hardware manufacturers, it does seem like the preferred solution.
+
+465
+01:04:38.390 --> 01:04:43.060
+Nico: That being said, it doesn't mean that we 100%
+
+466
+01:04:43.380 --> 01:04:57.880
+Nico: need to do printing, and maybe a two-layer or three-layer tree can also be good. But yeah, just wanted to say, from a hardware manufacturer point of view, printing is the dominant solution by orders of magnitude so far.
+
+467
+01:04:59.320 --> 01:04:59.900
+Stefano: Right.
+
+468
+01:04:59.900 --> 01:05:00.940
+Antonio Sanso: Nope.
+
+469
+01:05:01.610 --> 01:05:02.340
+Antonio Sanso: Sorry.
+
+470
+01:05:02.520 --> 01:05:07.430
+Stefano: And just, that's a quick… a quick follow-up, very, like, 3 seconds.
+
+471
+01:05:09.240 --> 01:05:10.290
+Antonio Sanso: Yeah.
+
+472
+01:05:11.970 --> 01:05:13.080
+Antonio Sanso: Go ahead.
+
+473
+01:05:17.000 --> 01:05:20.519
+Antonio Sanso: Alright, let me, let me say something. So,
+
+474
+01:05:20.650 --> 01:05:31.019
+Antonio Sanso: what do we need to… what is the plan? So, what is the step we need to do in order to go to Bogota 3 with proof and the Lean Sphinx?
+
+475
+01:05:31.740 --> 01:05:37.410
+Antonio Sanso: Are we gonna move this discussion on Discord, and agree there?
+
+476
+01:05:38.130 --> 01:05:51.049
+Kevaundray Wedderburn: I think there's two things here. There's what do we do for the next bug at DevNet, and this is just deciding between, like, proof frames or SIG lists, like, how do we actually, integrate Lean Sphinx?
+
+477
+01:05:51.050 --> 01:06:01.580
+Kevaundray Wedderburn: Then there's a separate question that I think is also important, is how do we decide which Lean Sphinx signature, or whatever parameter set we're going to be doing?
+
+478
+01:06:01.700 --> 01:06:08.449
+Kevaundray Wedderburn: Bogota DevNet Free doesn't need to finalize a parameter set, like, right now.
+
+479
+01:06:08.870 --> 01:06:11.430
+Kevaundray Wedderburn: So I think that's not blocking it, right?
+
+480
+01:06:11.700 --> 01:06:25.019
+Antonio Sanso: For the second question, we already decided, again, like, last month, we went through some long… again, probably we had different information in mind, but we have been through this long process on selecting parameters.
+
+481
+01:06:25.090 --> 01:06:33.020
+Antonio Sanso: And they're like, if you go to sphinx.art, there are the default parameters that haven't been decided so far.
+
+482
+01:06:33.680 --> 01:06:50.260
+Antonio Sanso: Now, again, we can spend other days and go back on the board and doing it, but in the meantime, I would rather use this and see how it goes, rather than
+
+483
+01:06:50.410 --> 01:06:51.640
+Antonio Sanso: delay.
+
+484
+01:06:51.920 --> 01:06:53.460
+Antonio Sanso: And not using anything.
+
+485
+01:06:53.850 --> 01:06:54.740
+Kevaundray Wedderburn: Yeah, so I'm
+
+486
+01:06:55.110 --> 01:07:01.459
+Kevaundray Wedderburn: suggesting… Yeah, I'll just quickly say, I wasn't suggesting to delay. We can do Bogota DevNet with
+
+487
+01:07:01.720 --> 01:07:08.840
+Kevaundray Wedderburn: any Sphinx parameter set, like, it doesn't really matter, but we do need to figure out how do we get
+
+488
+01:07:09.080 --> 01:07:20.400
+Kevaundray Wedderburn: how do we decide what signature scheme we're shipping on mainnet, I think is an important question, or just what is the process to deciding it? Like, having a default is great, but we do need to figure out…
+
+489
+01:07:20.630 --> 01:07:21.550
+Antonio Sanso: How are we gonna change.
+
+490
+01:07:21.550 --> 01:07:22.330
+Kevaundray Wedderburn: business.
+
+491
+01:07:22.510 --> 01:07:29.029
+Antonio Sanso: I agree, but do you… do you recognize the fact that until 2 days ago, we…
+
+492
+01:07:29.330 --> 01:07:37.990
+Antonio Sanso: did choose these parameters, and everything else, having aggregation in mind, and now this changed it overnight. So things doesn't happen magically in…
+
+493
+01:07:38.210 --> 01:07:46.980
+Antonio Sanso: in 30 seconds, you know, like, we went through this process of selecting these parameters, having aggregation in mind. If now the consensus is different.
+
+494
+01:07:47.370 --> 01:07:52.649
+Antonio Sanso: this just takes time to, like… I mean, I'm not saying that it's gonna take…
+
+495
+01:07:52.820 --> 01:07:55.360
+Antonio Sanso: Years, but it cannot take, like, one day.
+
+496
+01:07:55.470 --> 01:08:05.440
+Antonio Sanso: As well, you know, like, this was basically two days ago that we say, okay, let's do… let's do without aggregation. So, it's normal that we need a bit of time to…
+
+497
+01:08:06.020 --> 01:08:07.499
+Antonio Sanso: To choose the promoters.
+
+498
+01:08:07.650 --> 01:08:20.099
+Kevaundray Wedderburn: Yeah, I mean, I think it was, like, tentative, right? Like, it was defaults that allowed us to move forward, but without even testing these defaults on, some DevNet or, like, mainnet even with aggregation, I think
+
+499
+01:08:20.710 --> 01:08:24.200
+Kevaundray Wedderburn: At least, to me, it didn't seem like they were gonna stay.
+
+500
+01:08:26.240 --> 01:08:30.499
+Kevaundray Wedderburn: Like, so I think it doesn't really matter if, like, what we're doing,
+
+501
+01:08:30.920 --> 01:08:46.099
+Kevaundray Wedderburn: to me, it's orthogonal, but this is all orthogonal, like, I think the only thing we need to figure out is, like, what is the process to deciding this signature scheme? Even if we do aggregation, there is some process to deciding what signature scheme goes on mainnet, right?
+
+502
+01:08:46.100 --> 01:08:50.599
+Antonio Sanso: Keva depends, like, there is… so let me tell you one thing about Sphinx.
+
+503
+01:08:52.270 --> 01:09:05.730
+Antonio Sanso: there is no… you cannot optimize for a single thing, so it's really a bunch of trade-offs, and they're all… when you cut something… when you gain something, you're paying somewhere else, so…
+
+504
+01:09:07.010 --> 01:09:24.299
+Antonio Sanso: there's not a win-win situation with Sphix. There's always a price to pay. If you optimize for a lifetime, you're paying in size. If you optimize for verification, you're… you know, this set of trade-offs. And again, saying again, before we did this…
+
+505
+01:09:24.340 --> 01:09:30.429
+Antonio Sanso: decision having something different in mind. If this changes overnight, we need to revisit that, but
+
+506
+01:09:30.790 --> 01:09:37.929
+Antonio Sanso: Since it's a testnet, I'd really, like, recommend to go with the parameter we just… we choose, Sphinx art default.
+
+507
+01:09:38.319 --> 01:09:43.849
+Antonio Sanso: And if we change once or twice in a testnet, it's not the end of the world.
+
+508
+01:09:45.229 --> 01:09:49.239
+Kevaundray Wedderburn: Yeah, I agree, I don't think any of this is blocking the testnet,
+
+509
+01:09:51.279 --> 01:10:03.539
+Kevaundray Wedderburn: Yeah, maybe we're talking past each other, and I might just not be explaining it correctly, but I think just the list that we can say we're taking off, like, li- of, like, questions or whatever, I don't even know what it is, like…
+
+510
+01:10:03.949 --> 01:10:07.839
+Kevaundray Wedderburn: some way to figure out how do we decide this hash function, I think.
+
+511
+01:10:08.509 --> 01:10:26.299
+Kevaundray Wedderburn: like, maybe we need DevNets to do it, maybe we need to reach out to wallets, maybe we need to figure out if 8 kilobytes is, like, the blocker for us, or if it's 4 kilobytes, maybe we need to test aggregation speed, because we want to be forward compatible with the aggregation from LeanVM.
+
+512
+01:10:26.309 --> 01:10:29.759
+Kevaundray Wedderburn: This is all… this is all orthogonal to, like.
+
+513
+01:10:30.619 --> 01:10:33.619
+Kevaundray Wedderburn: What the particular scheme we're choosing is,
+
+514
+01:10:35.189 --> 01:10:41.949
+Kevaundray Wedderburn: Like, this is… this to me is, like, what seems important, versus, like, am I doing MPC or, like, whether we can prune, like…
+
+515
+01:10:42.500 --> 01:10:49.299
+Antonio Sanso: I agree. I mean, I agree, I mean, we haven't been talking too much about pruning our MPC today at all.
+
+516
+01:10:49.300 --> 01:10:53.280
+Nico: If I can add something to what Kevin just said.
+
+517
+01:10:53.380 --> 01:11:03.340
+Nico: There is two, like… we can look at this, also from the angle of, okay, it's been a month that we chose this, parameter.
+
+518
+01:11:03.340 --> 01:11:14.120
+Nico: set that is the worst possible, the most conservative, but the worst possible in all the different angles. What did we learn in one month since we
+
+519
+01:11:14.190 --> 01:11:30.049
+Nico: chose that. It seems that we didn't learn a lot, and what I'm trying to avoid is to say, okay, because we didn't learn a lot, let's continue, and let's stick to it, and continue, and if, in one month from now, we also didn't learn anything.
+
+520
+01:11:30.670 --> 01:11:34.160
+Nico: Then we're, like, basically missing the deadlines that we set.
+
+521
+01:11:34.290 --> 01:11:42.790
+Nico: Not missing them completely, but then we have, like, 3 weeks to figure out everything, because the deadline is, end of January.
+
+522
+01:11:43.090 --> 01:11:49.460
+Nico: There's gonna be holiday days in December, I don't expect everyone to be at 100%, so my point is, like, if we keep
+
+523
+01:11:49.550 --> 01:12:05.620
+Nico: if we look at what we've learned from the moment we chose this parameter set, it does feel like we didn't learn a lot, and I just want to be very mindful of the timelines, because we cannot spend a few more months when we don't learn.
+
+524
+01:12:05.980 --> 01:12:15.430
+Nico: So, it does feel like we're, going for a parameter set that is not going to make us learn a lot of things, so I would…
+
+525
+01:12:15.610 --> 01:12:18.369
+Nico: I would suggest you go directly to the next step.
+
+526
+01:12:18.790 --> 01:12:19.920
+Nico: But if…
+
+527
+01:12:19.920 --> 01:12:39.180
+Antonio Sanso: We don't have it yet, so I'd rather go with something that's delaying that. If you're lost in a forest, you better start to move rather than stay still. So, changing once or twice is not the end of the world. Let's move… I mean, thankful for the nice discussion today, it was really lovely.
+
+528
+01:12:39.240 --> 01:12:52.519
+Antonio Sanso: We're almost at time. I invite you to, like, follow the discussion on… on… on Discord. So, I'm probably gonna close the Telegram channel now, and we are moved to Discord.
+
+529
+01:12:52.710 --> 01:12:55.530
+Antonio Sanso: And, thanks a lot.
+
+530
+01:12:55.670 --> 01:12:57.319
+Antonio Sanso: I'll see you in two weeks.
+
+531
+01:12:58.410 --> 01:12:59.600
+Stefano: Thanks, Antonio.
+
+532
+01:12:59.890 --> 01:13:00.600
+Antonio Sanso: Alright.
+
+533
+01:13:00.600 --> 01:13:01.759
+Stefano: Thank you, everybody.
+
+534
+01:13:01.760 --> 01:13:02.600
+Kevaundray Wedderburn: Thank you.
+
+535
+01:13:02.600 --> 01:13:03.209
+Nico: Thank you, guys.
+
+536
+01:13:03.210 --> 01:13:03.790
+Matteo Vicari: light?
+
+537
+01:13:04.050 --> 01:13:04.770
+Iván | ethrex: Thank you.
+
+538
+01:13:07.600 --> 01:13:08.030
+lightclient: Thank you.
+
