@@ -1,0 +1,2622 @@
+WEBVTT
+
+1
+00:06:25.270 --> 00:06:26.010
+Ben Adams: Hello?
+
+2
+00:09:05.000 --> 00:09:06.639
+Toni Wahrstätter: Hello, hello.
+
+3
+00:09:10.720 --> 00:09:11.120
+Gottfried Herold: So…
+
+4
+00:09:11.120 --> 00:09:11.720
+Ben Adams: Hilarious.
+
+5
+00:09:12.650 --> 00:09:14.950
+Gottfried Herold: No background music this time?
+
+6
+00:09:19.460 --> 00:09:21.459
+Toni Wahrstätter: Yeah, Ben, where's the music?
+
+7
+00:09:23.870 --> 00:09:26.939
+Ben Adams: I'm not sure what the quantum theme gene is.
+
+8
+00:11:32.800 --> 00:11:34.750
+Ben Edgington: Welcome, everybody. We'll give it, the…
+
+9
+00:11:34.750 --> 00:11:36.310
+Audio shared by Ben Edgington: Customary 2 minutes.
+
+10
+00:11:36.950 --> 00:11:37.729
+Ben Edgington: And then we'll get started.
+
+11
+00:12:30.860 --> 00:12:43.249
+Ben Edgington: Right, we will cut that off, though, I'd much rather listen to that. Anyone wondering about the music that has been the intro music on YouTube for All Core Devs since forever.
+
+12
+00:12:43.290 --> 00:12:52.099
+Ben Edgington: Though they stopped using it over the summer, so I thought I'd resurrect it in court, and set a nice, calming, mood for us.
+
+13
+00:12:52.960 --> 00:13:01.790
+Ben Edgington: So, welcome to ACDC number. Let me just stop sharing my audio so it doesn't… Ping us.
+
+14
+00:13:08.430 --> 00:13:25.229
+Ben Edgington: Not sure if I've done that or not. We'll see. So, welcome to ACDC number 192. It is Thursday the 26th of November, and the agenda is issue number 2305 on the PM repo, and I am just…
+
+15
+00:13:25.500 --> 00:13:27.610
+Ben Edgington: Pasting it into the chat there.
+
+16
+00:13:29.340 --> 00:13:38.419
+Ben Edgington: We've got a couple of big topics today. First, a decision to make around Consensus layer builder-payload validation for Gloas.
+
+17
+00:13:38.680 --> 00:13:56.930
+Ben Edgington: And second, a discussion around hesoscoping, specifically the status of FOCIL as a headliner, in… for that upgrade. Specifically Potuz, we are gonna do a little bit of execution layer business, so you've probably got a couple of minutes if you need to get coffee.
+
+18
+00:13:57.350 --> 00:13:59.950
+Ben Edgington: We're gonna start with Glamsterdam.
+
+19
+00:14:00.330 --> 00:14:17.380
+Ben Edgington: There is, as I just mentioned, a bit of overhanging business from ACDE that we wouldn't normally discuss here, but it is relevant to Glamsterdam and scheduling, which we will be discussing soon, so I vote that we allow it. Basically.
+
+20
+00:14:17.970 --> 00:14:22.439
+Ben Edgington: The question is, is the execution layer wanting to commit to
+
+21
+00:14:22.530 --> 00:14:36.300
+Ben Edgington: the week of 14th of December for, Hoodi Glamsterdam upgrade, as was penciled in on last week's ACDE call. So I'm going to hand over to Ansgar, if that's okay with you, Ansgar, just to sort of
+
+22
+00:14:36.300 --> 00:14:44.530
+Ben Edgington: marshal the, ACDE crowds that are here, and see if we can, you know, reach sufficient consensus on that.
+
+23
+00:14:47.130 --> 00:15:04.989
+Ansgar Dietrichs: Yes, thank you, Ben. So, exactly, basically the idea was, so just to recap for anyone who doesn't have that top of mind anymore, last week on ACDE, there was the question of, how will we go about making a decision about
+
+24
+00:15:05.220 --> 00:15:13.270
+Ansgar Dietrichs: gramsadam, and in particular, there's the question of if we want to…
+
+25
+00:15:13.380 --> 00:15:23.889
+Ansgar Dietrichs: decide to not make any changes, go ahead with Glamsterdam in the current, form, and still, have the Hoodi hard fork this year.
+
+26
+00:15:23.890 --> 00:15:41.990
+Ansgar Dietrichs: This would be, like, we basically only have one last opportunity to make that decision. So, the call on that, last week was to say we will make that decision both from the EL side, and then from the CL side today, and if both sides go for…
+
+27
+00:15:42.180 --> 00:15:52.540
+Ansgar Dietrichs: for Hoodi this year, then… then we can lock that in. And so, yeah, so… so, specifically for this section now, I would…
+
+28
+00:15:52.670 --> 00:16:03.899
+Ansgar Dietrichs: go through all the EL teams again, at least those that have someone present today on the call, and check. Where we left it off was that there was a…
+
+29
+00:16:04.240 --> 00:16:18.320
+Ansgar Dietrichs: tendency towards saying we would want to go ahead as is, but there was enough uncertainty and enough clients that still wanted another week to look into potential changes to the EIP, how confident they would feel that they would actually
+
+30
+00:16:18.320 --> 00:16:32.630
+Ansgar Dietrichs: have a concrete spec, that change in mind that they think would warrant, kind of, like, delaying Glamsterdam, further. So, yeah, basically my ask now would be, I can, I can, I can just go through,
+
+31
+00:16:32.650 --> 00:16:38.339
+Ansgar Dietrichs: Basically, what the latest, opinion is, whether clients
+
+32
+00:16:38.760 --> 00:16:49.720
+Ansgar Dietrichs: in favor of going ahead with Glamsterdam as is, or to postpone into next year. So I'll just go through… do we have anyone from Geth on the call that could talk about that?
+
+33
+00:16:57.580 --> 00:17:01.600
+Ansgar Dietrichs: I saw some Geth people in the participant list, at least.
+
+34
+00:17:02.300 --> 00:17:03.480
+Felix (Geth): I'm on the call.
+
+35
+00:17:05.369 --> 00:17:05.989
+Ansgar Dietrichs: Huh, hi, Phil.
+
+36
+00:17:05.990 --> 00:17:07.370
+gary (geth): Felix using it.
+
+37
+00:17:08.740 --> 00:17:14.260
+Felix (Geth): I mean, we have discussed it on and off, definitely. I mean, it's…
+
+38
+00:17:14.940 --> 00:17:23.709
+Felix (Geth): It would be good to get the fork ship, but at the same time, there is… have been a lot of complaints from… from users about all kinds of
+
+39
+00:17:24.089 --> 00:17:25.869
+Felix (Geth): Potential breakage, so…
+
+40
+00:17:26.490 --> 00:17:34.070
+Felix (Geth): my own position is that if there is a strong proposal, then it could be… we could go ahead with it, but also, I see there is no…
+
+41
+00:17:35.200 --> 00:17:40.390
+Felix (Geth): really strong proposal, other than kind of re-architecting the whole EIP.
+
+42
+00:17:40.840 --> 00:17:41.890
+Felix (Geth): So
+
+43
+00:17:42.910 --> 00:17:49.340
+Felix (Geth): From my point of view, we will pretty likely not do that, because that would delay the fork by a lot.
+
+44
+00:17:49.900 --> 00:17:52.950
+Felix (Geth): So it's about… for us, it's mostly about weighing
+
+45
+00:17:53.800 --> 00:17:59.049
+Felix (Geth): The decision to, like, delay the fork much further versus just shipping it as is.
+
+46
+00:18:01.450 --> 00:18:02.110
+Ansgar Dietrichs: Okay.
+
+47
+00:18:02.420 --> 00:18:08.480
+Ansgar Dietrichs: Sounds good, so some uncertainty there, but leaning towards saying no specific change.
+
+48
+00:18:08.890 --> 00:18:10.130
+Ansgar Dietrichs: Past the valve.
+
+49
+00:18:10.380 --> 00:18:14.810
+Ansgar Dietrichs: the cost that would come with it. Do we have anyone from Nethermind?
+
+50
+00:18:19.270 --> 00:18:23.609
+Ansgar Dietrichs: Ben, I see your name floating right next to mine in the overview list.
+
+51
+00:18:24.050 --> 00:18:32.929
+Ben Adams: So… We're… we're for it if it might… if it moves the needle enough.
+
+52
+00:18:33.350 --> 00:18:38.280
+Ben Adams: But if it… If it doesn't, then… then it's not worth doing.
+
+53
+00:18:41.820 --> 00:18:46.400
+Ben Adams: Lukasz had more opinions, but he's not on the call at the moment.
+
+54
+00:18:47.200 --> 00:18:56.909
+Ansgar Dietrichs: Okay, I mean, this is also a bit of an experiment, of course, bringing all the EL Devs onto ACDC. I'm noticing, definitely, that we have a bit of a thinned-out set here today, but let's try to see if we have enough.
+
+55
+00:18:57.440 --> 00:19:03.809
+Ansgar Dietrichs: people here to make a decision. Do you have anyone from, Besu?
+
+56
+00:19:08.590 --> 00:19:11.780
+Luis Pinto: I… I can speak on that,
+
+57
+00:19:11.910 --> 00:19:18.020
+Luis Pinto: Yeah, so I, I added a proposal last night, to, to rework the specs,
+
+58
+00:19:18.060 --> 00:19:33.320
+Luis Pinto: to use the refunds at the end of the transaction instead. At some point, Dragan also pointed out an issue with that proposal, that, in order to honor the, the execution gas,
+
+59
+00:19:33.580 --> 00:19:40.500
+Luis Pinto: With the transaction… the maximum transaction gas limit, for his execution,
+
+60
+00:19:40.770 --> 00:19:52.380
+Luis Pinto: There would need… there would be some edge… edge cases at runtime where people could grieve the gas, and I acknowledge that.
+
+61
+00:19:54.240 --> 00:20:05.189
+Luis Pinto: there might be ways to look at that and fix that, but I think, we would get into the same… kind of the same grounds, of the gas opcode not reflecting
+
+62
+00:20:05.220 --> 00:20:16.279
+Luis Pinto: The actual, gas available, and could still, isolate the state gas and not have visibility to isolate gas.
+
+63
+00:20:16.750 --> 00:20:23.969
+Luis Pinto: So I, yeah, I acknowledge it's not, it's not, perfect. There's no silver bullet.
+
+64
+00:20:24.380 --> 00:20:43.759
+Luis Pinto: And, as a few have said, I do want to acknowledge that that's, like, I'm a bit worried about the gossip code now from now on, because it feels it is a bit unusable with the current spec due to the monotic mono…
+
+65
+00:20:43.760 --> 00:20:54.780
+Luis Pinto: Monasticity, and the increase in… that the gas, can… can have, in multiple calls,
+
+66
+00:20:55.710 --> 00:21:14.229
+Luis Pinto: And, it kind of makes the gas up code unusable. From one example that I've seen by just introspecting the gas before a call and after a call, and if you subtract the two, you might get an underflow there, and
+
+67
+00:21:14.440 --> 00:21:32.749
+Luis Pinto: the compiler guards might protect you against that, but you still… it might still halt the frame at that point. So, I'm not sure what's gonna be the story with GAS opcode going forward. I think we as the Devs are saying more, like.
+
+68
+00:21:32.790 --> 00:21:38.470
+Luis Pinto: do not use the gas code, opCode anymore.
+
+69
+00:21:38.640 --> 00:21:51.270
+Luis Pinto: because, yeah, because I cannot see how the compiler teams can make it safe in every use cases, apart from maybe deprecating that opcode. So…
+
+70
+00:21:51.630 --> 00:21:56.840
+Luis Pinto: Those are my concerns. I realize that, like, my,
+
+71
+00:21:57.440 --> 00:22:08.859
+Luis Pinto: My proposal is not strong enough at this stage, so I… I would actually abstain, so, of the decision. So, I also don't want… I understand it's a last minute,
+
+72
+00:22:09.220 --> 00:22:17.729
+Luis Pinto: proposal, so I… I don't know. I don't want to drag this down more again, if it's not worth it, like, if you…
+
+73
+00:22:17.870 --> 00:22:20.619
+Luis Pinto: Other clients are not, on board.
+
+74
+00:22:22.390 --> 00:22:27.099
+Ansgar Dietrichs: Okay, yeah, I mean, I think what I'm hearing so far from other clients is…
+
+75
+00:22:27.390 --> 00:22:31.660
+Ansgar Dietrichs: Definitely, I mean, we've only been halfway through the list so far, but,
+
+76
+00:22:31.780 --> 00:22:38.060
+Ansgar Dietrichs: everyone stresses that indeed it is a tricky trade-off. I do think just because we do want to at least
+
+77
+00:22:38.290 --> 00:22:42.599
+Ansgar Dietrichs: we need to make a decision today, basically the default indecision, meaning
+
+78
+00:22:43.280 --> 00:22:50.749
+Ansgar Dietrichs: equal a decision to delay into next year, so that is a decision as well. So I would just… I don't know if you could briefly, maybe.
+
+79
+00:22:50.940 --> 00:22:59.529
+Ansgar Dietrichs: If you had to just… basically, like, voice a team position, ultimately? Like, would you guys be okay with…
+
+80
+00:22:59.790 --> 00:23:07.409
+Ansgar Dietrichs: moving ahead with the, Hoodi fork this year, or would you guys, request to delay into next year?
+
+81
+00:23:08.210 --> 00:23:15.159
+Luis Pinto: Yeah, sure, the team… there were some members on the team that were willing to go forward, so…
+
+82
+00:23:15.800 --> 00:23:20.260
+Luis Pinto: So, yeah, I think you could… you could say that,
+
+83
+00:23:22.300 --> 00:23:28.109
+Ansgar Dietrichs: Okay, yeah, thank you. Then, next up, Erigon, do we have anyone from Erigon on the call?
+
+84
+00:23:29.210 --> 00:23:36.400
+Andrew Ashikhmin: Yes, so it seems that though 8037 does break some invariants, it might be the lesser evil.
+
+85
+00:23:36.690 --> 00:23:46.359
+Andrew Ashikhmin: So probably okay to ship the current spec, but maybe, Pawel, do you have more, more thoughts on that?
+
+86
+00:23:46.730 --> 00:23:52.899
+Paweł Bylica: Not so much comparing to the other teams, so, like.
+
+87
+00:23:53.240 --> 00:23:57.290
+Paweł Bylica: From my point of view, there's, like, a lot of uncertainty, and
+
+88
+00:23:57.640 --> 00:24:06.170
+Paweł Bylica: And he seems to be rehashing the same issues all over again, and trying to find fixes, but these fixes break other stuff, and…
+
+89
+00:24:07.120 --> 00:24:12.599
+Paweł Bylica: And I don't also have confidence that we have enough resources right now to do this.
+
+90
+00:24:12.920 --> 00:24:16.709
+Paweł Bylica: Because we moved resources to future folks already.
+
+91
+00:24:17.580 --> 00:24:23.619
+Paweł Bylica: So… Yeah, I don't have really, like, strong opinion,
+
+92
+00:24:24.760 --> 00:24:27.700
+Paweł Bylica: somehow out of exhaustion, I think.
+
+93
+00:24:28.010 --> 00:24:34.190
+Paweł Bylica: We could ship it, but… I'm not really confident we know what we're doing exactly.
+
+94
+00:24:36.420 --> 00:24:38.840
+Ben Adams: I heard Lukasz is on the call, so…
+
+95
+00:24:38.960 --> 00:24:41.229
+Ben Adams: He can give the Nethermind position.
+
+96
+00:24:45.020 --> 00:24:46.040
+Ansgar Dietrichs: Lukasz if you want to speak.
+
+97
+00:24:46.040 --> 00:24:52.520
+Łukasz Rozmej: Yeah, I'm not sure if I missed something at the beginning, but that would change my mind.
+
+98
+00:24:52.630 --> 00:25:10.399
+Łukasz Rozmej: But, I was very, very slightly in favor of spec changes that Toni presented, either 5.2 or… probably better 5.3. That would fix some invariance, but I'm not confident it's…
+
+99
+00:25:10.400 --> 00:25:13.250
+Łukasz Rozmej: Completely worth doing them at this point.
+
+100
+00:25:13.920 --> 00:25:18.270
+Łukasz Rozmej: So… Yeah, that's my… that's my…
+
+101
+00:25:18.670 --> 00:25:21.770
+Łukasz Rozmej: my stance. So, other than that, ship it.
+
+102
+00:25:22.030 --> 00:25:25.229
+Łukasz Rozmej: If it doesn't have enough, support.
+
+103
+00:25:27.570 --> 00:25:29.749
+Ansgar Dietrichs: Sounds good. Felix, you have your hand up again?
+
+104
+00:25:32.260 --> 00:25:44.010
+Felix (Geth): Yeah, I have a bit of a dumb question, maybe. So, the decision at the moment is if we want to ship the Hoodi fork. So, this means, is there another testnet after that, or is that the last one?
+
+105
+00:25:47.310 --> 00:25:55.349
+Ansgar Dietrichs: My understanding is that basically shipping Hoodi means then we would have both testnets on the unchanged specs, so that would…
+
+106
+00:25:55.640 --> 00:26:08.930
+Ansgar Dietrichs: pretty much commit us to going ahead as is with Mainnet, though we could, of course, choose the timing there freely. We could, of course, still change calls at that point, but it would become even costlier, so…
+
+107
+00:26:09.560 --> 00:26:11.050
+Ansgar Dietrichs: But, is that the question?
+
+108
+00:26:11.660 --> 00:26:20.929
+Felix (Geth): Yeah, so the question is kind of that, I mean, if we commit to Hoodi, then basically if we then somehow… because Hoodi is also a very public testnet, so if
+
+109
+00:26:21.040 --> 00:26:33.890
+Felix (Geth): people find, like, yet more issues in Hoodi than the questions how we would handle this. Would we do, like, another fork on the testnets if we find some fix that actually properly
+
+110
+00:26:34.140 --> 00:26:46.179
+Felix (Geth): gets rid of some of the edge cases, and then we would have to do some kind of out-of-line fork on the testnet to bring it up to date with the current spec, or, like, what's the scenario there? I'm just wondering.
+
+111
+00:26:46.800 --> 00:26:52.999
+Ansgar Dietrichs: Yeah, so, I mean, just to briefly say, the issues so far found were not found on…
+
+112
+00:26:53.170 --> 00:27:11.750
+Ansgar Dietrichs: say, Sepolia or, like, the testnets, right? Like, these were found by just analyzing the changes directly and the impact they would have on mainnets, so… Of course, it's always possible that we find new issues on testnets, but so far, there is no indication that this hard fork would have any elevated likelihood of
+
+113
+00:27:11.920 --> 00:27:27.749
+Ansgar Dietrichs: finding issues specifically on the public testnets, so I don't… and everyone involved in the audits and impact analysis of 8037 specifically seems… is confident that the understanding we have now for the impact of these changes is…
+
+114
+00:27:27.950 --> 00:27:32.779
+Ansgar Dietrichs: Comprehensive, meaning there's no expectation that there will be further…
+
+115
+00:27:33.110 --> 00:27:37.780
+Ansgar Dietrichs: affected projects found after this point. Of course, this can always
+
+116
+00:27:38.220 --> 00:27:44.529
+Ansgar Dietrichs: turn out wrong, but that is the situation. So one would not expect that Hoodi specifically would,
+
+117
+00:27:45.180 --> 00:27:49.069
+Ansgar Dietrichs: Yeah, change the… our understanding of who's impacted.
+
+118
+00:27:49.600 --> 00:28:01.419
+Felix (Geth): Okay, thank you. I was just… I was just curious, because, I mean, if we… so basically, committing to Hoodi now means we are also kind of committing that, like, whatever we put out on there is gonna be on the mainnet.
+
+119
+00:28:01.750 --> 00:28:05.840
+Felix (Geth): So this is the… I'm just trying to figure out what is the scope of this decision.
+
+120
+00:28:06.140 --> 00:28:19.550
+Ansgar Dietrichs: Yes, so then, yeah, that's a really good problem. So to word it very clearly, basically, the decision would be for us to lock in… I mean, again, this is just the EL side, the EL then has also confirmed, but if EL and CL agree, we would lock in, Glamstrter moves forward.
+
+121
+00:28:19.550 --> 00:28:34.019
+Ansgar Dietrichs: with the current spec, and that would concretely mean Hoodi before the end of this year, and then we schedule a mainnet date, but basically the idea would be the decision would then be locked in to not make any changes, unless something completely unexpected happens between now and then, of course.
+
+122
+00:28:35.000 --> 00:28:36.790
+Ansgar Dietrichs: So that is the decision scope.
+
+123
+00:28:36.890 --> 00:28:40.030
+Ansgar Dietrichs: Ivan, as you have Yannabe?
+
+124
+00:28:41.510 --> 00:28:57.960
+Iván | ethrex: Thanks, Ansgar. I want to… to tell… I already talked it in chat, but from ethrex position, we are in the same… as in last week's ACDE. We are supporting… we support moving on with the specs as they are.
+
+125
+00:28:58.030 --> 00:29:04.910
+Iván | ethrex: ship blobs at Ramazis, trying to ensure that most of the affected parties have agreed in time.
+
+126
+00:29:05.200 --> 00:29:10.899
+Iván | ethrex: And we would also like to have a Hoodi transition this year.
+
+127
+00:29:15.250 --> 00:29:24.670
+Ansgar Dietrichs: Sounds good. Then we also still have the rather mind opinion outstanding, although I saw it in chat as well, but, like, Fredrik, you've end up first, so Fredrik, and then I'll call on Reth.
+
+128
+00:29:25.990 --> 00:29:39.489
+Fredrik: Yeah, I'll be quick then. I just wanted to say that regarding the testnets, I mean, the idea with them is to try to find these types of… well, maybe not these specific types of issues, but it's, you know.
+
+129
+00:29:39.720 --> 00:29:42.909
+Fredrik: It happens from time to time that we do find.
+
+130
+00:29:43.310 --> 00:29:48.269
+Fredrik: Security issues and other things that we do need to make adjustments to.
+
+131
+00:29:49.060 --> 00:29:56.719
+Fredrik: And, you know, we have had cases like Holesky, where we had to create a new testnet and such, so…
+
+132
+00:29:56.900 --> 00:30:02.709
+Fredrik: I don't think it has… I mean, it's a bit annoying to do it, obviously, but
+
+133
+00:30:02.960 --> 00:30:07.839
+Fredrik: If we do this on… on Hoodi, and then we have two…
+
+134
+00:30:08.220 --> 00:30:18.079
+Fredrik: make some adjustments, become something new comes to light. It could be related to 8-37, it could be related to anything, really. Then, you know, we should just…
+
+135
+00:30:18.410 --> 00:30:20.580
+Fredrik: Deal with that as it happens, in my opinion.
+
+136
+00:30:22.500 --> 00:30:29.730
+Ansgar Dietrichs: Okay, sounds good. Yeah, and then, last client, Reth, I also saw comment in chat already, is anyone, can anyone speak up?
+
+137
+00:30:30.250 --> 00:30:36.820
+Dragan Rakita: Yeah, we support 8037 as is. I want to ship Glamsterdam as soon as possible.
+
+138
+00:30:37.410 --> 00:30:41.960
+Dragan Rakita: In general, this delay of few months is too long.
+
+139
+00:30:45.080 --> 00:31:01.309
+Ansgar Dietrichs: Sounds good. Yeah, then we are in a similar position that we were in last week, I think, that we have a few clients clearly in favor of going forward as is, and then I think I've heard basically 3 clients that were all saying it's a difficult trade-off,
+
+140
+00:31:01.310 --> 00:31:12.170
+Ansgar Dietrichs: Nethermind basically said, voiced some very mild support, maybe for actually delaying, but they would also be okay with moving forward. And the other two that were more on the fence also
+
+141
+00:31:12.700 --> 00:31:16.420
+Ansgar Dietrichs: seemed unsure.
+
+142
+00:31:16.590 --> 00:31:34.780
+Ansgar Dietrichs: I do, again, I think we should not… we should try to basically, like, have a clear decision here today, because indecision is also just a decision in itself, it would just mean we delay into the next year. So I normally would hesitate to force a decision when there's so much uncertainty, but it feels like we kind of need to.
+
+143
+00:31:34.970 --> 00:31:40.080
+Ansgar Dietrichs: So, given that… I see somewhat a… a kind of…
+
+144
+00:31:40.850 --> 00:31:50.109
+Ansgar Dietrichs: wait more towards the side of going forward as is, just because we have a few clients that are unambiguously in favor, and we don't have any client that's, like, unambiguous in favor of
+
+145
+00:31:50.660 --> 00:32:00.429
+Ansgar Dietrichs: of, delaying. So then my ask would basically be, like, the default path here, I would see, is to say, from the EL side at least, we give green light with
+
+146
+00:32:00.680 --> 00:32:18.189
+Ansgar Dietrichs: blocking in and moving forward with Hoodi, but I do think any of the clients that were more leaning the other direction could step up and veto that decision if they want to. So, yeah, I would like… I would ask, in particular, any client that's maybe not convinced that this is the right path forward, to speak up to what extent they actually would
+
+147
+00:32:18.500 --> 00:32:23.240
+Ansgar Dietrichs: would ask to not make that decision. Ben, for example, you have Yannabe?
+
+148
+00:32:23.840 --> 00:32:34.059
+Ben Adams: Yeah, so, from what I said earlier, the proposals, I don't think move the needle enough to, you know, they'll…
+
+149
+00:32:34.700 --> 00:32:43.040
+Ben Adams: They also have drawbacks, they don't solve all the problems, so I don't think…
+
+150
+00:32:44.170 --> 00:32:45.740
+Ben Adams: It's worth delaying for them.
+
+151
+00:32:47.970 --> 00:32:51.910
+Ansgar Dietrichs: Okay, so then Nethermind will not veto the…
+
+152
+00:32:52.510 --> 00:33:01.469
+Ansgar Dietrichs: the rollout, so then I think, in terms of, I think, the other two, if I don't mix up anything now that were more on the fence, were…
+
+153
+00:33:01.870 --> 00:33:10.859
+Ansgar Dietrichs: Besu and Geth, so just question to you two. Would either of you two basically step up to ask to…
+
+154
+00:33:11.070 --> 00:33:22.509
+Ansgar Dietrichs: Vero is a strong word, but basically to ask to not make the decision in this direction? Or would you two be okay, given that you seem to also agree that it's a difficult trade-off?
+
+155
+00:33:32.390 --> 00:33:33.590
+Ansgar Dietrichs: the…
+
+156
+00:33:33.790 --> 00:33:39.850
+Felix (Geth): Yeah, I can only say… I can only say what I said earlier. I think we can move ahead as is.
+
+157
+00:33:39.960 --> 00:33:43.070
+Felix (Geth): We just have to see what is the…
+
+158
+00:33:44.010 --> 00:33:52.520
+Felix (Geth): amount of breakage that will happen, but again, yeah, there is no strong proposal that will really change it, so we are kind of same position as Nethermind. There's no…
+
+159
+00:33:53.120 --> 00:33:57.539
+Felix (Geth): There is nothing we can do right now that will resolve all of the edge cases, and
+
+160
+00:33:57.690 --> 00:34:02.479
+Felix (Geth): If we really wanna… Re-architected, it will take a lot more time.
+
+161
+00:34:04.340 --> 00:34:17.829
+Ansgar Dietrichs: Okay, yes, so… sounds good. And then, just to be thorough, Luis, one quick last check, from the Besu side also, I assume, from what you already said, you wouldn't want to veto this decision either, is that correct?
+
+162
+00:34:19.139 --> 00:34:21.509
+Luis Pinto: Yeah, yeah, I wouldn't want to veto.
+
+163
+00:34:21.699 --> 00:34:27.129
+Luis Pinto: Also, simply because there's people on the team that also want to go ahead,
+
+164
+00:34:27.509 --> 00:34:31.009
+Luis Pinto: So, yeah, I will… I will abstain.
+
+165
+00:34:33.170 --> 00:34:38.079
+Ansgar Dietrichs: Okay, sounds good, thank you. Yeah, then I would say, I hope this is,
+
+166
+00:34:38.239 --> 00:34:57.770
+Ansgar Dietrichs: reasonable, I'm not being too pushy here, because I just, again, like, I think it's just important we make a decision either direction. And then it seems like we are in a position where we from the EL at least can say green light to go ahead with Hoodi as is, and then, obviously, need to now hand it over anyway to the EL to see if there's green light from the EL, and if so.
+
+167
+00:34:57.820 --> 00:35:00.519
+Ansgar Dietrichs: We can, we can lock it in.
+
+168
+00:35:00.840 --> 00:35:02.000
+Ansgar Dietrichs: Any last…
+
+169
+00:35:02.130 --> 00:35:06.050
+Ansgar Dietrichs: And the last opportunity to say, otherwise, okay, I hand it back to Ben.
+
+170
+00:35:06.210 --> 00:35:08.169
+Ansgar Dietrichs: Thank you, Ben, for borrowing some time here.
+
+171
+00:35:10.470 --> 00:35:11.740
+Ben Edgington: Thank you. So, just to be clear…
+
+172
+00:35:11.740 --> 00:35:13.980
+Ansgar Dietrichs: Decision, decision mate, from our side.
+
+173
+00:35:14.150 --> 00:35:14.860
+Ansgar Dietrichs: Okay, Ben.
+
+174
+00:35:14.860 --> 00:35:15.460
+Ben Edgington: Got it.
+
+175
+00:35:15.690 --> 00:35:24.190
+Ben Edgington: Thanks so much, Ansgar, and thank you for sealside patients, on that one. That's an important decision. Rough Consensus in action, baby.
+
+176
+00:35:25.330 --> 00:35:37.109
+Ben Edgington: So, Consensus layer side of things. We have an issue, which, as I understand it, is that we do not currently verify the execution payload's block hash on the consensus layer.
+
+177
+00:35:37.270 --> 00:35:45.409
+Ben Edgington: This allows a malicious builder to sign multiple bids with different payloads, which can cause problems for payload timeliness votes.
+
+178
+00:35:45.640 --> 00:35:53.560
+Ben Edgington: Two approaches have been proposed for fixing this. The first is PR5770, which I will drop
+
+179
+00:35:53.740 --> 00:35:54.989
+Ben Edgington: In the chat.
+
+180
+00:35:55.280 --> 00:36:12.279
+Ben Edgington: This imports RLP into the consensus layer to recompute and verify the payload block hash during gossip validation. It is not consensus-breaking, but importing RLP could be regarded as a nasty hack.
+
+181
+00:36:12.610 --> 00:36:16.579
+Ben Edgington: The second is PR5820.
+
+182
+00:36:17.420 --> 00:36:30.549
+Ben Edgington: also in chat, which commits to the hash tree root of the payload in the bid, so it's more Consensus-layer native, without RLP. It's a cleaner fix, but it would be a consensus-breaking change
+
+183
+00:36:30.780 --> 00:36:40.549
+Ben Edgington: Now, I am going to express a strong preference, given what we've just heard, for solving this without making consensus-breaking changes.
+
+184
+00:36:41.300 --> 00:36:55.750
+Ben Edgington: any delay on our part, given that the consensus… the execution layer is ready to proceed, despite reservations. Any delay on our part should have a very high bar at this point, essentially security-critical fixes.
+
+185
+00:36:55.780 --> 00:37:02.149
+Ben Edgington: In my view, the objection that, the non-breaking fix is a bit hacky, doesn't clear that bar.
+
+186
+00:37:02.230 --> 00:37:06.680
+Ben Edgington: Also bear in mind that we are currently striving to accelerate upgrades, not slow them down.
+
+187
+00:37:07.020 --> 00:37:15.719
+Ben Edgington: And another minor factor is that a consensus change at this point would break Sepolia compatibility. We might not care very much, but it's worth mentioning.
+
+188
+00:37:16.610 --> 00:37:26.200
+Ben Edgington: All that said, it's not my decision, it belongs to the client teams, so here's the opportunity to state your case. Basically, the question is, do we do…
+
+189
+00:37:26.380 --> 00:37:34.870
+Ben Edgington: 5770 now with the RLP, potentially revert it later with, you know, bringing a better fix in Hegota.
+
+190
+00:37:35.250 --> 00:37:44.790
+Ben Edgington: Or do we do 5820 now, and, which is a consensus-breaking change, and then, delay the hoodie rollout and so forth?
+
+191
+00:37:46.220 --> 00:37:49.209
+Ben Edgington: Who wants to… Who wants to put a view?
+
+192
+00:37:59.320 --> 00:38:04.269
+Ben Edgington: to answer Kev's question, we can certainly, revisit it in Hegota.
+
+193
+00:38:11.660 --> 00:38:12.390
+Ben Edgington: Alright, let me.
+
+194
+00:38:12.390 --> 00:38:12.849
+Dustin: You're supposed to.
+
+195
+00:38:12.850 --> 00:38:14.730
+Ben Edgington: You know, going, who, who's that?
+
+196
+00:38:14.730 --> 00:38:15.000
+Dustin: Oh.
+
+197
+00:38:15.980 --> 00:38:16.950
+Ben Edgington: Dustin gone.
+
+198
+00:38:17.110 --> 00:38:32.669
+Dustin: Yeah, I was just addressing the revisiting in Hegota. Like, a limitation of this regard, relates to back, backfilling sync, though. It's worth noting that people could decide how important this is, but,
+
+199
+00:38:33.020 --> 00:38:42.730
+Dustin: Because one of the arguments for 5770 has tended to be it's hacky, but it can go away, and it is not clear that it can go away, in fact.
+
+200
+00:38:55.050 --> 00:39:02.450
+Ben Edgington: Is anyone… heavily… would anyone object to going with 5770?
+
+201
+00:39:02.570 --> 00:39:08.189
+Ben Edgington: As… as I propose in Glamsterdam. Any strong feelings about that?
+
+202
+00:39:10.030 --> 00:39:13.549
+Ben Edgington: Bearing in mind, you know, reservation Dustin's just raised.
+
+203
+00:39:17.870 --> 00:39:24.720
+Enrico Del Fante: I'm okay with that, also given the fact that we should,
+
+204
+00:39:24.940 --> 00:39:32.289
+Enrico Del Fante: Well, decision just been… just been taken, so we need to go past, and seems like the…
+
+205
+00:39:32.740 --> 00:39:41.150
+Enrico Del Fante: the fastest way to go is that one. Just for completeness, the other approach
+
+206
+00:39:41.820 --> 00:39:56.500
+Enrico Del Fante: solve the issue, but we try to stuff in some other things that make the entire proposal a little bit more complex, because removing signatures from
+
+207
+00:39:57.560 --> 00:40:11.629
+Enrico Del Fante: From the envelope, changed not only… not… it was not only a consensus-breaking change, but also changing the flows, and so changing some assumptions on the… on the verification of… of the…
+
+208
+00:40:11.840 --> 00:40:23.379
+Enrico Del Fante: of the message it received from the network, so implications on pools and protection, stuff like that. So, I'm definitely against that it's time to go into…
+
+209
+00:40:23.930 --> 00:40:36.250
+Enrico Del Fante: that approach, because of the hidden… relatively hidden complexity, you know, nowadays. So, the default is the 71.
+
+210
+00:40:36.490 --> 00:40:42.350
+Enrico Del Fante: But to… I believe there is also a middle ground where we can go for…
+
+211
+00:40:42.670 --> 00:40:59.409
+Enrico Del Fante: for the 21, but keeping the signature in. So it will be anyway a consensus-breaking change, but will be much straight… much more straightforward, removing RLP… actually not introducing RLP at all in the
+
+212
+00:41:00.070 --> 00:41:08.640
+Enrico Del Fante: in the Consensus layer, that this is my opinion, Dustin might not be agree. So…
+
+213
+00:41:08.930 --> 00:41:21.780
+Enrico Del Fante: there might be, another way to, to, to go forward with, which, which is much, which is much simpler and straightforward, yeah, kind of middle ground. But, considering…
+
+214
+00:41:22.240 --> 00:41:28.719
+Enrico Del Fante: the decision has been made. I believe, like, defaulting to 70 is the…
+
+215
+00:41:29.050 --> 00:41:34.990
+Enrico Del Fante: It's the way to go, even if we're gonna introduce some… some…
+
+216
+00:41:35.210 --> 00:41:38.380
+Enrico Del Fante: Things that we'll need to remove later in the forks.
+
+217
+00:41:41.260 --> 00:41:46.829
+Ben Edgington: Thanks, Enrico. So, weak support for 5770 from…
+
+218
+00:41:46.980 --> 00:41:49.299
+Ben Edgington: Teku team, is that fair to say?
+
+219
+00:41:50.470 --> 00:41:51.350
+Enrico Del Fante: Yes.
+
+220
+00:41:52.160 --> 00:41:52.880
+Ben Edgington: Thank you.
+
+221
+00:42:00.650 --> 00:42:08.260
+Ben Edgington: Yeah, Dustin, do you want to speak, to preferring 5820? Is it your objection previously, or would you block 5770?
+
+222
+00:42:11.030 --> 00:42:14.620
+Dustin: Yeah, so, it's a couplefold. I mean…
+
+223
+00:42:14.880 --> 00:42:19.980
+Dustin: I mean, it certainly… I would incorporate, my observation,
+
+224
+00:42:20.220 --> 00:42:28.320
+Dustin: from a few minutes ago, yeah, that's part of it. And more broadly, the…
+
+225
+00:42:29.700 --> 00:42:38.050
+Dustin: So, 5820 is, I think, I mean, widely acknowledged, perhaps not ubiquitously, but fairly widely acknowledged to be a
+
+226
+00:42:38.200 --> 00:42:45.870
+Dustin: better, approach. And… this is… I think there's a…
+
+227
+00:42:47.330 --> 00:42:58.280
+Dustin: a false speed, I think, as that can happen, or a false velocity that can happen when people sort of create this kind of
+
+228
+00:42:58.280 --> 00:43:19.879
+Dustin: jank and tech debt, that will have to be reversed. And my concern is that people are looking at what is happening in the next month or two, or three even, I mean, whatever the relevant timeframe ends up being, rather than what cost does this end up imposing, even in terms of if one cares about nothing but velocity over the next
+
+229
+00:43:20.510 --> 00:43:24.810
+Dustin: Couple of years, to have these kind of oscillating changes.
+
+230
+00:43:29.950 --> 00:43:35.339
+Ben Edgington: Thank you. Other teams, Grandina, You wanna speak to this?
+
+231
+00:43:36.570 --> 00:43:47.880
+saulius: Yeah, so… I think… We also prefer, kind of prefer, FHIO ATO, but, if,
+
+232
+00:43:48.470 --> 00:43:53.550
+saulius: If there is a general consensus to have a… a faster,
+
+233
+00:43:53.900 --> 00:44:02.610
+saulius: faster, really hard fork shift, I think, we… we will be fine with, with, this…
+
+234
+00:44:03.010 --> 00:44:06.000
+saulius: Not-so-nice solution, let's say, so…
+
+235
+00:44:06.000 --> 00:44:07.069
+Ben Edgington: Yeah, got it.
+
+236
+00:44:07.630 --> 00:44:08.630
+Ben Edgington: Thank you.
+
+237
+00:44:08.740 --> 00:44:10.630
+Ben Edgington: Lodestar…
+
+238
+00:44:13.570 --> 00:44:25.259
+Nico Flaig: Yeah, I think we also generally prefer 5820, but I really don't think it's warranted to delay Glamsterdam for this. It's quite internal to the CL.
+
+239
+00:44:25.690 --> 00:44:38.539
+Nico Flaig: And, yeah, stated it would also break Sepolia and also the Blutterberger Defnet we have, so… I think it's just, in terms of testing, I think it would delay, definitely.
+
+240
+00:44:39.030 --> 00:44:48.369
+Nico Flaig: And I think, same as, like, Lighthouse mentioned, if we did this earlier, I think it would have been good, but at this stage, I don't think it's worth doing.
+
+241
+00:44:50.170 --> 00:44:59.440
+Ben Edgington: Yeah, I think there's no doubt that 5820 is a better technical solution, but, we are where we are, and it's a question of being pragmatic at this point. So,
+
+242
+00:45:00.350 --> 00:45:02.649
+Ben Edgington: Who else? Prism…
+
+243
+00:45:11.170 --> 00:45:14.050
+Ben Edgington: Potus, you don't want to speak to this? You have strong views, I think.
+
+244
+00:45:15.460 --> 00:45:19.560
+Ben Edgington: Can you elaborate on your… Crazy remark.
+
+245
+00:45:20.240 --> 00:45:28.190
+Potuz: It's absolutely crazy to have a consensus-breaking change at this stage. We all already have the RP check, let's just ship it, let's fork.
+
+246
+00:45:30.330 --> 00:45:33.239
+Ben Edgington: So, strong class 25770, yep.
+
+247
+00:45:33.420 --> 00:45:40.869
+Ben Edgington: Okay, Lighthouse, finally, do you want to elaborate on your… A view on this?
+
+248
+00:45:53.220 --> 00:45:59.059
+Ben Edgington: I think it was in the chat, 5820 is a better technical solution, but, we are where we are.
+
+249
+00:45:59.410 --> 00:46:05.179
+Ben Edgington: So what I'm hearing is, some strong…
+
+250
+00:46:05.470 --> 00:46:15.929
+Ben Edgington: view to proceed, certainly from Potuz, and by implication, Prism Team, maybe. Various people are unhappy with it, but,
+
+251
+00:46:16.130 --> 00:46:25.640
+Ben Edgington: would be prepared to proceed with 5770, and the only objection I'm hearing is from Nimbus team and Dustin.
+
+252
+00:46:27.200 --> 00:46:38.919
+Ben Edgington: In view of that, Dustin, what would you say? Would you want to block going ahead with 5770, or would Nimbus team be prepared to,
+
+253
+00:46:39.630 --> 00:46:43.370
+Ben Edgington: to… Go ahead on that basis.
+
+254
+00:46:44.540 --> 00:46:56.740
+Dustin: I think, ultimately, we would view it as sufficiently pragmatic to… to ship it. I mean, and… and the escape hatch, what I will say, and why I think this is…
+
+255
+00:46:57.050 --> 00:47:08.320
+Dustin: for the, the back, for the backfill, aspect, is that there is a 6-month, Well, well, 33,000 epoch.
+
+256
+00:47:08.490 --> 00:47:18.430
+Dustin: 5-month-ish, backfill. And so, ultimately, it just kind of… goes away. And whether that's…
+
+257
+00:47:19.100 --> 00:47:20.010
+Enrico Del Fante: Yeah.
+
+258
+00:47:20.540 --> 00:47:29.959
+Enrico Del Fante: I'm… not super sure about that, because anyway, some clients will maybe keep… wanted to keep support for potentially
+
+259
+00:47:30.070 --> 00:47:39.400
+Enrico Del Fante: Going backward even more, even if the spec says at least that amount of data, but might be around for a long time.
+
+260
+00:47:39.400 --> 00:47:40.030
+Potuz: Yeah, but you're.
+
+261
+00:47:40.030 --> 00:47:40.909
+Barnabas: They're not, they're not.
+
+262
+00:47:40.910 --> 00:47:42.470
+Potuz: Serving those payloads.
+
+263
+00:47:43.510 --> 00:47:48.679
+Potuz: So, so you'll The attack is downscoring you, not having bad data.
+
+264
+00:47:48.680 --> 00:47:59.729
+Enrico Del Fante: I'm not talking about an attack. If you want to get the data, it's because you want the data, and so you want to download data that is the right data.
+
+265
+00:48:00.090 --> 00:48:01.780
+Enrico Del Fante: If you want to, otherwise…
+
+266
+00:48:01.780 --> 00:48:02.470
+Potuz: Yeah, but they…
+
+267
+00:48:02.470 --> 00:48:03.920
+Enrico Del Fante: 6-month window.
+
+268
+00:48:03.920 --> 00:48:14.040
+Potuz: on the EL or on the EL? Because if you want the execution payload, because you want the execution payload, then the right way of doing this is just trigger it on the EL side.
+
+269
+00:48:22.080 --> 00:48:22.880
+Enrico Del Fante: Hmm.
+
+270
+00:48:22.880 --> 00:48:23.580
+Ben Edgington: Yep.
+
+271
+00:48:23.720 --> 00:48:34.399
+Ben Edgington: We can design solutions to remove it later, perhaps, but it sounds like there might be options. So, not necessarily a commitment now to having RLP forever, though potentially.
+
+272
+00:48:34.500 --> 00:48:49.109
+Ben Edgington: But on that basis, I… I think I'm okay to go ahead with, again, rough consensus, similar to the EL side of things. Nobody's particularly happy, but we need to take a pragmatic view, so…
+
+273
+00:48:49.410 --> 00:48:58.099
+Ben Edgington: Can any objection to adopting the 5770 solution, which is non-consensus-breaking.
+
+274
+00:48:59.100 --> 00:49:01.289
+Ben Edgington: For, for the Consensus layer.
+
+275
+00:49:07.560 --> 00:49:15.019
+Ben Edgington: Going… Going… Gone. Okay. Done. Thank you very much, all.
+
+276
+00:49:16.520 --> 00:49:19.019
+Ben Edgington: Good to get that decided.
+
+277
+00:49:19.870 --> 00:49:38.929
+Ben Edgington: Okay, so, are we then happy to go ahead and schedule the Hoodi upgrade to Glamsterdam? So, ACDE have indicated, a willingness to do the upgrade in the week of 14th of December, so the sort of propitious times for it…
+
+278
+00:49:40.380 --> 00:49:43.760
+Ben Edgington: are on forecast, and I've extracted a few.
+
+279
+00:49:46.780 --> 00:50:00.000
+Ben Edgington: Here, so questions are, are we willing to go ahead with the hoodie upgrade? And if so, what is the date that is preferred? And this is both a CL and EL conversation at this point.
+
+280
+00:50:01.090 --> 00:50:04.000
+Ben Edgington: Potus, no way. Don't… say more.
+
+281
+00:50:08.340 --> 00:50:17.069
+Potuz: How much time does the community need to have the releases? If you are working on the 14 and we need 3 weeks or 2 weeks and a half, we need to release today.
+
+282
+00:50:17.680 --> 00:50:20.959
+Barnabas: Which you could, because we already had that Hoodi release.
+
+283
+00:50:25.180 --> 00:50:30.529
+Enrico Del Fante: Well, we need latest Beta 5 release on the Consensus for sure, right?
+
+284
+00:50:35.170 --> 00:50:36.380
+Barnabas: For Amsterdam.
+
+285
+00:50:36.970 --> 00:50:38.879
+Barnabas: Oh yeah, programs, yeah.
+
+286
+00:50:41.540 --> 00:50:42.290
+Enrico Del Fante: Don't even have.
+
+287
+00:50:42.290 --> 00:50:43.610
+Barnabas: Could we get that out today?
+
+288
+00:50:43.610 --> 00:50:45.470
+Enrico Del Fante: You don't even have the spec out.
+
+289
+00:50:53.040 --> 00:50:53.360
+Ben Edgington: So…
+
+290
+00:50:53.360 --> 00:50:55.150
+Barnabas: Jihoon on the call, maybe?
+
+291
+00:50:59.950 --> 00:51:06.940
+Jihoon: We have two pending PRs, not sure if people want to include it in the spec release.
+
+292
+00:51:07.520 --> 00:51:14.989
+Jihoon: Yeah, once we have some consensus on those two PRs, I can cut a release today or tomorrow.
+
+293
+00:51:15.310 --> 00:51:25.050
+Jihoon: Maybe after, like, after a couple of hours after this call, I get cut a release, but please, take your time to review those two PRs if you want to include them.
+
+294
+00:51:31.990 --> 00:51:37.610
+Ben Edgington: So we… we do indeed usually say 2 weeks, notice, so,
+
+295
+00:51:39.260 --> 00:51:45.889
+Ben Edgington: we could aim for 15th, 16th date with releases, at the start of next week.
+
+296
+00:51:46.040 --> 00:51:54.620
+Ben Edgington: We probably don't want to do an upgrade much later than the 15th or 16th, because we're getting into the holiday season at that point. So,
+
+297
+00:51:55.050 --> 00:51:57.099
+Ben Edgington: Yeah, I was trying to catch up with her.
+
+298
+00:51:57.710 --> 00:51:58.630
+Ben Edgington: Chat.
+
+299
+00:52:00.350 --> 00:52:06.809
+Ben Edgington: would, wood making… so if Jihoon can get the spec updated by today,
+
+300
+00:52:07.470 --> 00:52:18.440
+Ben Edgington: later today, are there any teams that would not be able to make, a release, for Glamstam Hoodi by the beginning of next week?
+
+301
+00:52:22.280 --> 00:52:24.100
+Ben Edgington: And that's EL and SEL.
+
+302
+00:52:35.470 --> 00:52:36.410
+Ben Edgington: Okay?
+
+303
+00:52:36.650 --> 00:52:43.280
+Ben Edgington: Not hearing any objections, to that, so let me, repost the…
+
+304
+00:52:44.730 --> 00:52:48.610
+Ben Edgington: The dates, so that they are visible at the bottom.
+
+305
+00:52:49.220 --> 00:52:56.279
+Ben Edgington: That said, then, do we have a preferred date? So, we have,
+
+306
+00:52:56.610 --> 00:52:58.570
+Ben Edgington: We… we probably want to avoid…
+
+307
+00:52:59.090 --> 00:53:03.830
+Ben Edgington: The 14th, because it's just too soon after releases.
+
+308
+00:53:04.200 --> 00:53:11.200
+Ben Edgington: So, we're looking at 15th or 16th. 15th is at 7pm and a bit UTC.
+
+309
+00:53:11.440 --> 00:53:20.340
+Ben Edgington: And 16th is at 10.30pm, UTC. So, some support for 15th, In the chat.
+
+310
+00:53:23.640 --> 00:53:25.690
+Ben Edgington: Noted, 16th.
+
+311
+00:53:25.840 --> 00:53:26.930
+Ben Edgington: From Obol.
+
+312
+00:53:27.630 --> 00:53:29.509
+Ben Edgington: Any strong preferences?
+
+313
+00:53:30.040 --> 00:53:31.899
+Ben Edgington: Amongst client teams.
+
+314
+00:53:38.260 --> 00:53:39.070
+Ben Edgington: Right.
+
+315
+00:53:39.510 --> 00:53:44.399
+Ben Edgington: I'm gonna call it for the middle ground 15th, on that, so Epoch…
+
+316
+00:53:44.710 --> 00:53:54.690
+Ben Edgington: 143616, 15th of December, at 7.12pm UTC. We will bake that in for the,
+
+317
+00:53:54.990 --> 00:53:59.799
+Ben Edgington: for the Lampstam Hoodie upgrade, yeah, I'm gonna be on vacation then, so I don't care.
+
+318
+00:54:03.270 --> 00:54:04.419
+Ben Edgington: This is great.
+
+319
+00:54:04.600 --> 00:54:05.530
+Ben Edgington: Goods.
+
+320
+00:54:10.710 --> 00:54:19.669
+Ben Edgington: Thank you. So, that thus ends the, hard decision-making for this call. Appreciate everybody's engagement with that, and,
+
+321
+00:54:20.060 --> 00:54:24.520
+Ben Edgington: I'm glad we have got there. So, moving on… we…
+
+322
+00:54:24.810 --> 00:54:27.889
+Ben Edgington: Now I need to talk about Hegota and FOCIL.
+
+323
+00:54:28.270 --> 00:54:35.780
+Ben Edgington: Let me… Shit… Something… I've shared before.
+
+324
+00:54:36.020 --> 00:54:43.730
+Ben Edgington: Just as a… Redux, so this is the, slide I presented.
+
+325
+00:54:43.970 --> 00:54:45.240
+Ben Edgington: Last time.
+
+326
+00:54:46.200 --> 00:54:50.529
+Ben Edgington: Need to rearrange my screen so I can see things… hmm.
+
+327
+00:54:55.800 --> 00:55:08.849
+Ben Edgington: So, we discussed, last time, on ACDC, responding to increased concerns about quantum and AI threats, and I presented this DEF CON slide as a hook to hang the discussion on.
+
+328
+00:55:09.220 --> 00:55:20.889
+Ben Edgington: At the risk of oversimplifying the nuanced conversation we had with many good points, I'm going to selectively quote from my AI's synthesis of the transcript and chat from that call.
+
+329
+00:55:21.230 --> 00:55:31.069
+Ben Edgington: And it goes as follows. In summary, broad agreement was expressed that Ethereum should substantially increase the priority given to post-quantum and post-AI security.
+
+330
+00:55:31.460 --> 00:55:35.489
+Ben Edgington: Expressed urgency levels clustered around DEFCON 2-3,
+
+331
+00:55:35.730 --> 00:55:46.509
+Ben Edgington: Several participants explicitly favored DEFCON 2, while others assessed the underlying threat as closer to 3, but advocated a Level 2 response as a precaution.
+
+332
+00:55:47.250 --> 00:55:57.009
+Ben Edgington: A strong countervailing concern was that urgency must not undermine Ethereum's operational security, engineering discipline, or ability to deliver reliably.
+
+333
+00:55:57.300 --> 00:56:06.170
+Ben Edgington: Consequently, the meeting did not establish support for the full set of compromises or target dates associated with DEF CON 2 in the proposed framework.
+
+334
+00:56:06.690 --> 00:56:15.920
+Ben Edgington: The collective sentiment can therefore be described as favoring DEFCON 2-3 urgency, with a strong precautionary preference for acting sooner rather than later.
+
+335
+00:56:17.000 --> 00:56:29.059
+Ben Edgington: So my own summary of the summary, act with a degree of urgency, revisit the roadmap to prioritize PQAI, but exercise care with respect to delivery risk and making compromises.
+
+336
+00:56:30.520 --> 00:56:45.229
+Ben Edgington: So, I believe this warrants reexamining the scope of HESA. I don't want to make decisions today. I plan to use the next call to reconsider the whole scope of HESA, everything with CFI'd so far.
+
+337
+00:56:45.400 --> 00:56:55.190
+Ben Edgington: But I do want to take a close look at HESA's headliner, EIP 7805, fork choice enforced Inclusion List, commonly known as Fossil.
+
+338
+00:56:55.500 --> 00:56:58.530
+Ben Edgington: Now, for the governance bit…
+
+339
+00:56:58.710 --> 00:57:06.869
+Ben Edgington: If we're considering DFIing a headline a feature, I just want to put it on record that it would be an extraordinary decision, by definition.
+
+340
+00:57:07.200 --> 00:57:16.840
+Ben Edgington: The headliner process is intended to make it very hard to remove them, and I'd want to hear near unanimity from client teams over this, including EL teams.
+
+341
+00:57:18.390 --> 00:57:35.900
+Ben Edgington: In view of this, I've invited FOCIL champions Thoma and Jihoon to make a presentation and talk us through the options as, as they see them, for this. So, lesser any questions immediately. Any, any questions on what I've just presented before I hand over to Tomah?
+
+342
+00:57:39.210 --> 00:57:40.710
+Ben Edgington: Okay, yep.
+
+343
+00:57:44.440 --> 00:57:46.020
+Ben Edgington: Kev, I see your hand up.
+
+344
+00:57:48.410 --> 00:57:52.519
+Kevaundray Wedderburn: Yeah, just one question. So, we're not making a decision today on… on this.
+
+345
+00:57:53.490 --> 00:58:03.560
+Ben Edgington: Correct, yeah, just to reiterate, this is, conversation and view sharing and, you know, checking the, the lay of the land.
+
+346
+00:58:03.560 --> 00:58:16.669
+Ben Edgington: We will make a decision on the next call. No decision is a vote for the status quo, which is that, FOCIL remains headliner, as is for Hegota, so it would have to be an active removal decision, yeah.
+
+347
+00:58:18.890 --> 00:58:22.140
+Ben Edgington: Go on… Tama, can you share your screen now?
+
+348
+00:58:22.480 --> 00:58:29.210
+soispoke: Yeah, all good, thanks. Let me try… Yeah.
+
+349
+00:58:29.600 --> 00:58:33.860
+Ben Edgington: Yeah, seeing it. So, about 15 minutes max, please.
+
+350
+00:58:34.600 --> 00:58:41.500
+soispoke: Yeah, thanks a lot. Okay, I can only see my screen, so… Yeah, it's fine.
+
+351
+00:58:41.910 --> 00:58:48.309
+soispoke: Okay, so I'll try to keep it brief, but I wanted to give a bit of,
+
+352
+00:58:48.510 --> 00:58:53.979
+soispoke: color on what we even mean by PQ FOCIL, and whether it's compatible with
+
+353
+00:58:54.120 --> 00:58:58.760
+soispoke: the sort of, like, new prioritization of PQ.
+
+354
+00:58:58.930 --> 00:59:05.769
+soispoke: And so I'll try to keep it mostly technical for the first part, and I think Jihoon has a couple of thoughts as well.
+
+355
+00:59:05.910 --> 00:59:07.889
+soispoke: But okay, so…
+
+356
+00:59:08.390 --> 00:59:24.000
+soispoke: PQ FOCIL, what is it? I'll keep it high-level, but basically, for me, it's two things. The first thing is, you know, being able to include PQ transactions in inclusion lists, and then the second thing is,
+
+357
+00:59:24.160 --> 00:59:27.569
+soispoke: actually signing the IELTS with PQ signatures.
+
+358
+00:59:28.260 --> 00:59:36.459
+soispoke: I think the first part is by far the sort of, like, most interesting and important one. I can get into it a bit later, but
+
+359
+00:59:37.120 --> 00:59:47.350
+soispoke: if you really keep it high-level, I think, you know, today, basically, you have an 8KB limit on IELTs, and you can fit quite a lot of,
+
+360
+00:59:47.570 --> 00:59:51.799
+soispoke: Transactions, because they have, like, small signatures.
+
+361
+00:59:52.010 --> 01:00:02.320
+soispoke: But of course, like, if we now want to include, transactions that are, like, signed with signatures, like, in Sphinx, and that are, like, about, you know.
+
+362
+01:00:02.710 --> 01:00:10.849
+soispoke: 4 to 7 or even 8 kilobytes, that basically means you'll just be able to include one PQ transaction per IL.
+
+363
+01:00:12.580 --> 01:00:30.650
+soispoke: I don't think that's actually that bad, because, you know, you do have, like, 16 inclusionist community members, so in the end, you know, at best, you are able to include 16, post-quantum transactions per slot, which is not super bad.
+
+364
+01:00:30.790 --> 01:00:35.920
+soispoke: But this also has… Sort of, like, interactions or, or, like.
+
+365
+01:00:36.100 --> 01:00:41.640
+soispoke: it depends what we want to do on the EL side for… for Hze as well, because
+
+366
+01:00:41.850 --> 01:00:59.690
+soispoke: this is… this works basically completely out of the box, like, it's actually very easy to make it work if we, don't have aggregation, sort of, like, 8288-style aggregation with, like, there's sort of, like, whole recursive mempool aggregation and proofs and everything, in Hegota.
+
+367
+01:01:00.190 --> 01:01:08.209
+soispoke: for me, it feels pretty obvious that we shouldn't really go for aggregation in Hegota, but that's also, like, a decision people need to make.
+
+368
+01:01:08.400 --> 01:01:21.439
+soispoke: But basically, if we don't do aggregation, it's pretty easy, you just, like, put a lot less PQ transactions per IL, and that's all you need to do. Of course, if we…
+
+369
+01:01:21.610 --> 01:01:34.980
+soispoke: decide to go with frames for PQ transactions that needs, to… that needs figuring out the sort of, like, FOCIL and frames interactions, like we plan to, but, that's basically all you need, I would say.
+
+370
+01:01:35.190 --> 01:01:42.670
+soispoke: You know, after aggregation, things get a bit more complicated, because now…
+
+371
+01:01:42.830 --> 01:01:56.620
+soispoke: You basically separate the transactions from their signatures, so you can just have, like, these proofs that are, like, again, recursively aggregated, and that you have, like, this sort of, like, one proof that proves that a bunch of
+
+372
+01:01:56.970 --> 01:02:11.789
+soispoke: signatures are valid, so it's great, it's, like, the 8288 dynamics, but of course, like, it would probably mean that you need one proof per inclusion list, and proofs are, like, quite large. Like, they are, like, around, let's say, 300 kilobytes.
+
+373
+01:02:11.990 --> 01:02:26.850
+soispoke: So compared to, like, the 8KB limit, of course, it's much bigger. So if we decided to go, like, with full aggregation for Hegota, like, that would sort of certainly be something we would need to think about.
+
+374
+01:02:28.140 --> 01:02:39.269
+soispoke: But the sequencing that makes the most sense, at least to me, is to go for HeGutar without aggregation, you know, make Fossil work just by including, like, a few.
+
+375
+01:02:39.290 --> 01:02:50.760
+soispoke: PQ transactions, like, if we don't go for aggregation anyways, like, you know, not a ton of people will use PQ transactions, just because they will probably be quite extensive.
+
+376
+01:02:50.910 --> 01:02:56.800
+soispoke: But yeah, so that's, like, sort of, like, the interaction we need to think about here.
+
+377
+01:02:56.920 --> 01:03:00.479
+soispoke: And then, yeah, then the sequencing will be…
+
+378
+01:03:00.620 --> 01:03:06.319
+soispoke: do no aggregation, plus FOCIL, and then, you know, actually ship a full 8288.
+
+379
+01:03:06.330 --> 01:03:25.689
+soispoke: plus, deal with aggregation on the CL side, and then by then, like, sort of, like, all the requirements and machinery needed to handle proofs will be in anyways, because we need it for both layers. We actually need it for the data layer as well, and that means, you know, you can just…
+
+380
+01:03:25.880 --> 01:03:32.299
+soispoke: now propagate proofs quite easily, and, and also will basically just do the same.
+
+381
+01:03:32.920 --> 01:03:39.579
+soispoke: And then the second part is, yeah, IL is actually being signed with PQ signatures.
+
+382
+01:03:39.760 --> 01:03:56.000
+soispoke: That, you know, basically you just replace BLS by Linux MSS, and it adds 2.4 kilobytes to each, inclusion list. So it's, like, I mean, it's not nothing, but it's, like, very different from adding this sort of, like, 300 kilobytes, proofs.
+
+383
+01:03:56.160 --> 01:04:00.950
+soispoke: Also, I would argue, like, honestly, I'm not super convinced.
+
+384
+01:04:01.510 --> 01:04:13.350
+soispoke: It's, like, the most important thing to do, like, if you have, like, a quantum attacker that is trying to break keys, and like, basically, the best you can do here is, like.
+
+385
+01:04:13.510 --> 01:04:28.009
+soispoke: sort of, like, sign IELTs, on behalf of the 16 includeers, make them equivocate, maybe, and just, like, what you achieve is just, like, you neutralize FOCIL for the duration of one slot.
+
+386
+01:04:28.240 --> 01:04:35.150
+soispoke: I feel like, yeah, it's annoying, but, like, would attackers actually go for that first? I'm not convinced.
+
+387
+01:04:35.480 --> 01:04:46.249
+soispoke: So, so yeah, I mean, we will eventually have to do it, but I don't think, like, it's, like, one of the sort of, like, urgent things we would need to work on, in Hegota at all.
+
+388
+01:04:48.170 --> 01:04:59.089
+soispoke: So, yeah, I want to lay out a few options for what we could do for Rakita. I mean, the first option is no FOCIL, so not much to talk about there.
+
+389
+01:04:59.450 --> 01:05:09.010
+soispoke: Another option that I've heard people, like, is Fossil… I call it V0, it's just, like, basically Fossil without…
+
+390
+01:05:09.230 --> 01:05:15.210
+soispoke: we, like, before we even knew Frames was gonna be a headliner, and so it's…
+
+391
+01:05:15.530 --> 01:05:20.050
+soispoke: you know, it's far from ideal. It wouldn't be my preferred option, honestly, but…
+
+392
+01:05:20.370 --> 01:05:30.019
+soispoke: Because it just, like, basically means you can just include, pre-quantum transactions, I guess, or, like, legacy transactions and 7702.
+
+393
+01:05:30.210 --> 01:05:32.390
+soispoke: But, if we go…
+
+394
+01:05:32.730 --> 01:05:43.269
+soispoke: for frames to get, like, the PQ transactions, then that means, PQ transactions can't benefit from Fossil, which is not great.
+
+395
+01:05:43.390 --> 01:05:50.380
+soispoke: I think, you know, One thing to consider with this approach is that, of course.
+
+396
+01:05:50.700 --> 01:05:57.929
+soispoke: it de-risks a ton of, like, all the sort of, like, FOCIL-frames interactions people are worried about,
+
+397
+01:05:58.260 --> 01:06:06.989
+soispoke: And they seem to be quite worried about it. I'm not, like, super… I'm not exactly sure why they are so worried about it when we are actually
+
+398
+01:06:07.180 --> 01:06:15.330
+soispoke: and not as worried about, like, changing the cryptography across, like, the three layers of our protocol, but… but yeah, I mean,
+
+399
+01:06:15.590 --> 01:06:27.130
+soispoke: it will completely de-risk that, because then you only need to deal with, sort of, like, legacy regular transactions, and it's very easy, and it's, like, how Fossil was designed from the start.
+
+400
+01:06:27.650 --> 01:06:34.050
+soispoke: Another dimension I want to add to that option that is at least worth mentioning is that
+
+401
+01:06:34.260 --> 01:06:36.590
+soispoke: You know, it would be an option to maybe…
+
+402
+01:06:36.840 --> 01:06:52.780
+soispoke: commit to the primitive of FOCIL being included, in Hegota. Also, commit to the things we actually, sort of, like, said we will move forward with the community and everything.
+
+403
+01:06:53.330 --> 01:06:59.649
+soispoke: And that is not ideal, because it doesn't cover everything, but at least the primitive is in there, and…
+
+404
+01:07:00.380 --> 01:07:18.520
+soispoke: you know, I don't know how things will look in the future, but, like, I'm thinking maybe, you know, if you have the primitive in there, like, it's actually easier to extend it later on than to ship it after, you know, maybe the political landscape has changed.
+
+405
+01:07:18.710 --> 01:07:36.579
+soispoke: the regulations have changed, even ACD has changed, and maybe we don't have, like, as many cypherpunks in it anymore, like, I don't know. Like, it can actually change, so maybe having the primitive in there is useful on its own, but that's, yeah, for people to judge.
+
+406
+01:07:36.720 --> 01:07:56.600
+soispoke: Then yeah, my preferred option is actually to do, I guess, minimal FOCIL and frames, so no… not go for the… the replacing the signature or anything, just go with, like, no aggregation, works out of the box, but we do need to figure out the FOCIL and frames interaction, which is what we plan to do.
+
+407
+01:07:56.710 --> 01:08:00.140
+soispoke: Originally. And then…
+
+408
+01:08:00.290 --> 01:08:11.330
+soispoke: there is the sort of, like, yeah, full PQ FOCIL, where I imagine, like, the EL actually decides to go for aggregation in Hegota, and then that means, you know, figuring out
+
+409
+01:08:11.490 --> 01:08:14.099
+soispoke: First of all, including proofs,
+
+410
+01:08:14.390 --> 01:08:18.029
+soispoke: Yeah, I think it's not very realistic for Hegota, honestly.
+
+411
+01:08:18.229 --> 01:08:24.929
+soispoke: That feels a bit like an overkill, but it is an option, so I wanted to at least put it out there.
+
+412
+01:08:25.390 --> 01:08:28.740
+soispoke: Okay, and I wanted to…
+
+413
+01:08:29.020 --> 01:08:31.699
+soispoke: briefly talk about timelines. I, I think…
+
+414
+01:08:32.080 --> 01:08:41.619
+soispoke: one thing I've been sort of, like, thinking about is, like, I've been attending all the PQ calls, and I think it's really cool to see the energy and people rallying around it, but
+
+415
+01:08:41.899 --> 01:08:58.010
+soispoke: when I ask about actual timelines, like, it feels like, you know, people with… that are, like, informed are basically telling me, LeanVM production ready, so aggregation basically ready and formally verified by maybe July 2027.
+
+416
+01:08:58.310 --> 01:09:06.160
+soispoke: Yeah, meaning completely formally verified, and maybe multiple implementations of it.
+
+417
+01:09:06.319 --> 01:09:14.960
+soispoke: And then, like, maybe, you know, PQCL, with aggregation, maybe PQDClock, I don't know, by mid-2028.
+
+418
+01:09:15.450 --> 01:09:18.049
+soispoke: Which is quite in a long time,
+
+419
+01:09:18.290 --> 01:09:27.479
+soispoke: And of course, like, these are just, like, estimates, and it's basically impossible to predict whether they are accurate, but that's just, like, the best guess from people with quite a lot of context.
+
+420
+01:09:27.590 --> 01:09:42.710
+soispoke: And one thing I wanted to say is, like, today we don't even really know what PQ Ethereum really means on either the EL or the CL. It's still, like, on the CL, like, it's very, very much
+
+421
+01:09:42.950 --> 01:09:47.540
+soispoke: you know, in the research space. Like, there are tons of open questions, we don't even know.
+
+422
+01:09:47.640 --> 01:10:04.069
+soispoke: if we want to go for PQGasper or PQDClock, or, like, with aggregation, without aggregation, and then there are, like, tons of, like, nested questions, like, I don't know, could we reuse PQGasper for PQDClock, or, like, I don't know, could we tweak, like, could we tweak it, but then if we tweak it.
+
+423
+01:10:04.190 --> 01:10:21.030
+soispoke: Is it just, like, a dirty version of PQDClock? And there are, like, also, like, a lot of questions for LeanVM, at least for me. Like, it's a big project, and, like, formally verifying it and convincing, like, everyone in ACD that it's, like, safe to actually ship that on mainnet will actually take time.
+
+424
+01:10:21.330 --> 01:10:23.910
+soispoke: And so…
+
+425
+01:10:24.160 --> 01:10:36.789
+soispoke: if we, you know, if things do take time, and we do have, like, about, like, a year of heavy research ahead of us, I think there's basically no reason we shouldn't be able to do pipeline and parallelize.
+
+426
+01:10:36.820 --> 01:10:46.949
+soispoke: I think FOCIL and frames are, like, past the research phase. I think it's fair to say it's mostly engineering and DevNets and benchmarks and testing.
+
+427
+01:10:47.180 --> 01:11:06.299
+soispoke: And if we reduce the scope of Hegota by only keeping headliners like Fossil and frames, I think there is a good chance that we can actually ship Hegota by mid-end of 2027, and I'm not sure how big of a delay it will actually cause on the PQCL timelines, honestly.
+
+428
+01:11:06.660 --> 01:11:21.810
+soispoke: I'm not trying to say, like, FOCIL and frames is going to… is not going to take some time, or, like, it's not gonna take the same time as just frames, obviously, but I don't know how… how much time frames will take, I guess.
+
+429
+01:11:22.200 --> 01:11:35.249
+soispoke: And I don't… yeah, I just, like, don't know if we will take, like, that much time away from PQCL. I think, yeah, and then I'm done, but, like, I think the alternative timeline I've been hearing that looks more like this, which is, like.
+
+430
+01:11:35.460 --> 01:11:42.600
+soispoke: a completely emergency fork, and I will aim for, like, PQ, ethereum in 2027, I guess.
+
+431
+01:11:42.710 --> 01:11:55.199
+soispoke: with aggregation, yeah, I just, like, struggle to see how it's doable. I've heard, like, the takes of, like, yeah, we will do four forks in 2027, and I can't help but, like.
+
+432
+01:11:55.580 --> 01:11:58.729
+soispoke: thing that it's completely crazy.
+
+433
+01:11:59.070 --> 01:12:16.949
+soispoke: Or, like, unless we do, like, huge trade-offs, like, for example, we go with PQ without aggregation, PQ Yesper without aggregation, like, we cap the Validator set like crazy, or we do, like, super long slots, but I feel like today, people are not really ready to make these calls,
+
+434
+01:12:17.070 --> 01:12:23.800
+soispoke: And that it will actually take time for us to convert on something. And so, what I mostly want
+
+435
+01:12:24.080 --> 01:12:34.129
+soispoke: everyone to avoid is, like, a scenario in which we… we basically DFI things before we have a concrete plan for what we want, PQ ethereum to be.
+
+436
+01:12:34.320 --> 01:12:46.469
+soispoke: I think… I think it should basically be the other way around. We should, like, decide if we are, like, in this very crazy emergency mode, and we need to ship, like, a minimal viable PQCL in 2027.
+
+437
+01:12:47.020 --> 01:12:48.610
+soispoke: Or, if we want.
+
+438
+01:12:48.720 --> 01:13:01.630
+soispoke: you know, nice things still, and that we are okay having, like, a 2028 fork, in which case, like, we should definitely ship, like, user-facing features in the meantime, I think.
+
+439
+01:13:02.230 --> 01:13:05.719
+soispoke: Yeah, and Tuan, I think the main thing I'm struggling with is, like.
+
+440
+01:13:05.910 --> 01:13:16.609
+soispoke: Yeah, I've been hearing this, like, a lot this past few days, and I think it's, worth at least mentioning. Like, I've been hearing, yeah, we don't have a plan, like, we know we don't have a plan.
+
+441
+01:13:16.700 --> 01:13:30.659
+soispoke: we don't really know what we are gonna be doing and when, but, like, let's just DFI a headliner in the meantime, just… just to be sure we can actually focus on getting a plan. And I think that's… it's not completely…
+
+442
+01:13:30.920 --> 01:13:32.559
+soispoke: Serious,
+
+443
+01:13:32.790 --> 01:13:45.750
+soispoke: And… and so far, for me, the best outcome is just, like, to reduce the Hegota scope by a lot, keeping minimal FOCIL frames in, and ship it as soon as possible. Yeah, and I'll… I'll leave it to Jihoon now.
+
+444
+01:13:48.850 --> 01:13:53.760
+Ben Edgington: So I know, Andrew, you've got your hand raised, have you got an immediate question?
+
+445
+01:13:54.410 --> 01:13:56.379
+Andrew Ashikhmin: I have a comment, so…
+
+446
+01:13:56.570 --> 01:13:58.699
+Andrew Ashikhmin: I can wait, but yeah, I want to…
+
+447
+01:13:58.700 --> 01:14:03.920
+Ben Edgington: Yeah, well, there'll be time for, open discussion, after the presentations.
+
+448
+01:14:04.170 --> 01:14:04.840
+Ben Edgington: Yep.
+
+449
+01:14:09.900 --> 01:14:11.510
+Jihoon: Okay, thank you, Pat.
+
+450
+01:14:11.750 --> 01:14:13.270
+Jihoon: Let me share my screen.
+
+451
+01:14:19.860 --> 01:14:20.820
+Jihoon: So…
+
+452
+01:14:22.220 --> 01:14:29.259
+Jihoon: I don't want to reiterate what Toma just already said, so I'd like to focus on sharing my opinion from
+
+453
+01:14:29.420 --> 01:14:32.320
+Jihoon: The perspective of resource pipelining.
+
+454
+01:14:33.780 --> 01:14:45.649
+Jihoon: I've shared two articles for us to make an informed decision. One is about technical details on PQ Fossil. It's not perfect because PQE ethereum itself is still being designed.
+
+455
+01:14:46.110 --> 01:14:55.989
+Jihoon: But I wanted to give a good overview of how FOCIL would transform during the peak transition. And the other one is my opinion on Hegota scoping.
+
+456
+01:14:56.750 --> 01:14:58.880
+Jihoon: In terms of resource pipelining.
+
+457
+01:14:59.030 --> 01:15:05.239
+Jihoon: Toma and I actually haven't really discussed on this front, but we converged to a similar conclusion.
+
+458
+01:15:05.750 --> 01:15:25.640
+Jihoon: The PQ Consensus, either it be PQGasper or PQDClock, is still in the research phase. PQGasper raises difficult questions, such as increasing hardware and bandwidth requirements, whether to introduce an aggregate role, which is not exactly transferable to PQDClock,
+
+459
+01:15:25.710 --> 01:15:35.430
+Jihoon: Which P2P changes to adopt, whether to remove sync committee. On the other hand, PQDClock makes it easier to adopt hash-based signature.
+
+460
+01:15:35.910 --> 01:15:49.710
+Jihoon: I'm personally excited to see PQDClock on mainnet, but unfortunately, it is still in active research, in my opinion. Its design space is still being explored, and we are waiting for its initial spec.
+
+461
+01:15:49.960 --> 01:15:52.000
+Jihoon: And, in contrast.
+
+462
+01:15:52.100 --> 01:16:09.639
+Jihoon: among all the other CFI or SFI EIPs for HESI, a FOCIL SFI headliner is already in late development phase. It depends on what kind of variation FOCIL we are talking about here, but still, like, at least on the CL side, I believe it is
+
+463
+01:16:09.950 --> 01:16:21.190
+Jihoon: In mid to late development phase, and at least one person per most of CL and EL client teams has a good understanding of Fossil. So…
+
+464
+01:16:21.710 --> 01:16:38.999
+Jihoon: I think it can move through development and testing phases, while P2 Consensus is graduating from research phase, and my expectation is Fossil could hand over theatone to P2 Consensus when it moves into development cycle. So shipping Fossil have a…
+
+465
+01:16:39.620 --> 01:16:42.450
+Jihoon: has a limited impact on the P2 timeline.
+
+466
+01:16:43.320 --> 01:16:57.829
+Jihoon: DFI on SF5 headliner with a promise that we were gonna do it in a fork that is 3 years old is something that we haven't done before, but just assuming that we were gonna do both PQ and FOCIL at the end, the question is.
+
+467
+01:16:57.830 --> 01:17:03.490
+Jihoon: what should come first? And if we do PQ first, I think it's inevitable to have
+
+468
+01:17:03.490 --> 01:17:14.730
+Jihoon: several months of idle time in development. Of course, we can do hardening during that time, but given that we've been doing hardening, I'm not sure whether that's the best use of our resources.
+
+469
+01:17:14.730 --> 01:17:25.410
+Jihoon: If you do FOCIL first, PQ would be delayed, but we can utilize our resources, and by doing so, we can get to PQ and censorship-resistant Ethereum investor.
+
+470
+01:17:25.590 --> 01:17:31.200
+Jihoon: Before I wrap up my speech, I'd like to share my two cents on two…
+
+471
+01:17:31.300 --> 01:17:39.979
+Jihoon: points. I do agree that putting more protocol experts on P2 Consensus will accelerate the PQ roadmap.
+
+472
+01:17:40.220 --> 01:17:56.780
+Jihoon: However, putting 10 more people doesn't really make it go 10 times faster. Also, I'd like to stress that people have different skill sets and different appetites for different lines of work. We have great researchers, but we also have great developers and testers.
+
+473
+01:17:56.780 --> 01:18:11.319
+Jihoon: So putting everyone into research-y items can be suboptimal, and might even slow things down. And that's why I proposed to keep Fossil integra and develop PQ Consensus in parallel, and that's all for me.
+
+474
+01:18:11.330 --> 01:18:12.210
+Jihoon: Thank you.
+
+475
+01:18:15.220 --> 01:18:33.049
+Ben Edgington: Great. Thanks, Jihoon. Let's spend about 15 minutes, in open discussion. I just want to reserve a little bit of time at the end for something else, and, thank you, Tama, thank you, Jihoon. Let me call on Andrew first, since, he had his hand up, earlier.
+
+476
+01:18:34.050 --> 01:18:42.869
+Andrew Ashikhmin: Thank you. And, yeah, unfortunately, Fossil, at the moment, does not solve censorship.
+
+477
+01:18:43.060 --> 01:18:46.909
+Andrew Ashikhmin: Because it does… it does not force,
+
+478
+01:18:47.240 --> 01:18:57.689
+Andrew Ashikhmin: Transaction inclusion if a block is full, so it's very easy for a builder to just include those transactions he's okay with, and
+
+479
+01:18:57.690 --> 01:19:08.300
+Andrew Ashikhmin: drop those, he's not okay with by either picking more user transactions or just, just, filling a block with, rubbish transactions.
+
+480
+01:19:08.780 --> 01:19:18.049
+Andrew Ashikhmin: And I'm not saying that it is unsolvable, definitely we can solve it, but it just highlights to my mind the fact that
+
+481
+01:19:18.310 --> 01:19:23.910
+Andrew Ashikhmin: Fossil is very far from finished, and if we are serious about post-quantum
+
+482
+01:19:24.090 --> 01:19:28.889
+Andrew Ashikhmin: It will be a massive distraction from the work on post-quantum.
+
+483
+01:19:34.750 --> 01:19:36.830
+Ben Edgington: Okay, thanks, Andrew. Ben?
+
+484
+01:19:38.120 --> 01:19:48.729
+Ben Adams: I think one of the risks, unfortunately with Fossil from PQ is that it moves the spec into
+
+485
+01:19:49.250 --> 01:19:52.090
+Ben Adams: Undefined, not being complete.
+
+486
+01:19:52.260 --> 01:20:03.989
+Ben Adams: Which then itself brings risk in. I mean, it's not FOCIL's fault, it's from PQ's fault, but, nevertheless, it is now sort of an undefined spec, and…
+
+487
+01:20:05.080 --> 01:20:08.030
+Ben Adams: Or incomplete spec, rather, which,
+
+488
+01:20:08.220 --> 01:20:10.590
+Ben Adams: Which then brings its own risks in.
+
+489
+01:20:12.020 --> 01:20:19.410
+Ben Edgington: So just so I can check and understood what you're saying, Ben, so there is an EIP for FOCIL at the moment that is not…
+
+490
+01:20:19.460 --> 01:20:32.480
+Ben Edgington: does not include PQ, aspect of things, and so going ahead with the EIP as is, we're moving into an unknown, territory in any case. Is that what you're saying, or something else?
+
+491
+01:20:33.140 --> 01:20:39.490
+Ben Adams: Yeah, so, I mean, just looking at forks in general, I think one of the,
+
+492
+01:20:40.480 --> 01:20:49.000
+Ben Adams: the biggest causes of delays is, working on EIPs that… whether the spec isn't finalized, and saying, we're gonna ship these.
+
+493
+01:20:50.060 --> 01:20:55.039
+Ben Adams: And so I think it… Because it doesn't include…
+
+494
+01:20:55.900 --> 01:21:03.309
+Ben Adams: all of the pieces, like FOCIL frames, sorry, frames and PQ at the same time,
+
+495
+01:21:03.550 --> 01:21:10.389
+Ben Adams: we're now in a sort of undefined… whereas if FOCIL is after PQ, and the spec is…
+
+496
+01:21:10.600 --> 01:21:16.049
+Ben Adams: Redone to… to include… All of the features, then…
+
+497
+01:21:16.430 --> 01:21:19.460
+Ben Adams: We're doing it once, rather than…
+
+498
+01:21:19.910 --> 01:21:24.530
+Ben Adams: Either doing an unknown thing, or doing… having to do FOCIL twice.
+
+499
+01:21:25.220 --> 01:21:36.909
+Ben Edgington: Got it. Before I get to you, Caspar, I just want to invite Thomas, if you want to make, kind of, brief responses to any of the points that have just been made. I see you're active in chat, but it's good to get them.
+
+500
+01:21:37.080 --> 01:21:38.710
+Ben Edgington: Into the main core.
+
+501
+01:21:39.110 --> 01:21:43.630
+soispoke: Yeah, sure, sure. No, I thought you were talking about PQ FOCIL.
+
+502
+01:21:43.860 --> 01:21:48.080
+soispoke: And there, as I said, I feel like if there is no…
+
+503
+01:21:48.450 --> 01:21:57.150
+soispoke: aggregation in HeGuta, like, 8288-style aggregation, there needs… we don't need to change anything about the FOCIL…
+
+504
+01:21:57.260 --> 01:22:04.780
+soispoke: specs. I think the… the actual specs for FOCIL and frames were, like, in…
+
+505
+01:22:05.480 --> 01:22:21.000
+soispoke: I mean, yeah, it needs to be a bit more fleshed out, but, like, there are… there is this sort of, like, EIP, that was, like, an informational EIP, because we are struggling with, sort of, like, these mempool interactions that are, like, cross-layer, and…
+
+506
+01:22:21.000 --> 01:22:27.780
+soispoke: We don't exactly know exactly, like, how those should be presented, but it's more like… An artifact of…
+
+507
+01:22:27.960 --> 01:22:32.879
+soispoke: Of, not being able to exactly see where these pieces fit, like, does it fit in…
+
+508
+01:22:33.050 --> 01:22:52.740
+soispoke: an EIP, does it fit in, like, each of the specs of FOCIL frames? I will say, like, some clients have already worked on, sort of, like, FOCIL and frames interactions, and that needs… that's the part that needs the most, attention and engineering, I would say. But,
+
+509
+01:22:53.210 --> 01:22:57.659
+soispoke: But yeah, I mean, the PQ part is… is not gonna need any…
+
+510
+01:22:59.970 --> 01:23:02.069
+Ben Edgington: Okay, thanks. Caspar?
+
+511
+01:23:03.700 --> 01:23:06.260
+Caspar Schwarz-Schilling: Yeah, thank you.
+
+512
+01:23:06.570 --> 01:23:14.669
+Caspar Schwarz-Schilling: I guess in my mind, at the end of the day, it's somehow, quote-unquote, quite simple in terms of the decision we have to make.
+
+513
+01:23:14.890 --> 01:23:19.660
+Caspar Schwarz-Schilling: And I think, really, the question is whether we…
+
+514
+01:23:19.760 --> 01:23:26.590
+Caspar Schwarz-Schilling: are going to reprioritize Hegota and basically drop everything that's not on the critical path to post-quantum.
+
+515
+01:23:26.850 --> 01:23:27.830
+Caspar Schwarz-Schilling: or not.
+
+516
+01:23:27.960 --> 01:23:33.329
+Caspar Schwarz-Schilling: And I think if the answer is we are, then Fossil kind of has to go for now.
+
+517
+01:23:33.480 --> 01:23:37.259
+Caspar Schwarz-Schilling: And if… if not, then Fossil,
+
+518
+01:23:37.530 --> 01:23:43.410
+Caspar Schwarz-Schilling: should be the first EIP to stay, since it's the, kind of, only SFI headliner EIP.
+
+519
+01:23:43.730 --> 01:23:50.620
+Caspar Schwarz-Schilling: it's obviously very well placed. And I guess, in my opinion, it's just that
+
+520
+01:23:50.800 --> 01:23:59.750
+Caspar Schwarz-Schilling: quite obvious that we should be, uncompromisingly prioritizing PQAI at this point, and kind of… and drop Fossil.
+
+521
+01:23:59.940 --> 01:24:03.439
+Caspar Schwarz-Schilling: And I guess… Yeah, I think…
+
+522
+01:24:03.700 --> 01:24:12.949
+Caspar Schwarz-Schilling: this whole PQ transition is obviously a massive undertaking, and in itself already a very ambitious change on these timelines, and…
+
+523
+01:24:13.140 --> 01:24:20.050
+Caspar Schwarz-Schilling: at the end of the day, Fossil, in my opinion, just very clearly competes for the same bottleneck of resources, and…
+
+524
+01:24:20.180 --> 01:24:22.299
+Caspar Schwarz-Schilling: Yeah, I think…
+
+525
+01:24:23.190 --> 01:24:39.890
+Caspar Schwarz-Schilling: it goes basically through the same set of very high-context people, and that is a lot of people across research and Devs, from networking specs to the architecture itself, etc. And right now, we have all of them spending their time on PQDClock versus Caspar.
+
+526
+01:24:39.890 --> 01:24:46.920
+Caspar Schwarz-Schilling: And the point here is really that there's a lot of work to do, and if we're serious about prioritizing post-quantum
+
+527
+01:24:46.960 --> 01:24:49.899
+Caspar Schwarz-Schilling: The post-quantum transition, then…
+
+528
+01:24:50.060 --> 01:24:56.929
+Caspar Schwarz-Schilling: There's, like, no way, that we can, like, spend them on FOCIL right now.
+
+529
+01:24:57.090 --> 01:25:04.829
+Caspar Schwarz-Schilling: it's clearly overlapping. I think it's very hard to… to take the arguments of the other side here.
+
+530
+01:25:05.410 --> 01:25:08.150
+Caspar Schwarz-Schilling: Yeah, serious.
+
+531
+01:25:08.150 --> 01:25:09.410
+soispoke: I have a meeting room.
+
+532
+01:25:09.410 --> 01:25:12.270
+Caspar Schwarz-Schilling: I can… I can finish my point, then you can go.
+
+533
+01:25:12.510 --> 01:25:14.700
+Caspar Schwarz-Schilling: and…
+
+534
+01:25:15.440 --> 01:25:30.160
+Caspar Schwarz-Schilling: Yeah, I mean, I guess it also doesn't help that, like, Fossil is not on the critical path to PQ AI here at the moment, and it's obviously not helpful that it's also not built for PQ by default, and would need to do some adapting there.
+
+535
+01:25:30.160 --> 01:25:40.569
+Caspar Schwarz-Schilling: But I'm also confident that if we really put our mind to it, we can obviously find a way. So it's really just about the opportunity cost here of, are we serious about prioritizing or not?
+
+536
+01:25:41.000 --> 01:25:49.689
+Caspar Schwarz-Schilling: And maybe last point here, in terms of on the governance side of things, maybe two things. One, I would want us to be able to make
+
+537
+01:25:50.810 --> 01:26:10.280
+Caspar Schwarz-Schilling: a kind of, yeah, rough consensus decision here. I don't think unanimity is appropriate, as a first point, maybe. And then secondly, removing FOCIL from Hegota now, after it was assified as headliner is obviously a very drastic step.
+
+538
+01:26:10.440 --> 01:26:13.539
+Caspar Schwarz-Schilling: But I personally think it's just…
+
+539
+01:26:13.660 --> 01:26:31.250
+Caspar Schwarz-Schilling: absolutely justified to revisit a decision when we are in the times in that we are in. I think when we first made these decisions, Opus 4.5 was the state of the art, and since then, just everything has changed. Math problems dropping like flies.
+
+540
+01:26:31.400 --> 01:26:40.280
+Caspar Schwarz-Schilling: And I think if a governance process can't respond to the world changing around itself after, like.
+
+541
+01:26:40.500 --> 01:26:56.630
+Caspar Schwarz-Schilling: having kind of made decisions almost a year ago, then it's… it's not a very serious process. Like, I think we just need to be able to recognize when the reality changes drastically enough to justify revisiting a decision.
+
+542
+01:26:56.630 --> 01:27:00.989
+Caspar Schwarz-Schilling: Or we're gonna risk, yeah, dying a bureaucratic process.
+
+543
+01:27:01.130 --> 01:27:01.950
+Caspar Schwarz-Schilling: Death.
+
+544
+01:27:03.430 --> 01:27:05.589
+Ben Edgington: Thank you, Caspar. Tomo?
+
+545
+01:27:06.420 --> 01:27:24.030
+soispoke: Yeah, I mean, so when you say deprioritize everything that's not PQ critical, like, it doesn't really mean anything. Like, what do we… what do we mean by this? Do… would you say the exact same thing for, let's ship, like, yet another transaction type that is, like, for PQ transactions and drop frames?
+
+546
+01:27:24.140 --> 01:27:38.330
+soispoke: would you say we should do PQGasper without aggregation, even if that means, sort of, like, capping the Validator set? Like, just, like, dropping things that are, like, in the critical path is a very hand-wavy thing to…
+
+547
+01:27:38.540 --> 01:27:54.789
+soispoke: just, like, justify the fact that you want to drop one specific thing, but I don't… I don't think it holds. Like, I… I don't think, like, anyone knows what… I don't think, basically, the governance has decided what should be in the critical path or not.
+
+548
+01:27:54.940 --> 01:27:56.260
+soispoke: And now…
+
+549
+01:27:56.400 --> 01:28:12.879
+soispoke: basically, before we've decided exactly where we stand, which is what… which was my point in my presentation, like, before we know what we mean by going for PQ as fast as possible, we choose and handpick, sort of, like,
+
+550
+01:28:13.630 --> 01:28:16.870
+soispoke: EIPs that we want to DFI, and…
+
+551
+01:28:17.050 --> 01:28:35.829
+soispoke: And Fossil happens to be a headliner, and we happen to choose it first. But I do think, like, there are many other things that could be in the critical path, depending on what we mean by we should go all in. And Fossil is definitely one of them, but, like, I don't know…
+
+552
+01:28:36.120 --> 01:28:41.520
+soispoke: I don't know whether we should make those sort of, like, specific decisions before we have settled on, like.
+
+553
+01:28:41.770 --> 01:29:00.839
+soispoke: what do we want as a governance body? Like, how much do we exactly want to prioritize PQ AI after we've made that decision? And if the governance says, you know, we do, and we will drop, like, anything that's in the way because we have a very strict timeline to go for.
+
+554
+01:29:01.050 --> 01:29:09.469
+soispoke: I mean, then you can start, sort of, like, asking about dropping things, but in the meantime, I feel like it's too… it's two-way.
+
+555
+01:29:12.150 --> 01:29:13.340
+Ben Edgington: Thank you.
+
+556
+01:29:13.960 --> 01:29:14.460
+Ben Edgington: Okay.
+
+557
+01:29:15.110 --> 01:29:15.800
+Ben Edgington: Sorry.
+
+558
+01:29:18.530 --> 01:29:29.019
+Fabio Di Fabio: So, given that, I think, we all agree that PQ is the priority, and that could also,
+
+559
+01:29:29.500 --> 01:29:32.549
+Fabio Di Fabio: Let us decide to remove FOCIL.
+
+560
+01:29:33.430 --> 01:29:38.990
+Fabio Di Fabio: In the presentation, we saw there are different levels of FOCIL implementation, so…
+
+561
+01:29:39.130 --> 01:29:45.300
+Fabio Di Fabio: I would like to opportunistically try at least to include
+
+562
+01:29:46.520 --> 01:29:55.070
+Fabio Di Fabio: the bare minimum of FOCIL, if that is possible. For example, without even, supporting
+
+563
+01:29:55.170 --> 01:29:57.709
+Fabio Di Fabio: Prim's Transaction in the first version.
+
+564
+01:29:57.940 --> 01:30:04.279
+Fabio Di Fabio: Because that will give the possibility to have Something about censorship.
+
+565
+01:30:04.520 --> 01:30:08.079
+Fabio Di Fabio: resistance to the protocol.
+
+566
+01:30:08.480 --> 01:30:15.579
+Fabio Di Fabio: also because probably after the Hegota, artwork, they… they are…
+
+567
+01:30:15.680 --> 01:30:18.770
+Fabio Di Fabio: What come next could also have…
+
+568
+01:30:19.380 --> 01:30:25.829
+Fabio Di Fabio: much more contention on what is going on, and it's not said that FOCIL will be there.
+
+569
+01:30:26.550 --> 01:30:28.020
+Fabio Di Fabio: So…
+
+570
+01:30:28.200 --> 01:30:37.410
+Fabio Di Fabio: Yeah, just want to say that there are different variants of FOCIL that we can try to choose, and opportunistically choose the one that fit
+
+571
+01:30:37.780 --> 01:30:38.930
+Fabio Di Fabio: better.
+
+572
+01:30:39.490 --> 01:30:42.240
+Fabio Di Fabio: Along, PQ.
+
+573
+01:30:43.640 --> 01:30:46.180
+Ben Edgington: Thank you. Jihoon.
+
+574
+01:30:48.250 --> 01:30:52.540
+Jihoon: Yeah, I wanted to share, that…
+
+575
+01:30:53.930 --> 01:31:00.469
+Jihoon: For past one week, there were some senior developers looking into FOCIL
+
+576
+01:31:00.870 --> 01:31:04.289
+Jihoon: In both EL and EL, in a very detailed level.
+
+577
+01:31:04.530 --> 01:31:05.930
+Jihoon: So, I…
+
+578
+01:31:07.470 --> 01:31:23.239
+Jihoon: I just find it hard to agree that all of those handful of protocol experts will work on the same topic in whichever stage. I just don't think that this is just technically not true. Of course, we can spend more resources on
+
+579
+01:31:23.360 --> 01:31:27.610
+Jihoon: What was… was being bottlenecked, but…
+
+580
+01:31:28.360 --> 01:31:35.040
+Jihoon: I don't think it would be, like, 100%, like, we are putting everyone in the same topic, so, yeah.
+
+581
+01:31:37.910 --> 01:31:44.059
+Ben Edgington: Got it. Thank you, Jihoon. So, I'm particularly interested to hear from
+
+582
+01:31:44.320 --> 01:31:52.059
+Ben Edgington: client teams who would support keeping some sort of FOCIL in Hegota, Hegota.
+
+583
+01:31:52.120 --> 01:32:08.489
+Ben Edgington: I suppose, as it applies to both layers. Fabio has put the option of keeping a slimmed-down version, thinks perhaps it's important to, as a placeholder, and as a mark of intent for Ethereum.
+
+584
+01:32:09.020 --> 01:32:17.829
+Ben Edgington: Other client teams, are there others who would want to speak in favor of keeping Fossil in some form in as a headliner for Hegota?
+
+585
+01:32:30.410 --> 01:32:34.750
+Ben Edgington: I see, Nico, you've posted in chat, I'm gonna call on you, because,
+
+586
+01:32:34.860 --> 01:32:39.100
+Ben Edgington: That sounds a bit like a… pro position.
+
+587
+01:32:42.040 --> 01:32:59.659
+Nico Flaig: Yeah, I mean, mostly I don't really see the argument that it takes time away, or, like, attention away from PQ, and also decoupled Consensus, at least from a CL point of view, because at least in our team, we worked on, or looked into both of these, and
+
+588
+01:32:59.880 --> 01:33:10.200
+Nico Flaig: like, we have FOCIL ready since a few weeks, or even, like, we have this… we have FOCIL ready since a few years, even. And I feel like…
+
+589
+01:33:10.310 --> 01:33:23.619
+Nico Flaig: I just don't see the overlap in attention that would go away with this, on the EL side. I'm not sure about the frames and FOCIL, but that's mostly on the EL side, so…
+
+590
+01:33:25.540 --> 01:33:26.100
+Ben Edgington: Q.
+
+591
+01:33:26.610 --> 01:33:27.420
+Ben Edgington: Ben?
+
+592
+01:33:28.760 --> 01:33:34.540
+Ben Adams: I do agree with the, adding more cooks doesn't necessarily speed things up.
+
+593
+01:33:35.080 --> 01:33:43.480
+Ben Adams: So I'd see, like, FOCIL at risk due to these unknowns, but… That doesn't mean…
+
+594
+01:33:43.880 --> 01:33:49.009
+Ben Adams: they can't be resolved in the near future, so… I mean, that…
+
+595
+01:33:49.600 --> 01:33:52.189
+Ben Adams: Killing it now might be premature.
+
+596
+01:33:55.230 --> 01:33:56.750
+Ben Edgington: Okay, Ivan.
+
+597
+01:33:58.540 --> 01:34:13.960
+Iván | ethrex: For us, it's not yet clear, to be honest. We see the possibility of continuing working on FOCIL with a minimal version, with the goal of introducing the feature in the protocol, and then trading it over in the future forks.
+
+598
+01:34:14.050 --> 01:34:20.150
+Iván | ethrex: But at the same time, we don't want force you to distract PQ development, or PQ shipping.
+
+599
+01:34:20.280 --> 01:34:21.200
+Iván | ethrex: And…
+
+600
+01:34:21.580 --> 01:34:32.060
+Iván | ethrex: In this sense, FOCILs should continue after we have sorted out minimal PQ features, and it should be easy to move in case… to remove in case of an emergency.
+
+601
+01:34:32.460 --> 01:34:41.389
+Iván | ethrex: LeanVM ETA, I think it's also important to take into account in this decision, because if it's ready for Hegota, then delaying FOCIL
+
+602
+01:34:41.810 --> 01:34:46.380
+Iván | ethrex: makes more sense to me, but if not, I'm not entirely sure.
+
+603
+01:34:46.910 --> 01:34:53.820
+Iván | ethrex: And, it will also be interesting to… to know what PQ40 looks like.
+
+604
+01:34:54.030 --> 01:35:02.590
+Iván | ethrex: To see if a minimal version of FOCIL works, and… but… again, it's…
+
+605
+01:35:02.930 --> 01:35:05.419
+Iván | ethrex: It's… we don't have a final decision yet.
+
+606
+01:35:08.340 --> 01:35:09.950
+Ben Edgington: Yep. Thank you.
+
+607
+01:35:11.460 --> 01:35:23.500
+Ben Edgington: Okay, I'm going to draw a line under that for now. We will come back to that in two weeks' time, and try to make decisions about the whole, Hegota Hegota scope, so please be…
+
+608
+01:35:23.710 --> 01:35:35.000
+Ben Edgington: reviewing the CFI'd items, in the meantime, and SFI'd even, and we will revisit those and, rework the scope. Greg, do you have a quick point?
+
+609
+01:35:36.250 --> 01:35:40.319
+Greg K | Lido: Yeah, yeah, very quick. It's not, so much, like.
+
+610
+01:35:40.400 --> 01:35:59.379
+Greg K | Lido: having a position here, but just asking something, like, it would be good for, like, for the next iteration of this discussion, to have a very clear, like, description, because this is what something that I am also… don't fully clearly see right now, is, like, what is intended on the… at least on the consensus layer, what is intended
+
+611
+01:35:59.400 --> 01:36:02.440
+Greg K | Lido: to be in Hekota for the post-quantum roadmap.
+
+612
+01:36:02.470 --> 01:36:13.850
+Greg K | Lido: that is, blocked by FOCIL or delayed by FOCIL, because I had also this question in the chat, and apparently, it looks like there are stuff like that, but, yeah, I didn't notice, so…
+
+613
+01:36:13.850 --> 01:36:23.150
+Greg K | Lido: What was my mental model was that before, Piquet stations, which are definitely not in Hegota, FOCIL is not really a blocker.
+
+614
+01:36:23.150 --> 01:36:34.660
+Greg K | Lido: But apparently, this is not the case, so it will be good if someone makes this clear, so that people, when having a position or discussing on this, there is a very clear reply to this question.
+
+615
+01:36:34.670 --> 01:36:36.430
+Greg K | Lido: Yeah, that's it.
+
+616
+01:36:37.310 --> 01:36:41.340
+Ben Edgington: Thank you. We can continue conversation on Discord, meanwhile.
+
+617
+01:36:41.520 --> 01:36:43.029
+Ben Edgington: Potus, quick one.
+
+618
+01:36:48.220 --> 01:36:53.090
+Potuz: Oh, no, I was going to reply to Greg, so if we're continuing on Discord, I'll go there.
+
+619
+01:36:53.740 --> 01:37:03.190
+Ben Edgington: Yeah, if that's okay at this stage, I think this will run and run this conversation, but, thanks a lot. I did just want to echo Ansgar's sentiment
+
+620
+01:37:03.450 --> 01:37:10.000
+Ben Edgington: expressed earlier. I mean, in all these conversations, nothing is ideal. We're all… all having to let go of,
+
+621
+01:37:10.150 --> 01:37:26.460
+Ben Edgington: dearly held projects, features, things we've worked on for years, and yeah, appreciate the civilized, manner everyone's approaching it in, and we all have the future of Ethereum, at heart in all of these things. So, appreciate that, everybody. Let's, keep it up.
+
+622
+01:37:26.650 --> 01:37:37.629
+Ben Edgington: Last item, last quick item, just want to invite Kev to highlight some work that's been done on hash function for post-quantum. Are you still with us, Kev?
+
+623
+01:37:39.020 --> 01:37:40.580
+Kevaundray Wedderburn: I am still here, Ben.
+
+624
+01:37:40.580 --> 01:37:41.559
+Ben Edgington: Go for it, sir.
+
+625
+01:37:41.770 --> 01:38:02.809
+Kevaundray Wedderburn: Okay, so we put out a post recently that is proposing to use Gethack256 as the hash function for our hash-based cryptography. So this will include LeanVM, but also Lean XMSS, which is the signature scheme on the CL, and Lean Sphinx, which is the signature scheme on the EL.
+
+626
+01:38:02.890 --> 01:38:17.400
+Kevaundray Wedderburn: At the end of the post, I think there's a part that says, like, how does it affect, like, EL Devs or client devs? For the EL, it basically doesn't affect you that much, since you're already using Kak 256.
+
+627
+01:38:17.610 --> 01:38:28.209
+Kevaundray Wedderburn: But there is a proposal to use for frame transactions to compute the transaction hash using SSZ, and I would suggest to use SSZ with Gethack there.
+
+628
+01:38:28.300 --> 01:38:41.749
+Kevaundray Wedderburn: For the CL, yeah, it's basically just a signature scheme that changes, so it's partly opaque to you, but if we do… like, in the future, we could switch to SSZ with Keccak there as well, but it's not something you need for PQ.
+
+629
+01:38:41.880 --> 01:38:45.380
+Kevaundray Wedderburn: So happy to answer more questions about this change.
+
+630
+01:38:52.050 --> 01:38:53.160
+Ben Edgington: Questions for Kev?
+
+631
+01:38:57.700 --> 01:39:02.190
+Kevaundray Wedderburn: We also have some of the cryptographers on here, Benedict.
+
+632
+01:39:06.490 --> 01:39:07.470
+Ben Edgington: Go on, Felix.
+
+633
+01:39:08.480 --> 01:39:10.490
+Felix (Geth): Yeah, and just quickly…
+
+634
+01:39:10.510 --> 01:39:23.509
+Felix (Geth): interested to ask why we are sticking to this hash function, since it is not standardized. So, at least not in the parameter set that we are using in the EL, and this has caused us some issue over time.
+
+635
+01:39:23.530 --> 01:39:32.349
+Felix (Geth): So, I'm curious why it was chosen again, or why we are not choosing a standardized hash function parameter set.
+
+636
+01:39:33.590 --> 01:39:46.320
+Kevaundray Wedderburn: Right, yeah, so I think I wrote that at somewhere in the bottom, but essentially, we're not using anything that's standardized, and Gethack is already integrated into the EL quite heavily, so
+
+637
+01:39:46.800 --> 01:39:56.770
+Kevaundray Wedderburn: doesn't seem like there's a strong, argument to standardize… to use something standardized like SHA-3, and SHA-3 change… the change between SHA-3 and Keccak is, like, a padding byte.
+
+638
+01:39:59.500 --> 01:40:10.460
+Felix (Geth): Yeah, but it has caused us a lot of pain, because, like, the software implementation of this hash function, we always have to modify to make sure that we can support the standard which no one else is
+
+639
+01:40:11.080 --> 01:40:12.130
+Felix (Geth): using…
+
+640
+01:40:12.540 --> 01:40:28.190
+Felix (Geth): So, I mean, we could also go with SHA-256 or any of the other standardized ones. I just find it a bit interesting that now we're kind of discussing to, like, move everything to this one function that is basically not very well supported across the software ecosystem. There is always a way, but…
+
+641
+01:40:28.310 --> 01:40:30.070
+Felix (Geth): It's just… interesting to me.
+
+642
+01:40:30.810 --> 01:40:47.120
+Dmitry Khovratovich: I think it's actually worth noticing that we don't use just a hash function. We use more than a hash function, for example, in various proofs for hash image transformation, we need something more. We need what's called a duplex sponge.
+
+643
+01:40:47.180 --> 01:40:55.539
+Dmitry Khovratovich: And inside this duplex sponge, there is a Keccak permutation, the core of the… both Gethack hash and SHA-3 hash.
+
+644
+01:40:55.540 --> 01:41:11.870
+Dmitry Khovratovich: So having a Shaft rehash alone wouldn't help us implementing a duplex sponge. We would need bigger functionality anyway, and we are building on the same permutation that is used inside Kakak and inside possible duplex sponges that could
+
+645
+01:41:11.870 --> 01:41:19.869
+Dmitry Khovratovich: be built on the Keccak permutation. So, in fact, we're not deviating that much, and SHA-3 alone wouldn't be sufficient anyway.
+
+646
+01:41:22.020 --> 01:41:26.880
+Felix (Geth): It was more… my comment was more about just, like, trying to…
+
+647
+01:41:27.040 --> 01:41:42.879
+Felix (Geth): if we have the chance to choose something in the high level, I agree with the sponge construction, it's the same, but if we have now talking about converting the SSZ hashing to catch up, it seems a bit strange to me. I just wanted to raise this, but I'm done.
+
+648
+01:41:43.520 --> 01:41:48.980
+Ben Edgington: Considerably raised, thank you, Felix. Yeah, one, time for a very quick remark, Kev.
+
+649
+01:41:49.410 --> 01:42:04.200
+Kevaundray Wedderburn: Yeah, I was just gonna say that there are places where we actually can't get rid of Keccak as easily, like, the Xcode hash function is probably not gonna change anytime soon, and, like, addresses as well. So Keccak is likely here to just stay forever.
+
+650
+01:42:05.870 --> 01:42:20.560
+Ben Edgington: Fair point. Alright, more feedback to Kev, please, and the blog post is up on the EF blog, usual place. And thank you, everybody, for a productive call. Look forward to making some more decisions in two weeks' time.
+
+651
+01:42:20.970 --> 01:42:25.239
+Ben Edgington: I'll see you on Discord and elsewhere. Breakout calls galore.
+
+652
+01:42:25.460 --> 01:42:27.449
+Ben Edgington: Alright, thanks all. Bye-bye.
+
+653
+01:42:28.900 --> 01:42:29.670
+soispoke: Thank you.
+
+654
+01:42:32.290 --> 01:42:33.140
+Mikhail Kalinin: Thank you.
+
+655
+01:42:33.190 --> 01:42:34.899
+Toni Wahrstätter: Thank you, bye-bye.
+
