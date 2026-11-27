@@ -84,6 +84,15 @@ def api_call(endpoint, method="GET", payload=None):
         print(f"  API error: {e}")
         return None
 
+
+def issue_list_or_raise(result, error_message):
+    if isinstance(result, list):
+        return result
+    if isinstance(result, dict) and isinstance(result.get("items"), list):
+        return result["items"]
+    raise RuntimeError(error_message)
+
+
 def get_recent_issues(series_key):
     """Get the most recent issues for a series, sorted by call number."""
     config = SERIES_CONFIG[series_key]
@@ -91,13 +100,7 @@ def get_recent_issues(series_key):
 
     # Query issues with ACD + layer label, all states
     result = api_call(f"issues?labels=ACD,{label}&state=all&per_page=10&sort=created&direction=desc")
-    if not result:
-        print(f"  WARNING: Could not fetch issues for {series_key}")
-        return []
-
-    issues = result if isinstance(result, list) else []
-    if isinstance(result, dict) and "items" in result:
-        issues = result["items"]
+    issues = issue_list_or_raise(result, f"Could not fetch issues for {series_key}")
 
     # Parse call numbers from titles
     parsed = []
@@ -218,9 +221,9 @@ def check_issue_exists(call_number, series_key):
             f"issues?labels=ACD,{config['layer_label']}&state=all"
             f"&per_page=100&page={page}"
         )
-        if not result:
-            return False
-        issues = result if isinstance(result, list) else result.get("items", [])
+        issues = issue_list_or_raise(
+            result, f"Could not check whether {config['short_name']} #{call_number} already exists"
+        )
         if not issues:
             return False
         for issue in issues:
