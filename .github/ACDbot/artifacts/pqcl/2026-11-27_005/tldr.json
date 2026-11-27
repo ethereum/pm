@@ -1,0 +1,120 @@
+{
+  "meeting": "PQ-CL Breakout #5 - November 27, 2026",
+  "highlights": {
+    "devnet_status": [
+      {
+        "timestamp": "00:20:06",
+        "highlight": "PQ devnet-0 stable after resolving XMSS key-loading/caching issues; devnet-1 launched mid-call with all 8 CL clients participating"
+      },
+      {
+        "timestamp": "00:21:14",
+        "highlight": "devnet-1 differs from devnet-0 by adding staggered aggregations, expected from every client; monitoring via DORA coming soon"
+      },
+      {
+        "timestamp": "00:23:03",
+        "highlight": "Barnabas proposes AB comparison with Waggle at same node count as devnet-1 to measure bandwidth reduction"
+      }
+    ],
+    "leanvm_performance": [
+      {
+        "timestamp": "00:24:47",
+        "highlight": "LeanVM v0.19 is current release; 16-to-1 recursion on NUC 14 Pro at 4 cores = 2.2s idle, ~3s under EVM load"
+      },
+      {
+        "timestamp": "00:26:36",
+        "highlight": "Committee size has <10% impact on 16-to-1 recursion time; proposal to use small committees with 16 of them in future devnets to get representative recursion numbers"
+      },
+      {
+        "timestamp": "00:29:06",
+        "highlight": "If LeanVM needs 2x speedup, options are: reduce DVT-friendliness (1.5x gain), add top-layer caching/pre-aggregation, or pivot to DC"
+      }
+    ],
+    "staking_contracts": [
+      {
+        "timestamp": "00:35:49",
+        "highlight": "Pre-registry contract has all pieces in place; open questions on system-contract architecture need EF/Steel input before auditing can begin"
+      },
+      {
+        "timestamp": "00:40:58",
+        "highlight": "XMSS spec freeze (end of January) is the main blocker for auditing XMSS verification bytecode; queuing contracts can be audited sooner"
+      },
+      {
+        "timestamp": "00:41:26",
+        "highlight": "Estimated 4 months to mainnet deployment of pre-registry contract; LightClient and Steel teams flagged for internal audit review"
+      },
+      {
+        "timestamp": "00:44:08",
+        "highlight": "Voluntary exits moving to EL: same message semantics as current voluntary exits, triggered via contract rather than CL P2P"
+      }
+    ],
+    "networking_simulations": [
+      {
+        "timestamp": "00:49:17",
+        "highlight": "Simulations (Csaba, Kamil, Anton) aim to answer: does current spec work on mainnet-realistic conditions via gossip-sub and alternatives?"
+      },
+      {
+        "timestamp": "00:55:36",
+        "highlight": "General consensus: gossip-sub baseline likely insufficient; Kamil's simulations show simpler segmented-broadcast approaches perform comparably or better than zcast with less complexity"
+      },
+      {
+        "timestamp": "01:17:20",
+        "highlight": "Two implementation tracks exist: zcast over gossip (Silver + Prysm) and segmented broadcast over Waggle (Lighthouse + Teku); proposal to run separate devnets for each and compare proof propagation"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "01:15:26",
+        "highlight": "Friday PQ-CL call removed; cadence drops from 3 to 2 calls per week; next call Tuesday with Justin Traglia facilitating"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:41:43",
+      "action": "Ping LightClient and Steel teams to begin internal audit of pre-registry system contract (non-XMSS portions)",
+      "owner": "Kevaundray Wedderburn"
+    },
+    {
+      "timestamp": "01:04:47",
+      "action": "Csaba, Kamil, Anton, and jxs to cross-validate simulation results and publish unified findings by Friday",
+      "owner": "Csaba / Kamil Salakhiev / Anton Nashatyrev"
+    },
+    {
+      "timestamp": "01:21:22",
+      "action": "Networking teams (Vlad, Kamil, Csaba) to agree async today on which segmented-broadcast protocol to test in next devnet",
+      "owner": "vlad / Kamil Salakhiev / Csaba"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:23:39",
+      "decision": "PQ specs considered stable; no changes needed to answer the PQ-Casper vs DC question"
+    },
+    {
+      "timestamp": "01:15:26",
+      "decision": "Friday PQ-CL breakout call removed; moving to 2 calls per week"
+    },
+    {
+      "timestamp": "01:22:51",
+      "decision": "Next devnet will add segmented proof broadcast (zcast-over-gossip or equivalent) on top of devnet-1 spec; aggregation proofs only, everything else remains on gossip-sub"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:40:58",
+      "target": "XMSS spec freeze \u2014 end of January 2027"
+    },
+    {
+      "timestamp": "00:41:18",
+      "target": "Pre-registry contract mainnet deployment \u2014 ~4 months from now"
+    },
+    {
+      "timestamp": "01:05:51",
+      "target": "Cross-validated networking simulation results \u2014 Friday (next week)"
+    },
+    {
+      "timestamp": "01:17:21",
+      "target": "Lighthouse + Teku fast proof-broadcast interop \u2014 early next week"
+    }
+  ]
+}
