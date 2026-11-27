@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 """Auto-create the next PQ-CL Breakout issue.
 
-The PQ-CL Breakout meets three times a week (Tue/Wed/Fri), which is too often to
-ask a facilitator to open issues by hand. This script opens them instead -- one
-at a time, and with no human action required at any point.
+The PQ-CL Breakout meets weekly on Tuesdays. (It met Tue/Wed/Fri until late
+November 2026, which is why this script exists: that was too often to ask a
+facilitator to open issues by hand.) This script opens them instead -- one at a
+time, and with no human action required at any point.
+
+THE SCHEDULE
+
+  OCCURRENCE_RATE must match the pqcl entry in call_series_config.yml. A plain
+  "weekly" names no weekday, so the day comes from WEEKLY_CALL_DAY; a multi-day
+  rate such as "weekly:tu,we,fr" carries its own days and is still supported,
+  so switching back is a one-line change here plus the config.
 
 WHAT RELEASES THE NEXT ISSUE
 
@@ -12,22 +20,22 @@ WHAT RELEASES THE NEXT ISSUE
   issue's open/closed state.
 
   It is tempting to copy auto-create-acd-issue.py and gate on the previous issue
-  being CLOSED. That is wrong here. Issues are closed automatically by
-  close_stale_meetings.py, 24 hours after the meeting ends -- which is slower
-  than this series' own cadence. Tuesday's issue is not closed until Wednesday
-  evening, by which time Wednesday's call has already happened, so a close-gated
-  series would skip every Wednesday forever. A bi-weekly series never notices
-  because its gap is fourteen days.
+  being CLOSED. Don't. Issues are closed automatically by
+  close_stale_meetings.py, 24 hours after the meeting ends. On the old
+  Tue/Wed/Fri cadence that was slower than the series itself -- Tuesday's issue
+  was not closed until Wednesday evening, after Wednesday's call -- so a
+  close-gated series skipped every Wednesday. A weekly series would get away
+  with it, but gating on the call finishing is correct for any cadence and
+  keeps a multi-day schedule safe to return to.
 
 WHY ONE AT A TIME
 
-  A multi-day series is ONE recurring Zoom meeting, and a Zoom meeting's topic is
-  a series-level field -- the three weekdays cannot each carry their own. ACDbot
-  sets that topic from the issue title every time it handles an issue. So if
-  Tuesday's, Wednesday's and Friday's issues were opened in one batch, the live
-  Zoom topic would read "Friday" for all three calls, and each recording -- which
-  captures the topic as it stands when the call happens -- would be stamped with
-  the wrong call's title.
+  The series is ONE recurring Zoom meeting, and a Zoom meeting's topic is a
+  series-level field -- occurrences cannot each carry their own. ACDbot sets
+  that topic from the issue title every time it handles an issue. So if two
+  calls' issues were opened in one batch, the live Zoom topic would name the
+  later call for both, and the earlier recording -- which captures the topic as
+  it stands when the call happens -- would be stamped with the wrong title.
 
   Waiting for the previous call to finish before opening the next issue keeps the
   Zoom topic naming the call that is actually about to happen, which is the
@@ -72,7 +80,10 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN", "")
 # tests/unit/test_auto_create_pqcl.py asserts they stay in step.
 SERIES_KEY = "pqcl"
 DISPLAY_NAME = "PQ-CL Breakout"
-OCCURRENCE_RATE = "weekly:tu,we,fr"
+OCCURRENCE_RATE = "weekly"
+# The weekday (Mon=0..Sun=6) a plain "weekly" rate meets on. Ignored for a
+# multi-day rate like "weekly:tu,we,fr", which names its own days.
+WEEKLY_CALL_DAY = 1  # Tuesday
 DURATION_MINUTES = 120
 DURATION = f"{DURATION_MINUTES} minutes"
 
@@ -99,7 +110,7 @@ MIN_LEAD = timedelta(hours=1)
 # A pending call further out than this is not a real schedule -- it is a typo in
 # an issue title (a wrong year parses fine). Without a ceiling, one such issue
 # makes every later run a silent no-op and the series simply stops. The real gap
-# never exceeds four days (Fri -> Tue).
+# never exceeds seven days (Tue -> Tue).
 MAX_PENDING_LEAD = timedelta(days=14)
 
 # The scan always starts from today, and no weekly pattern has a gap wider than
@@ -223,6 +234,20 @@ def fetch_existing():
     return found
 
 
+def scheduled_weekdays(occurrence_rate):
+    """The weekdays (Mon=0..Sun=6) a rate meets on, or None if unsupported.
+
+    Only weekly cadences are supported: the scan in next_call_date picks the next
+    matching weekday, which would silently turn bi-weekly or monthly into weekly.
+    """
+    multi_day = parse_multi_day_weekly(occurrence_rate)
+    if multi_day:
+        return multi_day
+    if occurrence_rate == "weekly":
+        return [WEEKLY_CALL_DAY]
+    return None
+
+
 def call_start(call_date):
     """The UTC start instant of the call on `call_date`."""
     return datetime.combine(call_date, CALL_TIME_UTC, tzinfo=timezone.utc)
@@ -344,7 +369,7 @@ def process(now, start_date=None, dry_run=False):
     """Create the next call's issue, if every call on record has finished."""
     CREATED.clear()
 
-    weekdays = parse_multi_day_weekly(OCCURRENCE_RATE)
+    weekdays = scheduled_weekdays(OCCURRENCE_RATE)
     if not weekdays:
         raise RuntimeError(f"Unsupported occurrence rate: {OCCURRENCE_RATE!r}")
 

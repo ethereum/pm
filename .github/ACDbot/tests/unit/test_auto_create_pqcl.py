@@ -12,14 +12,17 @@ Two properties are load-bearing:
 1. NO HUMAN ACTION IS REQUIRED. The next issue is released by the previous CALL
    finishing, never by its ISSUE being closed. Issues here are closed
    automatically by close_stale_meetings.py a full day after the meeting, which
-   is slower than this series' own Tue/Wed/Fri cadence -- a close-gated series
-   would skip every Wednesday forever. _FakeGitHub therefore reports every issue
-   as "open" so that reintroducing a close gate turns these tests red.
+   was slower than the series' former Tue/Wed/Fri cadence -- a close-gated
+   series skipped every Wednesday. _FakeGitHub therefore reports every issue as
+   "open" so that reintroducing a close gate turns these tests red.
 
-2. AT MOST ONE CALL IS EVER PENDING. The three weekdays share one recurring Zoom
+2. AT MOST ONE CALL IS EVER PENDING. Every call shares one recurring Zoom
    meeting whose topic is a series-level field set from the issue title, so an
    issue opened early would retitle the meeting out from under a call that
    hasn't happened yet.
+
+The series currently meets weekly on Tuesdays (14:00 UTC). next_call_date is
+also exercised with a multi-day weekday set, which the script still supports.
 
 3. THE RECORD IS READ FROM TITLES, OR NOT AT ALL. Both properties above are
    derived from the list of existing issue titles, so a title the script cannot
@@ -41,7 +44,8 @@ REPO_ROOT = Path(__file__).resolve().parents[4]
 SCRIPT_PATH = REPO_ROOT / ".github" / "scripts" / "auto-create-pqcl-issue.py"
 CONFIG_PATH = REPO_ROOT / ".github" / "ACDbot" / "call_series_config.yml"
 
-WEEKDAYS = [1, 2, 4]  # Tue, Wed, Fri
+TUESDAYS = [1]
+WEEKDAYS = [1, 2, 4]  # Tue, Wed, Fri -- the former multi-day schedule
 
 
 def _load_script():
@@ -177,6 +181,31 @@ class TestConfigAgreement:
         )
 
 
+class TestSchedule:
+    """Which weekdays the configured rate means."""
+
+    def test_weekly_meets_on_tuesday(self, script):
+        assert script.scheduled_weekdays("weekly") == TUESDAYS
+
+    def test_the_configured_rate_is_supported(self, script):
+        assert script.scheduled_weekdays(script.OCCURRENCE_RATE)
+
+    def test_multi_day_rates_still_carry_their_own_days(self, script):
+        assert script.scheduled_weekdays("weekly:tu,we,fr") == WEEKDAYS
+
+    @pytest.mark.parametrize("rate", ["bi-weekly", "monthly", "other", "weekly:xx"])
+    def test_non_weekly_rates_are_rejected(self, script, rate):
+        """The next-matching-weekday scan would quietly run these every week."""
+        assert script.scheduled_weekdays(rate) is None
+
+    def test_an_unsupported_rate_fails_the_run(self, script):
+        gh = _FakeGitHub(script)
+        with patch.object(script, "OCCURRENCE_RATE", "bi-weekly"):
+            with pytest.raises(RuntimeError, match="Unsupported occurrence rate"):
+                gh.run(utc(2026, 11, 14, 19))
+        assert gh.created == []
+
+
 class TestCallSettled:
     """When the Zoom series may be handed over to the next call."""
 
@@ -231,6 +260,11 @@ class TestNextCallDate:
             WEEKDAYS, utc(2026, 11, 14), not_before=date(2026, 10, 1)
         ) == date(2026, 11, 17)
 
+    def test_weekly_skips_to_the_following_tuesday(self, script):
+        assert script.next_call_date(
+            TUESDAYS, utc(2026, 11, 17, 18), not_before=date(2026, 11, 17)
+        ) == date(2026, 11, 24)
+
     def test_result_always_lands_on_a_scheduled_weekday(self, script):
         """An off-pattern DTSTART against BYDAY=TU,WE,FR is not something the
         calendar backends agree on, so every issue must land on one."""
@@ -276,18 +310,13 @@ class TestUnattendedTimeline:
         return gh
 
     def test_a_fortnight_with_no_human_action(self, script):
-        """Every call gets exactly one issue, in order, and Wednesday is never
-        skipped -- which is what a close-gated design would do, because these
-        issues are not closed until a day after the call."""
+        """Every Tuesday gets exactly one issue, in order, released the evening
+        the previous call finishes."""
         gh = self._crons(script, utc(2026, 11, 14, 0), days=14)
         assert gh.created == [
             "PQ-CL Breakout #1, November 17, 2026",
-            "PQ-CL Breakout #2, November 18, 2026",
-            "PQ-CL Breakout #3, November 20, 2026",
-            "PQ-CL Breakout #4, November 24, 2026",
-            "PQ-CL Breakout #5, November 25, 2026",
-            "PQ-CL Breakout #6, November 27, 2026",
-            "PQ-CL Breakout #7, December 1, 2026",
+            "PQ-CL Breakout #2, November 24, 2026",
+            "PQ-CL Breakout #3, December 1, 2026",
         ]
 
     def test_every_issue_arrives_before_its_call(self, script):
@@ -319,10 +348,9 @@ class TestUnattendedTimeline:
         gh = _FakeGitHub(script)
         for offset in range(10):
             gh.run(utc(2026, 11, 14, 7) + timedelta(days=offset))
-        assert gh.created[:3] == [
+        assert gh.created == [
             "PQ-CL Breakout #1, November 17, 2026",
-            "PQ-CL Breakout #2, November 18, 2026",
-            "PQ-CL Breakout #3, November 20, 2026",
+            "PQ-CL Breakout #2, November 24, 2026",
         ]
 
     def test_a_week_long_outage_resumes_without_backfilling(self, script):
@@ -355,7 +383,7 @@ class TestPendingGate:
     def test_a_settled_call_releases_the_next(self, script):
         gh = _FakeGitHub(script, [self.TUESDAY])
         gh.run(utc(2026, 11, 17, 19))
-        assert gh.created == ["PQ-CL Breakout #2, November 18, 2026"]
+        assert gh.created == ["PQ-CL Breakout #2, November 24, 2026"]
 
     def test_an_issue_filed_far_ahead_blocks_everything(self, script):
         """A hand-filed issue for next Friday is still a pending call."""
@@ -372,9 +400,9 @@ class TestPendingGate:
         assert gh.created == []
 
     def test_a_normal_gap_is_well_inside_the_ceiling(self, script):
-        """Friday -> Tuesday is the widest real gap; it must not trip the guard."""
+        """Tuesday -> Tuesday is the widest real gap; it must not trip the guard."""
         gh = _FakeGitHub(script, ["PQ-CL Breakout #1, November 24, 2026"])
-        assert gh.run(utc(2026, 11, 20, 19)) is None
+        assert gh.run(utc(2026, 11, 17, 19)) is None
 
     def test_only_one_issue_per_run(self, script):
         gh = _FakeGitHub(script, ["PQ-CL Breakout #40, October 2, 2026"])
@@ -493,7 +521,7 @@ class TestStartDate:
     def test_defers_the_series(self, script):
         gh = _FakeGitHub(script)
         gh.run(utc(2026, 11, 14, 19), start_date=date(2026, 11, 19))
-        assert gh.created == ["PQ-CL Breakout #1, November 20, 2026"]
+        assert gh.created == ["PQ-CL Breakout #1, November 24, 2026"]
 
     def test_a_past_start_date_changes_nothing(self, script):
         gh = _FakeGitHub(script)
@@ -504,7 +532,7 @@ class TestStartDate:
         """A start date earlier than an existing issue must not reopen that call."""
         gh = _FakeGitHub(script, ["PQ-CL Breakout #1, November 17, 2026"])
         gh.run(utc(2026, 11, 17, 19), start_date=date(2026, 1, 1))
-        assert gh.created == ["PQ-CL Breakout #2, November 18, 2026"]
+        assert gh.created == ["PQ-CL Breakout #2, November 24, 2026"]
 
 
 class TestIssueBody:
@@ -530,7 +558,7 @@ class TestIssueBody:
         assert (parsed.hour, parsed.minute) == (14, 0)
 
     def test_autopilot_is_enabled(self, script):
-        """Autopilot is what applies the 120-minute, Tue/Wed/Fri defaults."""
+        """Autopilot is what applies the series' 120-minute, weekly defaults."""
         from modules.form_parser import FormParser
 
         body = script.build_issue_body(date(2026, 11, 17))
