@@ -180,6 +180,8 @@ def generate_savvytime_url(dt: datetime) -> str:
     hour = dt.hour
 
     time_str = format_hour_for_savvytime(hour)
+    if dt.minute:
+        time_str = f"{time_str[:-2]}-{dt.minute:02d}{time_str[-2:]}"
 
     # Format: https://savvytime.com/converter/utc/aug-4-2025/2pm
     return f"https://savvytime.com/converter/utc/{month_name[:3]}-{day}-{year}/{time_str}"

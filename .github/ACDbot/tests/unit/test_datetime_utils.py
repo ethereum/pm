@@ -18,6 +18,36 @@ from modules.datetime_utils import (
 class TestDatetimeUtils(unittest.TestCase):
     """Test cases for datetime utilities."""
 
+    def test_generate_savvytime_url_preserves_minutes(self):
+        for hour, minute, expected in [
+            (0, 30, "12-30am"),
+            (9, 5, "9-05am"),
+            (12, 30, "12-30pm"),
+            (13, 30, "1-30pm"),
+            (23, 45, "11-45pm"),
+            (23, 59, "11-59pm"),
+        ]:
+            with self.subTest(hour=hour, minute=minute):
+                dt = datetime(2026, 11, 17, hour, minute)
+                self.assertEqual(
+                    generate_savvytime_url(dt),
+                    f"https://savvytime.com/converter/utc/nov-17-2026/{expected}",
+                )
+
+    def test_generate_savvytime_url_keeps_exact_hour_format(self):
+        for hour, expected in [(0, "12am"), (12, "12pm"), (13, "1pm"), (23, "11pm")]:
+            with self.subTest(hour=hour):
+                self.assertEqual(
+                    generate_savvytime_url(datetime(2026, 11, 17, hour)),
+                    f"https://savvytime.com/converter/utc/nov-17-2026/{expected}",
+                )
+
+    def test_generate_savvytime_link_preserves_minutes(self):
+        self.assertEqual(
+            generate_savvytime_link("November 17, 2026, 13:30 UTC"),
+            "[November 17, 2026, 13:30 UTC](https://savvytime.com/converter/utc/nov-17-2026/1-30pm)",
+        )
+
     def test_parse_datetime_string_standard_format(self):
         """Test parsing standard datetime format."""
         test_cases = [
